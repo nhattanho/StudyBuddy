@@ -1,0 +1,17 @@
+#+Title: Database documentation
+#+author: Vishnu Devarakonda
+#+date: <2021-10-26 Tue>
+
+* Progress
+** TODO:
+   1. Add tests.
+** Done:
+
+
+* Database
+** Files
+   1. configureUsers.js: File creates a "users" collection with schema validation.
+   2. configureBuddyRequests.js: File creates a "buddyRequests" collection with shema validation.
+   3. buildCollections.sh: Shell script loads collections into the mongo.
+
+
