@@ -1,7 +1,6 @@
 // This file builds the user collections for DB
 // By: Vishnu Devarakonda
-
-DB_NAME = "studybuddy";
+load("./globals.js");
 
 conn = new Mongo()
 db = conn.getDB(DB_NAME);
@@ -12,17 +11,16 @@ db.createCollection("users", {
 	$jsonSchema: {
 	    bsonType: "object",
 	    required: [
-		"userInfo",
-		"userid",
-		"zoom_id"
+		"userinfo",
+		"zoomid"
 	    ],
 	    properties: {
-		userInfo: {
+		userinfo: {
 		    bsonType: "object",
 		    required: [
 			"name",
 			"major",
-			"classes",
+			"classes"
 		    ],
 		    properties: {
 			name: {
@@ -48,24 +46,25 @@ db.createCollection("users", {
 		userid: {
 		    bsonType: "objectId",
 		    description: "Unique user id."
-		}
+		},
 		zoomid: {
 		    bsonType: "string",
 		    description: "User's zoom id."
-		}
-		past_buddies: {
+		},
+		pastbuddies: {
 		    bsonType: "array",
 		    items: {
-			bsonType: "object"
+			bsonType: "objectId",
+			description: "The user id of users who were past buddies"
 		    },
 		    description: "Contains past buddies the user has interacted with."
 		},
-		buddy_requests: {
+		buddyrequests: {
 		    bsonType: "array",
 		    items: {
-			bsonType: "objectId"
+			bsonType: "objectId",
 			description: "Reference to object in requests table"
-		    }
+		    },
 		    description: "Contains references to current pending, accepton, and past requests for the user"
 		}
 	    }
