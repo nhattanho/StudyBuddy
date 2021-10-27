@@ -5,6 +5,7 @@
 * Progress
 ** TODO:
    1. Add tests.
+   2. Need to add relationhips between the test users (buddies etc).
 ** Done:
 
 
