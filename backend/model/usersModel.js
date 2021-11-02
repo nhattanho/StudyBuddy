@@ -1,3 +1,5 @@
+// File loads the users model
+// By: Vishnu Devarakonda
 var mongoose = require('mongoose');
 
 const userInfoSchema = new Schema({

@@ -1,3 +1,5 @@
+// File loads the buddyrequestmodel
+// By: Vishnu Devarakonda
 var mongoose = require("mongoose");
 
 const buddyRequestSchema = new Schema({
