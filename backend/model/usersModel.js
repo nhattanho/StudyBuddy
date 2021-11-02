@@ -6,9 +6,9 @@ const userInfoSchema = new Schema({
     name: {type: String, required: true},
     major: {type: String, required: true},
     classes: {
-	type: [String],
-	minLength: 1,
-	required: true
+        type: [String],
+        minLength: 1,
+        required: true
     },
     profileURL: { type: String, required: false}
 });
@@ -16,10 +16,10 @@ const userInfoSchema = new Schema({
     
 const userSchema = new Schema({
     userinfo: {
-	type: userInfoSchema,
-	required: true
+        type: userInfoSchema,
+        required: true
     },
-    zoomid: { type: String, required: true}
+    zoomid: { type: String, required: true},
     pastbuddies: { type: [ObjectId] },
     buddyrequests: { type: [ObjectId] }
 });
