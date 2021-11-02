@@ -1,8 +1,14 @@
+/**
+ * Creates a zoom meeting 
+ * @param {string} userid - user's unique zoom id
+ * @param {string} _starttime - the start time of the zoom meeting, formatted yyyy-MM-ddTHH:mm:ssZ
+ * @return {json} - json with meeting information, schema here: https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingcreate
+ */
 function create_zoom(userid, _starttime){
     const axios = require('axios');
 
-    //Token expires 11/1
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6IndQTUFNZ1ZiUTYtWDhCMTlqTFJBWnciLCJleHAiOjE2MzU3OTc4MDgsImlhdCI6MTYzNTE5MzAwOH0.XhHHkPMFn1eAMY2TAfppSguLK7-aQxU_tvCZtBVXcOI"
+    //Token expires 11/9
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6IndQTUFNZ1ZiUTYtWDhCMTlqTFJBWnciLCJleHAiOjE2MzY0OTYxMTUsImlhdCI6MTYzNTg4NzcxNX0.UckJXffHDAh64oJ58LqUIE7c53hYTnzWdNL-dXnJMVM"
 
     let _url = `https://api.zoom.us/v2/users/${userid}/meetings`
 
