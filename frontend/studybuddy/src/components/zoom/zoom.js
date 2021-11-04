@@ -1,5 +1,6 @@
 /**
  * Creates a zoom meeting 
+ * @author Chanel Young
  * @param {string} userid - user's unique zoom id
  * @param {string} _starttime - the start time of the zoom meeting, formatted yyyy-MM-ddTHH:mm:ssZ
  * @return {json} - json with meeting information, schema here: https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingcreate
