@@ -18,4 +18,4 @@ const buddyRequestSchema = new mongoose.Schema({
 });
 
 
-module.export = mongoose.model("buddyrequests", buddyRequestSchema);
+module.exports = mongoose.model("buddyrequests", buddyRequestSchema);

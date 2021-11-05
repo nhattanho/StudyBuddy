@@ -89,4 +89,5 @@ let testUsers = [
     testUser8
 ];
 
-exports.testUsers = testUsers;
+module.exports = testUsers;
+// module.exports = testUsers;
