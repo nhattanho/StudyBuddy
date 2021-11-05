@@ -7,6 +7,7 @@ import {Provider} from "react-redux"
 
 /* Adding pages/components */
 import Landing from "./pages/landing/landing.js";
+import Register from "./pages/register/register.js";
 import Header from "../src/components/header/header.js";
 
 import './App.css';
@@ -17,6 +18,7 @@ function App() {
       <div className="App">
         <Header />
         <Route exact path="/" component={Landing} />
+        <Route exact path="/register" component={Register} />
       </div>
     </Provider>
   );
