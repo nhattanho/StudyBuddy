@@ -1,5 +1,8 @@
-// File loads the buddyrequestmodel
-// By: Vishnu Devarakonda
+/**
+ * @file Creates schema for buddyrequests collection and exports 
+ *       the mongoose model.
+ * @author Vishnu Devarakonda 
+ */
 var mongoose = require("mongoose");
 
 const buddyRequestSchema = new Schema({

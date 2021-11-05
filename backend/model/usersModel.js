@@ -1,5 +1,7 @@
-// File loads the users model
-// By: Vishnu Devarakonda
+/**
+ * @file Creates schema for users collection and exports the mongoose model.
+ * @author Vishnu Devarakonda 
+ */
 var mongoose = require('mongoose');
 
 const userInfoSchema = new Schema({
