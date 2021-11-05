@@ -2,9 +2,9 @@
 // By: Vishnu Devarakonda
 var mongoose = require("mongoose");
 
-const buddyRequestSchema = new Schema({
-    sender: { type: ObjectId, required: true},
-    receiver: { type: ObjectId, required: true},
+const buddyRequestSchema = new mongoose.Schema({
+    sender: { type: mongoose.ObjectId, required: true},
+    receiver: { type: mongoose.ObjectId, required: true},
     status: {
         type: String,
 	    enum: ["Accepted", "Pending", "Cancelled"],
@@ -18,4 +18,4 @@ const buddyRequestSchema = new Schema({
 });
 
 
-model.export = mongoose.model("buddyrequests", buddyRequestSchema);
+module.export = mongoose.model("buddyrequests", buddyRequestSchema);

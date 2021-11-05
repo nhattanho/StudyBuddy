@@ -2,7 +2,7 @@
 // By: Vishnu Devarakonda
 var mongoose = require('mongoose');
 
-const userInfoSchema = new Schema({
+const userInfoSchema = new mongoose.Schema({
     name: {type: String, required: true},
     major: {type: String, required: true},
     classes: {
@@ -14,14 +14,14 @@ const userInfoSchema = new Schema({
 });
 
     
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
     userinfo: {
         type: userInfoSchema,
         required: true
     },
     zoomid: { type: String, required: true},
-    pastbuddies: { type: [ObjectId] },
-    buddyrequests: { type: [ObjectId] }
+    pastbuddies: { type: [mongoose.ObjectId] },
+    buddyrequests: { type: [mongoose.ObjectId] }
 });
 
 
