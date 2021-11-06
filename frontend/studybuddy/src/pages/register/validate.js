@@ -1,5 +1,5 @@
 /* =======================================================================*/
-/* Validation input component 
+/* Validation input component
 * @author NhatHo
 * @param {object} - all properties we want to verify from the user's input
 * It can be destructed directly by using new syntax of ES6: {email, firstname, lastname}
