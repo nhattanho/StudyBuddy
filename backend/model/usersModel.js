@@ -15,6 +15,7 @@ const userInfoSchema = new mongoose.Schema({
 
     
 const userSchema = new mongoose.Schema({
+    id: mongoose.ObjectId,
     userinfo: {
         type: userInfoSchema,
         required: true
@@ -22,7 +23,7 @@ const userSchema = new mongoose.Schema({
     zoomid: { type: String, required: true},
     pastbuddies: { type: [mongoose.ObjectId] },
     buddyrequests: { type: [mongoose.ObjectId] }
-});
+}, {_id: false});
 
 
 module.exports = mongoose.model("users", userSchema);

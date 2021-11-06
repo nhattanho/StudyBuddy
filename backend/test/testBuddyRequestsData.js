@@ -1,26 +1,32 @@
-// File loads test buddy requests documents
-// By: Vishnu Devarakonda
-const buddyrequests = require("./buddyRequestsModel");
+/**
+* @file Contains test buddy requests
+* @author Vishnu Devarakonda
+*/
+const mongoose = require('mongoose');
+const IDs = require('./testIds');
 
 // Walter's requests
 // For below the sender is walter
 let walterTestRequest1 = {
-    sender: null,
-    receiver: null, // jessie objectid
+    id: IDs.userRequests.requestWalterJessie,
+    sender: IDs.users.walter,
+    receiver: IDs.users.jessie,
     status: "Accepted",
-    dateslots: [Date(), Date()];
+    dateslots: [Date(), Date()]
 }
 
 let walterTestRequest2 = {
-    sender: null,
-    receiver: null, // Gus Fring's objectid
+    id: IDs.userRequests.requestWalterGus,
+    sender: IDs.users.walter,
+    receiver: IDs.users.gus,
     status: "Pending",
-    dateslots: [Date(), Date(), Date()];
+    dateslots: [Date(), Date(), Date()]
 }
 
 let walterTestRequest3 = {
-    sender: null,
-    receiver: null, // Hank Schrader's objecid
+    id: IDs.userRequests.requestWalterHank,
+    sender: IDs.users.walter,
+    receiver: IDs.users.hank,
     status: "Cancelled",
     dateslots: [Date()]
 }
@@ -28,22 +34,25 @@ let walterTestRequest3 = {
 // Below walter is the reciever
 
 let walterTestRequest4 = {
-    sender: null, // Mike Eharmantraut
-    receiver: null,
+    id: IDs.userRequests.requestMikeWalter,
+    sender: IDs.users.mike,
+    receiver: IDs.users.walter,
     status: "Accepted",
-    dateslots: [Date(), Date()];
+    dateslots: [Date(), Date()]
 }
 
 let walterTestRequest5 = {
-    sender: null, // Skyler
-    receiver: null,
+    id: IDs.userRequests.requestSkylerWalter,
+    sender: IDs.users.skyler,
+    receiver: IDs.users.walter,
     status: "Pending",
     dateslots: [Date(), Date(), Date()]
 }
 
 let walterTestRequest6 = {
-    sender: null, // Saul Goodman
-    receiver: null,
+    id: IDs.userRequests.requestSaulWalter,
+    sender: IDs.users.saul,
+    receiver: IDs.users.walter,
     status: "Cancelled",
     dateslots: [Date()]
 }
@@ -53,8 +62,9 @@ let walterTestRequest6 = {
 // Jessie is the sender
 
 let jessieTestRequest1 = {
-    sender: null,
-    receiver: null, // walter
+    id: IDs.userRequests.requestJessieWalter,
+    sender: IDs.users.jessie,
+    receiver: IDs.users.walter,
     status: "Pending",
     dateslots: [Date(), Date(), Date()]
 }
@@ -63,10 +73,22 @@ let jessieTestRequest1 = {
 // Jessie is the receiver
 
 let jessieTestRequest2 = {
-    sender: null, // hank
-    receiver: null,
+    id: IDs.userRequests.requestHankJessie,
+    sender: IDs.users.hank,
+    receiver: IDs.users.jessie,
     status: "Pending",
     dateslots: [Date()]
 }
 
+let testBuddyRequests = [
+    walterTestRequest1,
+    walterTestRequest2,
+    walterTestRequest3,
+    walterTestRequest4,
+    walterTestRequest5,
+    walterTestRequest6,
+    jessieTestRequest1,
+    jessieTestRequest2
+];
 
+module.exports = testBuddyRequests
