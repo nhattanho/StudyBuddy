@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import React from "react";
 import Modal from "react-modal";
-import Validate from "./validate.js";
+import Validate from "../../components/validation/validate";
 import {customStyles, InputField, useStyles} from "./styles.js";
 /* =======================================================================*/
 const Register = () => {
@@ -48,6 +48,7 @@ const Register = () => {
         };
         let result = Validate({...registerObject});
         setErrors(result);
+        console.log(result);
         if(!result.pass) return;
 
         axios

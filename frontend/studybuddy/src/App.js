@@ -1,3 +1,8 @@
+/* =======================================================================*/
+/* This is a driven for Application
+* @author NhatHo
+/* =======================================================================*/
+
 import React from "react"
 import {Route} from "react-router-dom"
 
@@ -8,6 +13,7 @@ import {Provider} from "react-redux"
 /* Adding pages/components */
 import Landing from "./pages/landing/landing.js";
 import Register from "./pages/register/register.js";
+import Home from "./pages/home/home.js";
 import Header from "../src/components/header/header.js";
 
 import './App.css';
@@ -19,6 +25,7 @@ function App() {
         <Header />
         <Route exact path="/" component={Landing} />
         <Route exact path="/register" component={Register} />
+        <Route exact path="/home" component={Home} />
       </div>
     </Provider>
   );

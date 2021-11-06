@@ -2,7 +2,7 @@ import {createStore} from "redux"
 import {composeWithDevTools} from "redux-devtools-extension"
 
 const STORE_EMAIL = "STORE_EMAIL";
-const STORE_PORTFOLIO = "STORE_PORTFOLIO";
+const STORE_INFORMATION = "STORE_INFORMATION";
 const CHECK_LOGIN = "CHECK_LOGIN";
 
 
@@ -18,6 +18,16 @@ export function storeCheckLogin(checkLogin) {
         },
     };
 }
+
+export function storeEmail(email) {
+    console.log("store user action");
+    return {
+      type: STORE_EMAIL,
+      payload: {
+        email: email,
+      },
+    };
+  }
 
 function userReducer(state = initialState, action) {
     console.log("hit");

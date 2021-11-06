@@ -23,33 +23,38 @@ const Errors = {
     },
 };
 
+const checkIfValidEmail = (value) => {
+    let re = /^[^\s@]+@[^\s@]+$/;
+    return re.test(value) ? true : false;
+}
+
 const Validate = (props) => {
-    let email = props.email;
-    function checkIfValidEmail(email) {
-        let re = /^[^\s@]+@[^\s@]+$/;
-        return re.test(email) ? true : false;
-    }
     let temp = {};
-    temp.firstName = props.firstName ? "" : Errors.empty.firstname;
-    temp.lastName = props.lastName ? "" : Errors.empty.lastname;
+    let email = props.email;
     if (email) {
-      if (checkIfValidEmail()) {
-        temp.email = "";
-      } else temp.email = Errors.invalid.email;
+        if (checkIfValidEmail(email)) {
+            temp.email = "";
+        } else temp.email = Errors.invalid.email;
     } else temp.email = Errors.empty.email;
 
     if (props.password) {
-      if (props.password.length >= 8) {
-        temp.password = "";
-      } else temp.password = Errors.invalid.password.length;
+        if (props.password.length >= 8) {
+            temp.password = "";
+        } else temp.password = Errors.invalid.password.length;
     } else temp.password = Errors.empty.password;
 
-    temp.username = props.username ? "" : Errors.empty.username;
-    temp.confirm_password = props.confirm_password ? "" : Errors.invalid.password.confirm;
+    if(props.firstName !== undefined)
+        temp.firstName = props.firstName ? "" : Errors.empty.firstname;
+    if(props.lastName !== undefined)
+        temp.lastName = props.lastName ? "" : Errors.empty.lastname;
+    if(props.username !== undefined)
+        temp.username = props.username ? "" : Errors.empty.username;
+    if(props.confirm_password !== undefined)
+        temp.confirm_password = props.confirm_password ? "" : Errors.invalid.password.confirm;
 
     if (Object.values(temp).every((x) => x === "")) 
-        temp.pass = false;
-    else temp.pass = true;
+        temp.pass = true;
+    else temp.pass = false;
     return temp;
   };
   /* =======================================================================*/
