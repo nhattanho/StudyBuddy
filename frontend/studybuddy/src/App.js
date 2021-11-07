@@ -7,7 +7,7 @@ import {Provider} from "react-redux"
 
 /* Adding pages/components */
 import Landing from "./pages/landing/landing.js";
-import RequestPopup from "../src/components/request_popup/request_popup.js";
+import RequestPopupPage from "./pages/test/RequestPopupPage.js";
 import Header from "../src/components/header/header.js";
 
 import './App.css';
@@ -18,7 +18,7 @@ function App() {
       <div className="App">
         <Header />
         <Route exact path="/" component={Landing} />
-        <Route exact path="/requestpopup" component={RequestPopup} />
+        <Route exact path="/requestpopup" component={RequestPopupPage} />
       </div>
     </Provider>
   );

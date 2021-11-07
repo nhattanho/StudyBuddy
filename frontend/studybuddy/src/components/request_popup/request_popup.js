@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import DateFnsUtils from '@date-io/date-fns';
 
 import { Button } from "@material-ui/core";
-import { Stack } from "@mui/material"
+import { Stack, Dialog, Box } from "@mui/material"
 import { Alert, AlertTitle } from "@material-ui/lab"
 
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 
-function RequestPopup() {
+function RequestPopup(props) {
   
   const MAX_SLOTS = 4;
   let now = new Date(); 
@@ -60,7 +60,7 @@ function RequestPopup() {
                       }}
                     />
                 </MuiPickersUtilsProvider>
-                <Button disabled={slots.length == 1} onClick={() => removeSlots(index)}>Remove</Button>
+                <Button disabled={slots.length === 1} onClick={() => removeSlots(index)}>Remove</Button>
             </Stack>
         </div>
       );
@@ -106,16 +106,19 @@ function RequestPopup() {
   };
 
   return (
-    <div className="App">
-      {alert}
-      <h1>Request a Time</h1>
-      {slots.map((x, index) => slotGroup(index))}
-      <br />
-      <Stack direction="row" alignItems="center" justifyContent="center" spacing={30}>
-        <Button disabled={slots.length >= MAX_SLOTS} onClick={() => addSlots()}>Add Slot</Button>
-        <Button onClick={() => onSubmit()}>Submit</Button>
-      </Stack>
-    </div>
+    <Dialog onClose={props.onClose} open={props.open} maxWidth="md" fullWidth={true}>
+      <Box justifyContent="center" alignItems="center" padding="30px"> 
+        {alert}
+        <h1> Set Request Time </h1>
+        {slots.map((x, index) => slotGroup(index))}
+        <br />
+        <Stack direction="row" alignItems="center" justifyContent="center" spacing={30}>
+          <Button disabled={slots.length >= MAX_SLOTS} onClick={() => addSlots()}>Add Slot</Button>
+          <Button onClick={() => onSubmit()}>Submit</Button>
+        </Stack>
+      </Box>
+      
+    </Dialog>
   );
 }
 
