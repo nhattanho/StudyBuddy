@@ -8,7 +8,7 @@ import {Provider} from "react-redux"
 /* Adding pages/components */
 import Landing from "./pages/landing/landing.js";
 import Header from "../src/components/header/header.js";
-import Profile from "./pages/profile/profile.js";
+import SendingRequest from "./pages/sendingRequest/sendingRequest.js";
 
 import './App.css';
 
@@ -18,7 +18,7 @@ function App() {
       <div className="App">
         <Header />
         <Route exact path="/" component={Landing} />
-        <Route exact path="/profile" component={Profile} />
+        <Route exact path="/SendingRequest" component={SendingRequest} />
       </div>
     </Provider>
   );

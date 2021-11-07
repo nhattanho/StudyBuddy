@@ -4,9 +4,9 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { storeCheckLogin } from "../../redux/redux";
 import Placeholder from './placeholder.png'
-import './profile.css';
+import './sendingRequest.css';
 
-const Profile = (props) => {
+const SendingRequest = (props) => {
   const checkLogin = useSelector((state) => state.checkLogin);
   const dispatch = useDispatch();
 
@@ -44,4 +44,4 @@ const Profile = (props) => {
   );
 };
 
-export default Profile;
+export default SendingRequest;
