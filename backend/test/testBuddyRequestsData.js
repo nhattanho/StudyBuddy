@@ -1,8 +1,7 @@
 /**
-* @file Contains test buddy requests
-* @author Vishnu Devarakonda
-*/
-const mongoose = require('mongoose');
+ * @file Contains test buddy requests
+ * @author Vishnu Devarakonda
+ */
 const IDs = require('./testIds');
 
 // Walter's requests

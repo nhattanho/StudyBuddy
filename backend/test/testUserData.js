@@ -1,109 +1,108 @@
 /**
-* @file Contains test users and exports a list of test users.
-* @author Vishnu Devarakonda
-*/
-const mongoose = require('mongoose');
+ * @file Contains test users and exports a list of test users.
+ * @author Vishnu Devarakonda
+ */
 const IDs = require('./testIds');
 
 let walter = {
-    id: IDs.users.walter,
+    _id: IDs.users.walter,
     userinfo: {
-	name: "Walter White",
-	major: "Chemistry Ph.D",
-	classes: ["Advanced Chemistry"]
+        name: "Walter White",
+        major: "Chemistry Ph.D",
+        classes: ["Advanced Chemistry"]
     },
     zoomid: "@Hiesenberg",
     pastbuddies: [
-	IDs.users.jessie,
-	IDs.users.skyler
+        IDs.users.jessie,
+        IDs.users.skyler
     ],
     buddyrequests: [
-	IDs.userRequests.requestWalterJessie,
-	IDs.userRequests.requestWalterGus,
-	IDs.userRequests.requestWalterHank,
-	IDs.userRequests.requestMikeWalter,
-	IDs.userRequests.requestSkylerWalter,
-	IDs.userRequests.requestSaulWalter,
-	IDs.userRequests.requestJessieWalter,
+        IDs.userRequests.requestWalterJessie,
+        IDs.userRequests.requestWalterGus,
+        IDs.userRequests.requestWalterHank,
+        IDs.userRequests.requestMikeWalter,
+        IDs.userRequests.requestSkylerWalter,
+        IDs.userRequests.requestSaulWalter,
+        IDs.userRequests.requestJessieWalter,
     ]
 }
 
 
 let jessie = {
-    id: IDs.users.jessie,
+    _id: IDs.users.jessie,
     userinfo: {
-	name: "Jessie Pinkman",
-	major: "Chemistry B.S.",
-	classes: ["Chemistry 101", "Cooking", "Heat Transfer"]
+        name: "Jessie Pinkman",
+        major: "Chemistry B.S.",
+        classes: ["Chemistry 101", "Cooking", "Heat Transfer"]
     },
     zoomid: "@YeahScience!",
     pastbuddies: [
-	IDs.users.walter
+        IDs.users.walter
     ],
     buddyrequests: [
-	IDs.userRequests.requestHankJessie,
-	IDs.userRequests.requestJessieWalter,
-	IDs.userRequests.requestWalterJessie
+        IDs.userRequests.requestHankJessie,
+        IDs.userRequests.requestJessieWalter,
+        IDs.userRequests.requestWalterJessie
     ]
 }
 
 let gus = {
-    id: IDs.users.gus,
+    _id: IDs.users.gus,
     userinfo: {
-	name: "Gus Fring",
-	major: "MBA",
-	classes: ["Managerial Economics"]
+        name: "Gus Fring",
+        major: "MBA",
+        classes: ["Managerial Economics"]
     },
     zoomid: "@LosPollosHermano",
     pastbuddies: [
-	IDs.users.mike
+        IDs.users.mike
     ],
     buddyrequests: [
-	IDs.userRequests.requestWalterGus
+        IDs.userRequests.requestWalterGus
     ]
 }
 
 let hank = {
-    id: IDs.users.hank,
+    _id: IDs.users.hank,
     userinfo: {
-	name: "Hank Schrader",
-	major: "Geology B.S.",
-	classes: ["Rocks & Minerals 101"]
+        name: "Hank Schrader",
+        major: "Geology B.S.",
+        classes: ["Rocks & Minerals 101"]
     },
     zoomid: "@RoboCop",
     pastbuddies: [
-	IDs.users.walter,
-	IDs.users.skyler
+        IDs.users.walter,
+        IDs.users.skyler
     ],
     buddyrequests: [
-	IDs.userRequests.requestHankJessie,
-	IDs.userRequests.requestWalterHank
+        IDs.userRequests.requestHankJessie,
+        IDs.userRequests.requestWalterHank
     ]
 }
 
 let mike = {
-    id: IDs.users.mike,
+    _id: IDs.users.mike,
     userinfo: {
-	name: "Mike Ehramantraut",
-	major: "Mechanical Engineer B.S.",
-	classes: ["Kinematics"]
+        name: "Mike Ehramantraut",
+        major: "Mechanical Engineer B.S.",
+        classes: ["Kinematics"]
     },
     zoomid: "@HitMan",
     pastbuddies: [
-	IDs.users.gus
+        IDs.users.gus
     ],
     buddyrequests: [
-	IDs.userRequests.requestMikeWalter
+        IDs.userRequests.requestMikeWalter
     ]
 }
 
 
 let todd = {
-    id: IDs.users.todd,
+    _id: IDs.users.todd,
     userinfo: {
-	name: "Todd Alquist",
-	major: "Mathematics Ph.D",
-	classes: ["Number Theory", "Causal Mechanisms"]
+        name: "Todd Alquist",
+        major: "Mathematics Ph.D",
+        classes: ["Number Theory", "Causal Mechanisms"]
     },
     zoomid: "@TriggerHappy",
     pastbuddies: [],
@@ -111,35 +110,35 @@ let todd = {
 }
 
 let saul = {
-    id: IDs.users.saul,
+    _id: IDs.users.saul,
     userinfo: {
-	name: "Saul Goodman",
-	major: "J.D",
-	classes: ["Criminal Law"]
+        name: "Saul Goodman",
+        major: "J.D",
+        classes: ["Criminal Law"]
     },
     zoomid: "@BetterCallSaul",
     pastbuddies: [
-	IDs.users.jessie
+        IDs.users.jessie
     ],
     buddyrequests: [
-	IDs.userRequests.requestSaulWalter
+        IDs.userRequests.requestSaulWalter
     ]
 }
 
 let skyler = {
-    id: IDs.users.skyler,
+    _id: IDs.users.skyler,
     userinfo: {
-	name: "Skyler White",
-	major: "Economics M.S.",
-	classes: ["Managerial Economics"]
+        name: "Skyler White",
+        major: "Economics M.S.",
+        classes: ["Managerial Economics"]
     },
     zoomid: "@SWhite",
     pastbuddies: [
-	IDs.users.walter,
-	IDs.users.hank
+        IDs.users.walter,
+        IDs.users.hank
     ],
     buddyrequests: [
-	IDs.userRequests.requestSkylerWalter
+        IDs.userRequests.requestSkylerWalter
     ]
 }
 
@@ -154,5 +153,6 @@ let testUsers = [
     saul,
     skyler
 ];
+
 
 module.exports = testUsers;

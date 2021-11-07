@@ -1,6 +1,7 @@
 // File loads the buddyrequestmodel
 // By: Vishnu Devarakonda
 var mongoose = require("mongoose");
+const DB = require("./DBconsts");
 
 const buddyRequestSchema = new mongoose.Schema({
     sender: { type: mongoose.ObjectId, required: true},
@@ -18,4 +19,5 @@ const buddyRequestSchema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model("buddyrequests", buddyRequestSchema);
+module.exports = mongoose.model(DB.collections.buddyrequests.name,
+     buddyRequestSchema);

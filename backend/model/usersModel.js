@@ -1,6 +1,9 @@
 // File loads the users model
 // By: Vishnu Devarakonda
 var mongoose = require('mongoose');
+const DB = require("./DBconsts");
+
+
 
 const userInfoSchema = new mongoose.Schema({
     name: {type: String, required: true},
@@ -23,7 +26,7 @@ const userSchema = new mongoose.Schema({
     zoomid: { type: String, required: true},
     pastbuddies: { type: [mongoose.ObjectId] },
     buddyrequests: { type: [mongoose.ObjectId] }
-}, {_id: false});
+});
 
 
-module.exports = mongoose.model("users", userSchema);
+module.exports = mongoose.model(DB.collections.users.name, userSchema);
