@@ -19,5 +19,5 @@ const buddyRequestSchema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model(DB.collections.buddyrequests.name,
+module.exports = mongoose.model(DB.collections.BuddyRequest.name,
      buddyRequestSchema);
