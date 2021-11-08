@@ -27,6 +27,7 @@ function App() {
         <Route exact path="/" component={Landing} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/home" component={Home} />
+        <Route exact path="/sendingRequest" component={SendingRequest} />
       </div>
     </Provider>
   );
