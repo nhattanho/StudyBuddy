@@ -15,6 +15,7 @@ import Landing from "./pages/landing/landing.js";
 import Register from "./pages/register/register.js";
 import Home from "./pages/home/home.js";
 import Header from "../src/components/header/header.js";
+import SendingRequest from "./pages/sendingRequest/sendingRequest.js";
 
 import './App.css';
 
