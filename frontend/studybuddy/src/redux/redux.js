@@ -10,8 +10,9 @@ const initialState = {
     checkLogin: false,
     email: "",
 };
-  
-/* Shared user's checkLogin as global variable for application
+ 
+/**
+* Shared user's checkLogin as global variable for application
 * @param {object} checkLogin - user's checkLogin status
 * @return {object} - object saved the global variable for checkLogin
 */
@@ -24,7 +25,8 @@ export function storeCheckLogin(checkLogin) {
     };
 }
 
-/* Shared user's email as global variable for application
+/**
+* Shared user's email as global variable for application
 * @param {object} email - user's email
 * @return {object} - object saved the global variable for email
 */
@@ -38,7 +40,8 @@ export function storeEmail(email) {
     };
   }
 
-/* Shared user's information as global variable for application
+/**
+* Shared user's information as global variable for application
 * @param {object} initialState - user's initialize information
 * @return {object} - object saved all global variables for application
 */

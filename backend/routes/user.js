@@ -1,6 +1,8 @@
 /* =======================================================================*/
-/* This is REST API for user: register, login
+/**
+* This is REST API for user: register, login
 * @author NhatHo
+*/
 /* =======================================================================*/
 const express = require("express");
 const router = express.Router();
@@ -12,7 +14,7 @@ const saltRounds = 10;
 
 /*======================================POST method===================================*/
 
-/* Register a user for requesting http://localhost:5000/user/register*/
+/* Register a user for requesting http://localhost:5000/user/register */
 router.post("/register", (req, res) => {
     const {
       email,

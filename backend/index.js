@@ -1,6 +1,8 @@
 /* =======================================================================*/
-/* This is a driver for backend side
+/**
+* This is a driver for backend side
 * @author NhatHo
+*/
 /* =======================================================================*/
 const express = require("express");
 const mongoose = require("mongoose");

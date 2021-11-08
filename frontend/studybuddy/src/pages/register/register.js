@@ -1,7 +1,8 @@
 /* =======================================================================*/
-/* This is component for Resgister page - Click button will connect/check with DB
-/* 
+/**
+* This is component for Resgister page - Click button will connect/check with DB
 * @author NhatHo
+*/
 /* =======================================================================*/
 import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -37,10 +38,11 @@ const Register = () => {
         setIsOpenFalse(false);
     };
     /* =======================================================================*/
-    /* Creates a new buddy user
-     * @param {object} registerObject - user's information getting from input
-     * @return {object} - result which was sent back from backend side
-     */
+    /**
+    * Creates a new buddy user
+    * @param {object} registerObject - user's information getting from input
+    * @return {object} - result which was sent back from backend side
+    */
     const onSubmit = () => {
         const registerObject = {
             firstName: firstName,

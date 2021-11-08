@@ -1,6 +1,8 @@
 /* =======================================================================*/
+/**
 /* This is SignIn Component
 * @author NhatHo
+*/
 /* =======================================================================*/
 
 import React from "react";
@@ -42,10 +44,11 @@ const Signin = (props) => {
     setIsOpenFalse(false);
   };
   /****************************************************************/
-  /* SignIn for new buddy user
-    * @param {object} loginObject - user's information including email and password
-      getting from input
-    * @return {object} - user's information which was sent back from backend side
+  /**
+  * SignIn for new buddy user
+  * @param {object} loginObject - user's information including email and password
+  *  getting from input
+  * @return {object} - user's information which was sent back from backend side
   */
   const onSubmit = (props) => {
     const loginObject = {

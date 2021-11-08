@@ -1,10 +1,3 @@
-/* =======================================================================*/
-/* Validation input component
-* @author NhatHo
-* @param {object} - all properties we want to verify from the user's input
-* It can be destructed directly by using new syntax of ES6: {email, firstname, lastname}
-* @return {object} - an object contains all missing errors 
-/* =======================================================================*/
 const Errors = {
     empty: {
         firstname: "Must enter firstname",
@@ -23,11 +16,28 @@ const Errors = {
     },
 };
 
+/* =======================================================================*/
+/**
+* Validation email
+* @author NhatHo
+* @param {email}
+* @return {boolean} - result of email validation
+*/
+/* =======================================================================*/
 const checkIfValidEmail = (value) => {
     let re = /^[^\s@]+@[^\s@]+$/;
     return re.test(value) ? true : false;
 }
 
+/* =======================================================================*/
+/**
+* Validation input component
+* @author NhatHo
+* @param {object} - all properties we want to verify from the user's input
+* It can be destructed directly by using new syntax of ES6: {email, firstname, lastname}
+* @return {object} - an object contains all missing errors 
+*/
+/* =======================================================================*/
 const Validate = (props) => {
     let temp = {};
     let email = props.email;
