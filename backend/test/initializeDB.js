@@ -10,25 +10,32 @@ const testBuddyRequests = require("./testBuddyRequestsData");
 
 
 /**
- * Function initalizes the DB with test data. 
+ * Function initializes the DB with test data.
  * @author Vishnu Devarakonda
+ * @returns {[Promise, Promise]} Returns a promise for inserting users
+ *          and user requests into the database.
  */
-function initializeDB(){
+function initializeDB() {
     return [
-	usersModel.insertMany(testUsers),
-	buddyRequestsModel.insertMany(testBuddyRequests)
+        usersModel.insertMany(testUsers),
+        buddyRequestsModel.insertMany(testBuddyRequests)
     ];
 }
 
 /**
-* Function clears the DB
-* @author Vishnu Devarakonda
-*/
-function clearDB(){
+ * Function clears the DB
+ * @author Vishnu Devarakonda
+ * @returns {[Promise, Promise]} Returns a promise after deleting the users
+ *          and buddyrequests.
+ */
+function clearDB() {
     return [
         usersModel.deleteMany({}),
         buddyRequestsModel.deleteMany({})
-    ]
+    ];
 }
 
-module.exports = {initializeDB, clearDB};
+module.exports = {
+    initializeDB,
+    clearDB
+};
