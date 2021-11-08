@@ -16,7 +16,7 @@ import { storeCheckLogin, storeEmail } from "../../redux/redux";
 
 /* Material UI styles */
 import {Button} from "@material-ui/core";
-import {customStyles, InputField, useStyles} from "../../pages/register/styles";
+import {customStyles, InputField, useStyles} from "./style";
 
 /* Main here */
 const Signin = (props) => {
@@ -42,6 +42,11 @@ const Signin = (props) => {
     setIsOpenFalse(false);
   };
   /****************************************************************/
+  /* SignIn for new buddy user
+    * @param {object} loginObject - user's information including email and password
+      getting from input
+    * @return {object} - user's information which was sent back from backend side
+  */
   const onSubmit = (props) => {
     const loginObject = {
       email: email,

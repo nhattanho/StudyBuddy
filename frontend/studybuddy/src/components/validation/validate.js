@@ -56,6 +56,6 @@ const Validate = (props) => {
         temp.pass = true;
     else temp.pass = false;
     return temp;
-  };
+};
   /* =======================================================================*/
   export default Validate;
