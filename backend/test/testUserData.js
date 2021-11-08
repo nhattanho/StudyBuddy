@@ -6,15 +6,19 @@ const IDs = require('./testIds');
 
 let walter = {
     _id: IDs.users.walter,
-    userinfo: {
-        name: "Walter White",
-        major: "Chemistry Ph.D",
-        classes: ["Advanced Chemistry"]
-    },
+    name: "walter white",
+    major: "Chemistry Ph.D",
+    classes: ["Advanced Chemistry"],
     zoomid: "@Hiesenberg",
     pastbuddies: [
-        IDs.users.jessie,
-        IDs.users.skyler
+        {
+            _id: IDs.users.jessie,
+            name: "jessie pinkman"
+        },
+        {
+            _id: IDs.users.skyler,
+            name: "skyler white"
+        }
     ],
     buddyrequests: [
         IDs.userRequests.requestWalterJessie,
@@ -30,14 +34,15 @@ let walter = {
 
 let jessie = {
     _id: IDs.users.jessie,
-    userinfo: {
-        name: "Jessie Pinkman",
-        major: "Chemistry B.S.",
-        classes: ["Chemistry 101", "Cooking", "Heat Transfer"]
-    },
+    name: "jessie pinkman",
+    major: "Chemistry B.S.",
+    classes: ["Chemistry 101", "Cooking", "Heat Transfer"],
     zoomid: "@YeahScience!",
     pastbuddies: [
-        IDs.users.walter
+        {
+            _id: IDs.users.walter,
+            name: "walter white"
+        }
     ],
     buddyrequests: [
         IDs.userRequests.requestHankJessie,
@@ -48,14 +53,15 @@ let jessie = {
 
 let gus = {
     _id: IDs.users.gus,
-    userinfo: {
-        name: "Gus Fring",
-        major: "MBA",
-        classes: ["Managerial Economics"]
-    },
+    name: "gus fring",
+    major: "MBA",
+    classes: ["Managerial Economics"],
     zoomid: "@LosPollosHermano",
     pastbuddies: [
-        IDs.users.mike
+        {
+            _id: IDs.users.mike,
+            name: "mike ehamantraut"
+        }
     ],
     buddyrequests: [
         IDs.userRequests.requestWalterGus
@@ -64,15 +70,19 @@ let gus = {
 
 let hank = {
     _id: IDs.users.hank,
-    userinfo: {
-        name: "Hank Schrader",
-        major: "Geology B.S.",
-        classes: ["Rocks & Minerals 101"]
-    },
+    name: "hank schrader",
+    major: "Geology B.S.",
+    classes: ["Rocks & Minerals 101"],
     zoomid: "@RoboCop",
     pastbuddies: [
-        IDs.users.walter,
-        IDs.users.skyler
+        {
+            _id: IDs.users.walter,
+            name: "walter white"
+        },
+        {
+            _id: IDs.users.skyler,
+            name: "skyler white"
+        }
     ],
     buddyrequests: [
         IDs.userRequests.requestHankJessie,
@@ -82,14 +92,15 @@ let hank = {
 
 let mike = {
     _id: IDs.users.mike,
-    userinfo: {
-        name: "Mike Ehramantraut",
-        major: "Mechanical Engineer B.S.",
-        classes: ["Kinematics"]
-    },
+    name: "mike ehramantraut",
+    major: "Mechanical Engineer B.S.",
+    classes: ["Kinematics"],
     zoomid: "@HitMan",
     pastbuddies: [
-        IDs.users.gus
+        {
+            _id: IDs.users.gus,
+            name: "gus fring"
+        }
     ],
     buddyrequests: [
         IDs.userRequests.requestMikeWalter
@@ -99,11 +110,9 @@ let mike = {
 
 let todd = {
     _id: IDs.users.todd,
-    userinfo: {
-        name: "Todd Alquist",
-        major: "Mathematics Ph.D",
-        classes: ["Number Theory", "Causal Mechanisms"]
-    },
+    name: "todd alquist",
+    major: "Mathematics Ph.D",
+    classes: ["Number Theory", "Causal Mechanisms"],
     zoomid: "@TriggerHappy",
     pastbuddies: [],
     buddyrequests: []
@@ -111,14 +120,15 @@ let todd = {
 
 let saul = {
     _id: IDs.users.saul,
-    userinfo: {
-        name: "Saul Goodman",
-        major: "J.D",
-        classes: ["Criminal Law"]
-    },
+    name: "saul goodman",
+    major: "J.D",
+    classes: ["Criminal Law"],
     zoomid: "@BetterCallSaul",
     pastbuddies: [
-        IDs.users.jessie
+        {
+            _id: IDs.users.jessie,
+            name: "jessie pinkman"
+        }
     ],
     buddyrequests: [
         IDs.userRequests.requestSaulWalter
@@ -127,15 +137,19 @@ let saul = {
 
 let skyler = {
     _id: IDs.users.skyler,
-    userinfo: {
-        name: "Skyler White",
-        major: "Economics M.S.",
-        classes: ["Managerial Economics"]
-    },
+    name: "skyler white",
+    major: "Economics M.S.",
+    classes: ["Managerial Economics"],
     zoomid: "@SWhite",
     pastbuddies: [
-        IDs.users.walter,
-        IDs.users.hank
+        {
+            _id: IDs.users.walter,
+            name: "walter white"
+        },
+        {
+            _id: IDs.users.hank,
+            name: "hank schrader"
+        }
     ],
     buddyrequests: [
         IDs.userRequests.requestSkylerWalter

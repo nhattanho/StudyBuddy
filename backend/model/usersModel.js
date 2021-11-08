@@ -3,9 +3,12 @@
 var mongoose = require('mongoose');
 const DB = require("./DBconsts");
 
+const pastBuddySchema = new mongoose.Schema({
+    _id: {type: mongoose.ObjectId, required: true},
+    name: {type: String, required: true}
+})
 
-
-const userInfoSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     name: {type: String, required: true},
     major: {type: String, required: true},
     classes: {
@@ -13,18 +16,9 @@ const userInfoSchema = new mongoose.Schema({
         minLength: 1,
         required: true
     },
-    profileURL: { type: String, required: false}
-});
-
-    
-const userSchema = new mongoose.Schema({
-    id: mongoose.ObjectId,
-    userinfo: {
-        type: userInfoSchema,
-        required: true
-    },
+    profileURL: {type: String, required: false},
     zoomid: { type: String, required: true},
-    pastbuddies: { type: [mongoose.ObjectId] },
+    pastbuddies: { type: [pastBuddySchema] },
     buddyrequests: { type: [mongoose.ObjectId] }
 });
 
