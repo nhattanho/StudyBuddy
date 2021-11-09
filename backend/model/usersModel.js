@@ -3,8 +3,46 @@
  * @author Vishnu Devarakonda 
  */
 var mongoose = require('mongoose');
+const DB = require("./DBconsts");
 
-const userInfoSchema = new Schema({
+/**
+ * Schema for past buddies
+ */
+const pastBuddySchema = new mongoose.Schema({
+    _id: {type: mongoose.ObjectId, required: true},
+    name: {type: String, required: true},
+    profileURL: {type: String, required: true}
+})
+
+/**
+ * Schema for second user in request
+ */
+const secondUserSchema = new mongoose.Schema({
+    _id: {type: mongoose.ObjectId, required: true},
+    name: {type: String, required: true},
+    profileURL: {type: String, required: true}
+})
+
+/**
+ * User's buddy request schema
+ */
+const userBuddyRequestSchema = new mongoose.Schema({
+    _id: {type: mongoose.ObjectId, required: true},
+    status: {
+        type: String,
+	    enum: ["Accepted", "Pending", "Cancelled"],
+        required: true
+    },
+    userOwner: {
+        type: Boolean,
+        required: true
+    },
+    secondUser: {
+        type: secondUserSchema,
+        required: true
+    }
+})
+const userSchema = new mongoose.Schema({
     name: {type: String, required: true},
     major: {type: String, required: true},
     classes: {
@@ -12,19 +50,11 @@ const userInfoSchema = new Schema({
         minLength: 1,
         required: true
     },
-    profileURL: { type: String, required: false}
-});
-
-    
-const userSchema = new Schema({
-    userinfo: {
-        type: userInfoSchema,
-        required: true
-    },
+    profileURL: {type: String, required: false},
     zoomid: { type: String, required: true},
-    pastbuddies: { type: [ObjectId] },
-    buddyrequests: { type: [ObjectId] }
+    pastbuddies: { type: [pastBuddySchema] },
+    buddyrequests: { type: [userBuddyRequestSchema] }
 });
 
 
-module.exports = mongoose.model("users", userSchema);
+module.exports = mongoose.model(DB.collections.User.name, userSchema);
