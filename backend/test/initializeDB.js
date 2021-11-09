@@ -6,8 +6,8 @@
 const usersModel = require("../model/usersModel");
 const buddyRequestsModel = require("../model/buddyRequestsModel");
 const testUsers = require("./testUserData");
-const testBuddyRequests = require("./testBuddyRequestsData");
-
+let testBuddyRequests = require("./testBuddyRequestsData");
+testBuddyRequests = Object.values(testBuddyRequests)
 
 /**
  * Function initializes the DB with test data.
