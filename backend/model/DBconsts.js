@@ -8,11 +8,11 @@ const DB = {
     DEFAULT_DB_ENDPOINT: 'mongodb://localhost:27017',
     name: 'studybuddy',
     collections: {
-        users: {
-            name: "users"
+        User: {
+            name: "User"
         },
-        buddyrequests: {
-            name: "buddyrequests"
+        BuddyRequest: {
+            name: "BuddyRequest"
         }
     }
 }
