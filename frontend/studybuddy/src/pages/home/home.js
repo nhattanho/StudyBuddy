@@ -22,6 +22,7 @@ const Home = () => {
 
     /* Use React Hook*/
     const classes = useStyles();
+    const [name, setName] = React.useState("");
     const [aboutYou, setAboutyou] = React.useState("");
     const [major, setMajor] = React.useState("");
     const [year, setYear] = React.useState("");
@@ -53,6 +54,7 @@ const Home = () => {
     const onUpdate = () => {
         console.log(userinformation.aboutYou);
         const updateObject = {
+            name: name,
             email: userinformation.email,
             aboutYou: aboutYou,
             major: major,
@@ -109,6 +111,20 @@ const Home = () => {
                     <Typography variant='h5' style={{color: 'tomato', textAlign: 'center', textTransform: 'uppercase'}}>
                         Your Information
                     </Typography>
+                    <InputField
+                        className={classes.input}
+                        label="Your Name"
+                        name="name"
+                        variant="outlined"
+                        margin="dense"
+                        size="medium"
+                        fullWidth={true}
+                        required={true}
+                        inputProps={{ style: { color: "black" } }}
+                        onChange={(e) => setName(e.target.value)}  
+                        defaultValue={userinformation.name}
+                    />
+                    <br/>
                     <InputField 
                         className={classes.input}
                         label="About You"
