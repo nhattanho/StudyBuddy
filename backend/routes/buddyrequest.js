@@ -91,4 +91,43 @@ router.post("/accept", (req, res) => {
         message: "BuddyRequest accept failed",
         });
     });
-}); 
+});
+
+//Get all requests sent by user with given id
+router.get("/:id/sent", async (req, res) => {
+    const { id } = req.params;
+
+    Project.find({ sender: id }, async (err, buddyrequests) => {
+      console.log("buddyrequests", buddyrequests);
+      if (buddyrequests.length != 0) {
+        res.send({ success: true, message: "Success!", buddyrequests: buddyrequests });
+      } else {
+        console.log("No buddyrequests to display!");
+        res.send({
+          success: false,
+          message: "You have not have any buddyrequests!",
+        });
+      }
+    });
+});
+
+//Get all requests received by user with given id
+router.get("/:id/sent", async (req, res) => {
+    const { id } = req.params;
+
+    Project.find({ receiver: id }, async (err, buddyrequests) => {
+      console.log("buddyrequests", buddyrequests);
+      if (buddyrequests.length != 0) {
+        res.send({ success: true, message: "Success!", buddyrequests: buddyrequests });
+      } else {
+        console.log("No buddyrequests to display!");
+        res.send({
+          success: false,
+          message: "You have not have any buddyrequests!",
+        });
+      }
+    });
+});
+
+
+module.exports = router;
