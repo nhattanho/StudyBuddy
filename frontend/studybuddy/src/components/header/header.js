@@ -140,6 +140,11 @@ export default function Header() {
                                 Register
                             </Button>
                         </Link>
+                        <Link to="/home" style={{ textDecoration: "none" }}>
+                            <Button variant="contained" color="primary">
+                                Home
+                            </Button>
+                        </Link>
                     </Toolbar>
                 </AppBar>
             )}

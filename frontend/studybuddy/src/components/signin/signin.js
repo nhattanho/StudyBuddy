@@ -14,7 +14,7 @@ import { useHistory } from "react-router-dom";
 
 /* Import Redux */
 import { useDispatch } from "react-redux";
-import { storeCheckLogin, storeEmail } from "../../redux/redux";
+import { storeCheckLogin, storeEmail, storeInformation } from "../../redux/redux";
 
 /* Material UI styles */
 import {Button} from "@material-ui/core";
@@ -83,7 +83,8 @@ const Signin = (props) => {
                   setIsOpenFalse(false);
                   setMessage(res.data.message);
                   setInformation(res.data.user);
-                  props.push('/register');
+                  dispatch(storeInformation(res.data.user));
+                  props.push('/home');
                 } else {
                   setIsOpenFalse(true);
                   setMessage(res.data.message);

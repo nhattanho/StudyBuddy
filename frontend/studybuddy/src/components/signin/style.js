@@ -39,8 +39,13 @@ export const InputField = withStyles({
 })(TextField);
 
 export const useStyles = makeStyles((theme) => ({
+    infor: {
+        display: "flex",
+        flexDirection: "column"
+    },
     form: {
-        display: "column",
+        display: "flex",
+        flexDirection: "column"
     },
     button: {
         marginTop: "10px",

@@ -69,9 +69,9 @@ const Register = () => {
                 } else {
                 // user's profile isn't set up
                 console.log("user profile is not set up");
-                    setIsOpenFalse(true);
-                    setIsOpenTrue(false);
-                    setMessage(res.data.message);
+                setIsOpenFalse(true);
+                setIsOpenTrue(false);
+                setMessage(res.data.message);
                 }
             })
             .catch(function (e) {
