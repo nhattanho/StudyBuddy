@@ -8,8 +8,9 @@
 
 const express = require("express");
 const router = express.Router();
-const BuddyRequestModel = require("../model/BuddyRequestModel");
+const BuddyRequestModel = require("../model/BuddyRequestsModel");
 
+//Create
 router.post("/create", (req, res) => {
     console.log("Creating buddy request");
     const {
@@ -17,7 +18,6 @@ router.post("/create", (req, res) => {
         receiver,
         dateslots,
     } = req.body;
-    //console.log("body", req.body);
 
     const buddyRequest = new BuddyRequestModel({
         sender: sender,
@@ -29,7 +29,6 @@ router.post("/create", (req, res) => {
     buddyRequest
     .save()
     .then((result) => {
-        //console.log(result);
         res.send({
         success: true,
         message: "BuddyRequest successfully added!",
@@ -40,4 +39,56 @@ router.post("/create", (req, res) => {
         console.log("can not save new buddyrequest: ", err);
         res.send({ success: false, message: err });
     });
+});
+
+//Delete
+router.delete("/delete/:id", async (req, res) => {
+    const { id } = req.params;
+    BuddyRequestModel.findOneAndRemove({ _id: id }, (err, buddyrequest) => {
+      console.log(buddyrequest);
+      if (err) {
+        res.send({
+          success: false,
+          message: err,
+        });
+      }
+      if (buddyrequest) {
+        res.send({
+          success: true,
+          message: "Deleted Successfully!",
+          action: "deleted",
+        });
+      } else {
+        res.send({
+          success: false,
+          message: "Deleted Failed!",
+        });
+      }
+    });
   });
+
+//Accept
+router.post("/accept", (req, res) => {
+    const {
+        id,
+    } = req.body;
+    BuddyRequestModel.findOneAndUpdate({ _id: id }, {status: "Accepted"}, {
+    new: true,
+    })
+    .exec()
+    .then((data) => {
+        console.log("Accepted BuddyRequest", data);
+        res.send({
+        success: true,
+        message: "BuddyRequest Accepted",
+        action: "accepted",
+        });
+    })
+    .catch((err) => {
+        console.log("update fail in backend log");
+        res.send({
+        success: false,
+        message: "BuddyRequest accept failed",
+        });
+    });
+}); 
