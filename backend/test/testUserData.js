@@ -8,27 +8,39 @@ const testBuddyRequests = require('./testBuddyRequestsData')
 let walter = {
     _id: IDs.users.walter,
     name: "walter white",
-    major: "Chemistry Ph.D",
+    about: "I'm the one who knocks!",
+    birthday: new Date("09","07","1958").getTime(),
+    major: "Chemistry",
+    year: "Ph.D",
     classes: ["Advanced Chemistry"],
     zoomid: "@Hiesenberg",
+    email: "Hiesenberg@gmail.com",
     profileURL: "https://static.wikia.nocookie.net/breakingbad/images/e/e7/BB-S5B-Walt-590.jpg/revision/latest/scale-to-width-down/540?cb=20130928055404"
 }
 
-let jessie = {
-    _id: IDs.users.jessie,
-    name: "jessie pinkman",
-    major: "Chemistry B.S.",
+let jesse = {
+    _id: IDs.users.jesse,
+    name: "jesse pinkman",
+    about: "When I'm not sciencing, I'm cooking : )",
+    birthday: new Date("09", "24", "1984").getTime(),
+    major: "Chemistry",
+    year: "Freshman",
     classes: ["Chemistry 101", "Cooking", "Heat Transfer"],
     zoomid: "@YeahScience!",
+    email: "YeahScience@gmail.com",
     profileURL: "https://static.wikia.nocookie.net/breakingbad/images/0/0c/JesseS5B.jpg/revision/latest/scale-to-width-down/446?cb=20130804210124"
 }
 
 let gus = {
     _id: IDs.users.gus,
     name: "gus fring",
+    about: "I don't really need a study partner, I'm just looking for chemists for my start up!",
+    birthday: new Date("04", "26", "1958").getTime(),
     major: "MBA",
+    year: "Graduate",
     classes: ["Managerial Economics"],
     zoomid: "@LosPollosHermano",
+    email: "LosPollosHermano@gmail.com",
     profileURL: "https://static.wikia.nocookie.net/breakingbad/images/b/be/Season_4_-_Gus.jpg/revision/latest/scale-to-width-down/1000?cb=20200608213000"
 }
 
@@ -36,18 +48,25 @@ let gus = {
 let hank = {
     _id: IDs.users.hank,
     name: "hank schrader",
-    major: "Geology B.S.",
+    about: "If we do study together, never call then rocks. THEY MINERALS!",
+    birthday: new Date("03", "13", "1966").getTime(),
+    major: "Geology",
+    year: "Freshman",
     classes: ["Rocks & Minerals 101"],
     zoomid: "@RoboCop",
+    email: "RoboCop@gmail.com",
     profileURL: "https://static.wikia.nocookie.net/breakingbad/images/7/7b/Hank_S5b.jpg/revision/latest/scale-to-width-down/750?cb=20130717044210"
 }
 
 let mike = {
     _id: IDs.users.mike,
     name: "mike ehramantraut",
-    major: "Mechanical Engineer B.S.",
+    birthday: new Date("07","21", "1944").getTime(),
+    major: "Mechanical Engineer",
+    year: "Junior",
     classes: ["Kinematics"],
     zoomid: "@HitMan",
+    email: "HitMan@gmail.com",
     profileURL: "https://static.wikia.nocookie.net/breakingbad/images/8/8b/MikeS5.jpg/revision/latest/scale-to-width-down/750?cb=20120620015454"
 }
 
@@ -55,35 +74,45 @@ let mike = {
 let todd = {
     _id: IDs.users.todd,
     name: "todd alquist",
-    major: "Mathematics Ph.D",
+    birthday: new Date("09", "24", "1984").getTime(),
+    major: "Mathematics",
+    year: "Ph.D",
     classes: ["Number Theory", "Causal Mechanisms"],
     zoomid: "@TriggerHappy",
+    email: "TriggerHappy@gmail.com",
     profileURL: "https://static.wikia.nocookie.net/breakingbad/images/f/f5/Todd_S5b.jpg/revision/latest/scale-to-width-down/750?cb=20130717044419"
 }
 
 let saul = {
     _id: IDs.users.saul,
     name: "saul goodman",
+    about: "Don't drink and drive, but if you do call Saul",
+    birthday: new Date("11", "12", "1960").getTime(),
     major: "J.D",
+    year: "Ph.D",
     classes: ["Criminal Law"],
     zoomid: "@BetterCallSaul",
+    email: "BetterCallSaul@gmail.com",
     profileURL: "https://static.wikia.nocookie.net/breakingbad/images/a/a4/Saul_S5b.jpg/revision/latest/scale-to-width-down/750?cb=20130717044437"
 }
 
 let skyler = {
     _id: IDs.users.skyler,
     name: "skyler white",
-    major: "Economics M.S.",
+    birthday: new Date("08", "11", "1970").getTime(),
+    major: "Economics",
+    year: "Graduate",
     classes: ["Managerial Economics"],
     zoomid: "@SWhite",
+    email: "SWhite@gmail.com",
     profileURL: "https://static.wikia.nocookie.net/breakingbad/images/3/33/Skyler_S5b.jpg/revision/latest/scale-to-width-down/750?cb=20130717044318"
 }
 
 walter["pastbuddies"] = [
     {
-        _id: jessie._id,
-        name: jessie.name,
-        profileURL: jessie.profileURL
+        _id: jesse._id,
+        name: jesse.name,
+        profileURL: jesse.profileURL
     },
     {
         _id: skyler._id,
@@ -94,13 +123,13 @@ walter["pastbuddies"] = [
 
 walter["buddyrequests"] = [
     {
-        _id: testBuddyRequests.requestWalterJessie._id,
-        status: testBuddyRequests.requestWalterJessie.status,
+        _id: testBuddyRequests.requestWalterJesse._id,
+        status: testBuddyRequests.requestWalterJesse.status,
         userOwner: true,
         secondUser: {
-            _id: jessie._id,
-            name: jessie.name,
-            profileURL: jessie.profileURL
+            _id: jesse._id,
+            name: jesse.name,
+            profileURL: jesse.profileURL
         }
     },
     {
@@ -154,18 +183,18 @@ walter["buddyrequests"] = [
         }
     },
     {
-        _id: testBuddyRequests.requestJessieWalter._id,
-        status: testBuddyRequests.requestJessieWalter.status,
+        _id: testBuddyRequests.requestJesseWalter._id,
+        status: testBuddyRequests.requestJesseWalter.status,
         userOwner: false,
         secondUser: {
-            _id: jessie._id,
-            name: jessie.name,
-            profileURL: jessie.profileURL
+            _id: jesse._id,
+            name: jesse.name,
+            profileURL: jesse.profileURL
         }
     }
 ]
 
-jessie["pastbuddies"]  = [
+jesse["pastbuddies"]  = [
     {
         _id: walter._id,
         name: walter.name,
@@ -173,10 +202,10 @@ jessie["pastbuddies"]  = [
     }
 ]
 
-jessie["buddyrequests"] = [
+jesse["buddyrequests"] = [
     {
-        _id: testBuddyRequests.requestHankJessie._id,
-        status: testBuddyRequests.requestHankJessie.status,
+        _id: testBuddyRequests.requestHankJesse._id,
+        status: testBuddyRequests.requestHankJesse.status,
         userOwner: false,
         secondUser: {
             _id: hank._id,
@@ -185,8 +214,8 @@ jessie["buddyrequests"] = [
         }
     },
     {
-        _id: testBuddyRequests.requestJessieWalter._id,
-        status: testBuddyRequests.requestJessieWalter.status,
+        _id: testBuddyRequests.requestJesseWalter._id,
+        status: testBuddyRequests.requestJesseWalter.status,
         userOwner: true,
         secondUser: {
             _id: walter._id,
@@ -195,8 +224,8 @@ jessie["buddyrequests"] = [
         }
     },
     {
-        _id: testBuddyRequests.requestWalterJessie._id,
-        status: testBuddyRequests.requestWalterJessie.status,
+        _id: testBuddyRequests.requestWalterJesse._id,
+        status: testBuddyRequests.requestWalterJesse.status,
         userOwner: false,
         secondUser: {
             _id: walter._id,
@@ -242,13 +271,13 @@ hank["pastbuddies"] =  [
 
 hank["buddyrequests"] = [
     {
-        _id: testBuddyRequests.requestHankJessie._id,
-        status: testBuddyRequests.requestHankJessie.status,
+        _id: testBuddyRequests.requestHankJesse._id,
+        status: testBuddyRequests.requestHankJesse.status,
         userOwner: true,
         secondUser: {
-            _id: jessie._id,
-            name: jessie.name,
-            profileURL: jessie.profileURL
+            _id: jesse._id,
+            name: jesse.name,
+            profileURL: jesse.profileURL
         }
     },
     {
@@ -286,9 +315,9 @@ mike["buddyrequests"] = [
 
 saul["pastbuddies"] = [
     {
-        _id: jessie._id,
-        name: jessie.name,
-        profileURL: jessie.profileURL
+        _id: jesse._id,
+        name: jesse.name,
+        profileURL: jesse.profileURL
     }
 ]
 
@@ -334,7 +363,7 @@ skyler["buddyrequests"] = [
 
 let testUsers = [
     walter,
-    jessie,
+    jesse,
     gus,
     hank,
     mike,

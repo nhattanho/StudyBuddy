@@ -33,7 +33,7 @@ describe("Tests for initializing DB", () => {
         const [userResults, buddyRequestResults] = await Promise.all(DBMethods.initializeDB());
         expect(userResults.length == 8).toBeTruthy();
         expect(userResults[0]._id == IDs.users.walter).toBeTruthy();
-        expect(userResults[1]._id == IDs.users.jessie).toBeTruthy();
+        expect(userResults[1]._id == IDs.users.jesse).toBeTruthy();
         expect(buddyRequestResults.length == 8).toBeTruthy();
         expect(buddyRequestResults[0]._id == IDs.userRequests.requestWalterJessie);
     });
