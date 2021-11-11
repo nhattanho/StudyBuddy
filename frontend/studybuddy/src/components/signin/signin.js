@@ -1,57 +1,24 @@
+/* =======================================================================*/
+/**
+/* This is SignIn Component
+* @author NhatHo
+*/
+/* =======================================================================*/
+
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-modal";
+import Validate from "../validation/validate";
+import { useHistory } from "react-router-dom";
 
 /* Import Redux */
 import { useDispatch } from "react-redux";
-import { storeCheckLogin } from "../../redux/redux";
+import { storeCheckLogin, storeEmail, storeInformation } from "../../redux/redux";
 
 /* Material UI styles */
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { TextField, Button } from "@material-ui/core";
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
-const InputField = withStyles({
-  root: {
-    "& label.Mui-focused": {
-      color: "tomato",
-    },
-    "& label": {
-      color: "tan",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "tan",
-      },
-      "&:hover fieldset": {
-        borderColor: "tan",
-      },
-      "& .Mui-focused fieldset": {
-        borderColor: "tan",
-      },
-    },
-  },
-})(TextField);
-const useStyles = makeStyles((theme) => ({
-  form: {
-    display: "column",
-  },
-  button: {
-    marginTop: "10px",
-  },
-  newaccount: {
-    marginTop: "10px",
-  },
-}));
+import {Button} from "@material-ui/core";
+import {customStyles, InputField, useStyles} from "./style";
 
 /* Main here */
 const Signin = (props) => {
@@ -61,11 +28,77 @@ const Signin = (props) => {
   /* Use React Hook */
   const classes = useStyles();
   const [email, setEmail] = React.useState("");
+  const [message, setMessage] = React.useState("");
   const [password, setPass] = React.useState("");
-
+  /*Will store information of current user after discussing about the userModel table*/
+  const [information, setInformation] = React.useState("");
+  const [errors, setErrors] = React.useState({});
+  const history = useHistory();
   /****************************************************************/
-  const onSubmit = () => {
-    dispatch(storeCheckLogin(true));
+  var subtitle;
+  const [modalIsOpenFalse, setIsOpenFalse] = React.useState(false);
+  function afterOpenModal() {
+    subtitle.style.color = "#f00";
+  }
+  const closeModal = () => {
+    setIsOpenFalse(false);
+  };
+  /****************************************************************/
+  /**
+  * SignIn for new buddy user
+  * @param {object} loginObject - user's information including email and password
+  *  getting from input
+  * @return {object} - user's information which was sent back from backend side
+  */
+  const onSubmit = (props) => {
+    const loginObject = {
+      email: email,
+      password: password,
+    };
+    let result = Validate({...loginObject});
+    console.log(result);
+    setErrors(result);
+    if(!result.pass) return;
+
+    axios
+      .get("http://localhost:5000/user/login", {
+        params: {
+          email: email,
+          password: password,
+        },
+      })
+      .then(
+        /* The user exists in DB */
+        (res) => {
+          if (!res.data.success) {
+            setIsOpenFalse(true);
+            setMessage(res.data.message);
+          } else {
+            dispatch(storeEmail(email));
+            dispatch(storeCheckLogin(true));
+            axios
+              .get(`http://localhost:5000/user/${email}/information`)
+              .then((res) => {
+                if (res.data.success) {
+                  setIsOpenFalse(false);
+                  setMessage(res.data.message);
+                  setInformation(res.data.user);
+                  dispatch(storeInformation(res.data.user));
+                  props.push('/home');
+                } else {
+                  setIsOpenFalse(true);
+                  setMessage(res.data.message);
+                }
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }
+        }
+      )
+      .catch((err) => {
+        console.log(err);
+      });
   };
   /****************************************************************/
   return (
@@ -83,6 +116,8 @@ const Signin = (props) => {
           size="medium"
           inputProps={{ style: { color: "black" } }}
           onChange={(e) => setEmail(e.target.value)}
+          error={!!errors.email}
+          helperText={errors.email ? errors.email : ""}
         />
         <InputField
           className={classes.input}
@@ -97,9 +132,11 @@ const Signin = (props) => {
           type="password"
           inputProps={{ style: { color: "black" } }}
           onChange={(e) => setPass(e.target.value)}
+          error={!!errors.password}
+          helperText={errors.password ? errors.password : ""}
         />
         <div className={classes.button}>
-          <Button variant="contained" color="primary" onClick={onSubmit}>
+          <Button variant="contained" color="primary" onClick={() => onSubmit(history)}>
             Submit
           </Button>
         </div>
@@ -109,6 +146,40 @@ const Signin = (props) => {
           {"Don't have an account? Register"}
         </Link>
       </div>
+
+      <Modal
+        isOpen={modalIsOpenFalse}
+        onAfterOpen={afterOpenModal}
+        onRequestClose={closeModal}
+        ariaHideApp={false}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <h2 ref={(_subtitle) => (subtitle = _subtitle)}>{message}</h2>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <Link to="/register" style={{ textDecoration: "none" }}>
+            <Button variant="contained" color="primary" size="small">
+              Register
+            </Button>
+          </Link>
+          <Link style={{ textDecoration: "none" }}>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={closeModal}
+            >
+              Try Again
+            </Button>
+          </Link>
+        </div>
+      </Modal>
     </div>
   );
 };
