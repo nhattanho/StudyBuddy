@@ -45,8 +45,7 @@ const Register = () => {
     */
     const onSubmit = () => {
         const registerObject = {
-            firstName: firstName,
-            lastName: lastName,
+            name: firstName + " " + lastName,
             email: email,
             password: password,
             confirm_password: confirm_password,

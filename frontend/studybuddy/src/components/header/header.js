@@ -145,6 +145,11 @@ export default function Header() {
                                 Home
                             </Button>
                         </Link>
+                        <Link to="/sendingRequest" style={{ textDecoration: "none" }}>
+                            <Button variant="contained" color="primary">
+                                Sending Request
+                            </Button>
+                        </Link>
                     </Toolbar>
                 </AppBar>
             )}
