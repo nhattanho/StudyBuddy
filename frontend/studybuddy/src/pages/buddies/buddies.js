@@ -108,6 +108,9 @@ const REQUEST_TIMES = [
 	}
 ]
 
+/**
+ * React component for the Buddies Requests page.
+ */
 export default function Buddies() {
 	const classes = useStyles();
 	const [outgoing, setOutgoing] = useState(OUTGOING_BUDDIES);
@@ -124,20 +127,16 @@ export default function Buddies() {
 		setIncoming(removeById(buddy.id, incoming));
 		setMatched([buddy].concat(matched));
 		handleClose();
-		console.log(incoming)
 
 	}
 
 	const handleRejectRequest = (buddy, handleClose) => {
 		setIncoming(removeById(buddy.id, incoming));
 		handleClose();
-		console.log(incoming)
 	}
 
 	const handleDeleteBuddy = (buddy) => {
-		console.log(matched);
 		setMatched(removeById(buddy.id, matched));
-		console.log(matched)
 	}
 
 	return (
@@ -149,6 +148,13 @@ export default function Buddies() {
 	);
 }
 
+/**
+ * Component for a buddy column on the buddies page.
+ * Each column contains a specific type of buddy/request (outgoing, incoming, matched).
+ * @prop {enum} type The type of buddy shown in the column
+ * @prop {[]object]} buddies The buddies populating the column
+ * @prop {functions} handleFns Callback functions to handle accepting/rejecting/cancelling/deleting buddies
+ */
 const BuddyColumn = (props) => {
 	const classes = useStyles();
 	const { type, buddies, ...handleFns } = props;
@@ -179,6 +185,13 @@ const BuddyColumn = (props) => {
 	)
 }
 
+/**
+ * Component representing a card showing basic buddy info.
+ * Contains options for interacting with the buddy card that are dependent on buddy type.
+ * @prop {object} buddyInfo The specific buddy's info
+ * @prop {enum} type The type of buddy
+ * @prop {functions} handleFns  Callback functions to handle accepting/rejecting/cancelling/deleting buddies
+ */
 const Buddy = (props) => {
 	const classes = useStyles();
 	const [showRequest, setShowRequest] = useState(false);
@@ -194,12 +207,11 @@ const Buddy = (props) => {
 			requestDetails =
 				<RequestDetails
 					show={showRequest}
+					times={REQUEST_TIMES}
 					handleClose={() => setShowRequest(false)}
 					handleAccept={props.handleAccept}
 					handleReject={props.handleReject}
-					times={REQUEST_TIMES}
-					buddyInfo={props.buddyInfo}>
-				</RequestDetails>
+				/>
 			break;
 		case BuddyType.MATCHED:
 			options =
@@ -224,6 +236,14 @@ const Buddy = (props) => {
 	)
 }
 
+/**
+ * Modal component containing details of a specific buddy request.
+ * Allows users to select from one of the proposed times and accept the request,
+ * or reject or propose a new time for the study session.
+ * @prop {boolean} show Whether the modal should be open or not
+ * @prop {[]Date} times The proposed study session times
+ * @prop handleFns {Function} Callback functions to handle accepting/rejecting buddies and closing the modal
+ */
 const RequestDetails = (props) => {
 	const classes = useStyles();
 	return (
@@ -249,6 +269,10 @@ const RequestDetails = (props) => {
 	)
 }
 
+/**
+ * Component showing a selectable list of proposed study times.
+ * @prop {[]Date} The proposed study times
+ */
 const RequestedTimes = (props) => {
 	const [selectedItem, setSelectedItem] = useState(-1);
 
