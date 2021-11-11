@@ -12,7 +12,6 @@ import {Provider} from "react-redux"
 
 /* Adding pages/components */
 import Landing from "./pages/landing/landing.js";
-<<<<<<< HEAD
 import Register from "./pages/register/register.js";
 import Home from "./pages/home/home.js";
 import Header from "../src/components/header/header.js";
