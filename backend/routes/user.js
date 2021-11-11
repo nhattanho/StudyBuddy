@@ -18,11 +18,10 @@ const saltRounds = 10;
 router.post("/register", (req, res) => {
     const {
       email,
-      firstName,
-      lastName,
+      name,
+      username,
       password,
       confirm_password,
-      username,
       checkLogin,
     } = req.body;
     console.log("body", req.body);
@@ -32,6 +31,27 @@ router.post("/register", (req, res) => {
         return res.send({ success: false, message: "Password did not match" });
     }
     /*Continue working on it*/
+    const user = new User({
+      email: email,
+      name: name,
+      username: username,
+      password: password,
+      confirm_password: confirm_password,
+      checkLogin: checkLogin,
+    });
+    user
+      .save()
+      .then((result) => {
+        console.log(result);
+        res.send({
+          success: true,
+          message: "User successfully added",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.send({ success: false, message: err });
+      });
 });
 
 module.exports = router;
