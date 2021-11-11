@@ -6,10 +6,10 @@ const IDs = require('./testIds');
 
 // Walter's requests
 // For below the sender is walter
-const requestWalterJessie = {
-    _id: IDs.userRequests.requestWalterJessie,
+const requestWalterJesse = {
+    _id: IDs.userRequests.requestWalterJesse,
     sender: IDs.users.walter,
-    receiver: IDs.users.jessie,
+    receiver: IDs.users.jesse,
     status: "Accepted",
     dateslots: [Date(), Date()]
 }
@@ -57,37 +57,37 @@ const requestSaulWalter = {
 }
 
 
-// Jessie's requests
-// Jessie is the sender
+// Jesse's requests
+// Jesse is the sender
 
-const requestJessieWalter = {
-    _id: IDs.userRequests.requestJessieWalter,
-    sender: IDs.users.jessie,
+const requestJesseWalter = {
+    _id: IDs.userRequests.requestJesseWalter,
+    sender: IDs.users.jesse,
     receiver: IDs.users.walter,
     status: "Pending",
     dateslots: [Date(), Date(), Date()]
 }
 
 
-// Jessie is the receiver
+// Jesse is the receiver
 
-const requestHankJessie = {
-    _id: IDs.userRequests.requestHankJessie,
+const requestHankJesse = {
+    _id: IDs.userRequests.requestHankJesse,
     sender: IDs.users.hank,
-    receiver: IDs.users.jessie,
+    receiver: IDs.users.jesse,
     status: "Pending",
     dateslots: [Date()]
 }
 
 const testBuddyRequests = {
-    requestWalterJessie: requestWalterJessie,
+    requestWalterJesse: requestWalterJesse,
     requestWalterGus: requestWalterGus,
     requestWalterHank: requestWalterHank,
     requestMikeWalter: requestMikeWalter,
     requestSkylerWalter: requestSkylerWalter,
     requestSaulWalter: requestSaulWalter,
-    requestJessieWalter: requestJessieWalter,
-    requestHankJessie: requestHankJessie
+    requestJesseWalter: requestJesseWalter,
+    requestHankJesse: requestHankJesse
 }
 
 module.exports = testBuddyRequests
