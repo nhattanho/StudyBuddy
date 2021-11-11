@@ -3,6 +3,8 @@ import React from "react";
 /* Import Redux */
 import { useDispatch, useSelector } from "react-redux";
 import { storeCheckLogin } from "../../redux/redux";
+import {customStyles, InputField, useStyles} from "../home/styles";
+import {Typography, Button, Grid, Box} from '@material-ui/core';
 import Placeholder from './placeholder.png'
 import './sendingRequest.css';
 
@@ -10,10 +12,15 @@ const SendingRequest = (props) => {
   const checkLogin = useSelector((state) => state.checkLogin);
   const dispatch = useDispatch();
 
+  const classes = useStyles();
+
   const setLogout = () => {
     dispatch(storeCheckLogin(false));
   };
 
+  const sendRequest = () => {
+
+  };
   
   return (
     <div>
@@ -55,10 +62,13 @@ const SendingRequest = (props) => {
         	 CS130 CS143 CS118
           </h3>
         </div>
-        <button className="request" onClick={() => { }} 
-            style={{ height : '50px', width : '120px', marginTop: '25px', borderWidth: '0px', color : '#2fa13a' }}>
-            Request!
-        </button>
+        <div className={classes.parentButton}>
+          <div className={classes.button}>
+            <Button variant="contained" color="primary" onClick={sendRequest}>
+              Request!
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );
