@@ -43,21 +43,32 @@ const userBuddyRequestSchema = new mongoose.Schema({
     }
 })
 const userSchema = new mongoose.Schema({
+    email: {type: String, required: true, unique: true},
     name: {type: String, required: true},
-
+  
     /*Added by Nhat Ho*/
-    email: {type:String, required: true},
     username: {type:String, required: true},
     checkLogin: {type:String, required: true},
     password: { type: String },
     confirm_password: { type: String },
     checkLogin: {type: Boolean},
-    aboutYou: {type: String},
-    year: {type: String},
-    birthday: {type: String},
     /* End of adding*/
-
+  
+    about: {type: String, required: false},
+    birthday: {type: Date},
     major: {type: String, required: false},
+    year: {
+        type: String,
+        enum: [
+            'Freshman',
+            'Sophomore',
+            'Junior',
+            'Senior',
+            'Graduate',
+            'Ph.D'
+        ],
+        required: false
+    },
     classes: {
         type: [String],
         minLength: 1,
