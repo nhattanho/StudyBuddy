@@ -2,17 +2,13 @@ import { unmountComponentAtNode } from "react-dom";
 import { render, screen, within } from '@testing-library/react'
 import Buddies from "../pages/buddies/buddies.js";
 
-// var rewire = require('rewire');
-
 let container = null;
 beforeEach(() => {
-  // setup a DOM element as a render target
   container = document.createElement("div");
   document.body.appendChild(container);
 });
 
 afterEach(() => {
-  // cleanup on exiting
   unmountComponentAtNode(container);
   container.remove();
   container = null;
