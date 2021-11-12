@@ -97,7 +97,7 @@ router.post("/accept", (req, res) => {
 router.get("/:id/sent", async (req, res) => {
     const { id } = req.params;
 
-    Project.find({ sender: id }, async (err, buddyrequests) => {
+    BuddyRequestModel.find({ sender: id }, async (err, buddyrequests) => {
       console.log("buddyrequests", buddyrequests);
       if (buddyrequests.length != 0) {
         res.send({ success: true, message: "Success!", buddyrequests: buddyrequests });
@@ -115,7 +115,7 @@ router.get("/:id/sent", async (req, res) => {
 router.get("/:id/sent", async (req, res) => {
     const { id } = req.params;
 
-    Project.find({ receiver: id }, async (err, buddyrequests) => {
+    BuddyRequestModel.find({ receiver: id }, async (err, buddyrequests) => {
       console.log("buddyrequests", buddyrequests);
       if (buddyrequests.length != 0) {
         res.send({ success: true, message: "Success!", buddyrequests: buddyrequests });
