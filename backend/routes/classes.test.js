@@ -19,14 +19,12 @@ const connectParams = {
 
 beforeAll(async () => {
     await mongoose.connect(DB.DEFAULT_DB_ENDPOINT, connectParams)
-    const [userResults, classResults, buddyRequestResults] = await Promise.all(
-        DBMethods.initializeDB());
+    await Promise.all(DBMethods.initializeDB());
 })
 
 
 afterAll(async () => {
-    const [userResults, classResults, buddyRequestResults] = await Promise.all(
-        DBMethods.clearDB());
+    await Promise.all(DBMethods.clearDB());
     await mongoose.disconnect();
 
 })
@@ -46,7 +44,7 @@ describe("Testing classes API", () => {
      * Fuction tests endpoint /name to get name of class with given id
      * @author Vishnu Devarakonda
      */
-    test("Get product given ID", done => {
+    test("Get class given ID", done => {
         const endpoint = "/classes/name"
         request(classesAPI)
         .get(endpoint)
@@ -55,10 +53,10 @@ describe("Testing classes API", () => {
     })
 
     /**
-     * Fuction tests endpoint / to list of available
+     * Fuction tests endpoint / to list of available classes
      * @author Vishnu Devarakonda
      */
-    test("Get products with paging", done => {
+    test("Get class with paging", done => {
         const endpoint = "/classes"
         request(classesAPI)
         .get(endpoint)
