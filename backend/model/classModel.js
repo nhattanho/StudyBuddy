@@ -1,5 +1,5 @@
 /**
- * @file Creates schema for users collection and exports the mongoose model.
+ * @file Creates schema for class collection and exports the mongoose model.
  * @author Vishnu Devarakonda
  */
 const mongoose = require('mongoose');
