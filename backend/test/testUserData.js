@@ -91,7 +91,7 @@ let todd = {
     checkLogin: "no",
     major: "Mathematics",
     year: "Ph.D",
-    classes: [classes.CS199.id, classes.CSM192A.id],
+    classes: [classes.CS194.id, classes.CSM192A.id],
     zoomid: "@TriggerHappy",
     email: "TriggerHappy@gmail.com",
     profileURL: "https://static.wikia.nocookie.net/breakingbad/images/f/f5/Todd_S5b.jpg/revision/latest/scale-to-width-down/750?cb=20130717044419"
