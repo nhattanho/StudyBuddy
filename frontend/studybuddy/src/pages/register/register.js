@@ -45,8 +45,7 @@ const Register = () => {
     */
     const onSubmit = () => {
         const registerObject = {
-            firstName: firstName,
-            lastName: lastName,
+            name: firstName + " " + lastName,
             email: email,
             password: password,
             confirm_password: confirm_password,
@@ -69,9 +68,9 @@ const Register = () => {
                 } else {
                 // user's profile isn't set up
                 console.log("user profile is not set up");
-                    setIsOpenFalse(true);
-                    setIsOpenTrue(false);
-                    setMessage(res.data.message);
+                setIsOpenFalse(true);
+                setIsOpenTrue(false);
+                setMessage(res.data.message);
                 }
             })
             .catch(function (e) {

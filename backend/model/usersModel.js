@@ -4,6 +4,8 @@
  */
 var mongoose = require('mongoose');
 const DB = require("./DBconsts");
+const classes = require("./classes")
+const classIDs = classes.map((val, i) => val.id)
 
 /**
  * Schema for past buddies
@@ -42,16 +44,42 @@ const userBuddyRequestSchema = new mongoose.Schema({
         required: true
     }
 })
+
 const userSchema = new mongoose.Schema({
+    email: {type: String, required: true, unique: true},
     name: {type: String, required: true},
-    major: {type: String, required: true},
+  
+    /*Added by Nhat Ho*/
+    username: {type: String, required: true},
+    checkLogin: {type: String, required: true},
+    password: { type: String },
+    confirm_password: { type: String },
+    checkLogin: {type: Boolean},
+    /* End of adding*/
+  
+    about: {type: String, required: false},
+    birthday: {type: Date},
+    major: {type: String, required: false},
+    year: {
+        type: String,
+        enum: [
+            'Freshman',
+            'Sophomore',
+            'Junior',
+            'Senior',
+            'Graduate',
+            'Ph.D'
+        ],
+        required: false
+    },
     classes: {
         type: [String],
+        enum: classIDs,
         minLength: 1,
-        required: true
+        required: false
     },
     profileURL: {type: String, required: false},
-    zoomid: { type: String, required: true},
+    zoomid: { type: String, required: false},
     pastbuddies: { type: [pastBuddySchema] },
     buddyrequests: { type: [userBuddyRequestSchema] }
 });
