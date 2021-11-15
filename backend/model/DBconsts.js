@@ -16,6 +16,9 @@ const DB = {
         },
         Class: {
             name: "Class"
+        },
+        Major: {
+            name: "Major"
         }
     }
 }

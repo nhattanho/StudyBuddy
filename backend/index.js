@@ -9,6 +9,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const user = require("./routes/user.js");
+const major = require("./routes/major.js");
 const classes = require("./routes/classes.js");
 const buddyrequest = require("./routes/buddyrequest.js");
 
@@ -46,6 +47,7 @@ db.once("open", () => {
   console.log("connected to db");
 });
 app.use("/user", user);
+app.use("/major", major);
 app.use("/classes", classes);
 app.use("/buddyrequest", buddyrequest);
 /* Listening on Port */
