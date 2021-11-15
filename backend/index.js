@@ -9,6 +9,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const user = require("./routes/user.js");
+const classes = require("./routes/classes.js");
 const buddyrequest = require("./routes/buddyrequest.js");
 
 require("dotenv").config();
@@ -45,6 +46,7 @@ db.once("open", () => {
   console.log("connected to db");
 });
 app.use("/user", user);
+app.use("/classes", classes);
 app.use("/buddyrequest", buddyrequest);
 /* Listening on Port */
 const port = process.env.PORT || 5000;
