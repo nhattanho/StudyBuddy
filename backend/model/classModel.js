@@ -5,7 +5,7 @@
 const mongoose = require('mongoose');
 const DB = require('./DBconsts');
 
- const classSchema = new mongoose.Schema({
+const classSchema = new mongoose.Schema({
     id: {type: String, required: true, unique: true},
     name: {type: String, required: true},
 });
