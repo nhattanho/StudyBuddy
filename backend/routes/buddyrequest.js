@@ -8,11 +8,12 @@
 
 const express = require("express");
 const router = express.Router();
+const bodyParser = require('body-parser');
+
 const BuddyRequestModel = require("../model/BuddyRequestsModel");
 
 //Create
 router.post("/create", (req, res) => {
-    console.log("Creating buddy request");
     const {
         sender,
         receiver,
@@ -28,17 +29,13 @@ router.post("/create", (req, res) => {
 
     buddyRequest
     .save()
-    .then((result) => {
-        res.send({
-        success: true,
-        message: "BuddyRequest successfully added!",
-        action: "added",
-        });
+    .then((res) => {
+        console.log("successfully created!");
     })
     .catch((err) => {
         console.log("can not save new buddyrequest: ", err);
-        res.send({ success: false, message: err });
     });
+    console.log("hello!")
 });
 
 //Delete
@@ -47,22 +44,12 @@ router.delete("/delete/:id", async (req, res) => {
     BuddyRequestModel.findOneAndRemove({ _id: id }, (err, buddyrequest) => {
       console.log(buddyrequest);
       if (err) {
-        res.send({
-          success: false,
-          message: err,
-        });
+        console.log(err)
       }
       if (buddyrequest) {
-        res.send({
-          success: true,
-          message: "Deleted Successfully!",
-          action: "deleted",
-        });
+        console.log("deleted successfully")
       } else {
-        res.send({
-          success: false,
-          message: "Deleted Failed!",
-        });
+        console.log("failed to delete")
       }
     });
   });
@@ -78,18 +65,9 @@ router.post("/accept", (req, res) => {
     .exec()
     .then((data) => {
         console.log("Accepted BuddyRequest", data);
-        res.send({
-        success: true,
-        message: "BuddyRequest Accepted",
-        action: "accepted",
-        });
     })
     .catch((err) => {
         console.log("update fail in backend log");
-        res.send({
-        success: false,
-        message: "BuddyRequest accept failed",
-        });
     });
 });
 
@@ -100,31 +78,23 @@ router.get("/:id/sent", async (req, res) => {
     BuddyRequestModel.find({ sender: id }, async (err, buddyrequests) => {
       console.log("buddyrequests", buddyrequests);
       if (buddyrequests.length != 0) {
-        res.send({ success: true, message: "Success!", buddyrequests: buddyrequests });
+        console.log("Wooo found some buddyrequests!");
       } else {
         console.log("No buddyrequests to display!");
-        res.send({
-          success: false,
-          message: "You have not have any buddyrequests!",
-        });
       }
     });
 });
 
 //Get all requests received by user with given id
-router.get("/:id/sent", async (req, res) => {
+router.get("/:id/received", async (req, res) => {
     const { id } = req.params;
 
     BuddyRequestModel.find({ receiver: id }, async (err, buddyrequests) => {
       console.log("buddyrequests", buddyrequests);
       if (buddyrequests.length != 0) {
-        res.send({ success: true, message: "Success!", buddyrequests: buddyrequests });
+        console.log("Wooo found some buddyrequests!")
       } else {
         console.log("No buddyrequests to display!");
-        res.send({
-          success: false,
-          message: "You have not have any buddyrequests!",
-        });
       }
     });
 });
