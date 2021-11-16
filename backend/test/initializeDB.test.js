@@ -30,8 +30,13 @@ describe("Tests for initializing DB", () => {
      * @author Vishnu Devarakonda
      */
     test('Test method InitializeDB', async () => {
-        const [userResults, classResults, buddyRequestResults] = await Promise.all(DBMethods.initializeDB());
+        const [
+            userResults,
+            classResults,
+            majorResults,
+            buddyRequestResults] = await Promise.all(DBMethods.initializeDB());
         expect(classResults.length == 55).toBeTruthy();
+        expect(majorResults.length).toEqual(7);
         expect(userResults.length == 8).toBeTruthy();
         expect(userResults[0]._id == IDs.users.walter).toBeTruthy();
         expect(userResults[1]._id == IDs.users.jesse).toBeTruthy();
@@ -45,8 +50,13 @@ describe("Tests for initializing DB", () => {
      * @author Vishnu Devarakonda
      */
     test('Test method clearDB', async () => {
-        const [userResults, classResults, buddyRequestResults] = await Promise.all(DBMethods.clearDB());
+        const [
+            userResults,
+            classResults,
+            majorResults,
+            buddyRequestResults] = await Promise.all(DBMethods.clearDB());
         expect(classResults.deletedCount == 55).toBeTruthy();
+        expect(majorResults.deletedCount).toEqual(7);
         expect(userResults.deletedCount == 8).toBeTruthy();
         expect(buddyRequestResults.deletedCount == 8).toBeTruthy();
     })

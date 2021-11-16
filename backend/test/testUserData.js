@@ -4,6 +4,7 @@
  */
 const IDs = require('./testIds');
 const testBuddyRequests = require('./testBuddyRequestsData')
+const majors = require('../model/majors')
 let classes = require('../model/classes')
 classes = classes.reduce((o, key) => ({...o,[key.id] : key}), {})
 
@@ -14,7 +15,7 @@ let walter = {
     birthday: new Date("09","07","1958").getTime(),
     username: "Hiesenberg",
     checkLogin: "yes",
-    major: "Chemistry",
+    major: majors.chemistry.name,
     year: "Ph.D",
     classes: [classes.CS199.id],
     zoomid: "@Hiesenberg",
@@ -29,7 +30,7 @@ let jesse = {
     birthday: new Date("09", "24", "1984").getTime(),
     username: "YeahScience!",
     checkLogin: "yes",
-    major: "Chemistry",
+    major: majors.chemistry.name,
     year: "Freshman",
     classes: [classes.CS31.id, classes.CS32.id],
     zoomid: "@YeahScience!",
@@ -44,7 +45,7 @@ let gus = {
     birthday: new Date("04", "26", "1958").getTime(),
     username: "LosPollosHermano",
     checkLogin: "no",
-    major: "MBA",
+    major: majors.mba.name,
     year: "Graduate",
     classes: [classes.CS188.id],
     zoomid: "@LosPollosHermano",
@@ -60,7 +61,7 @@ let hank = {
     birthday: new Date("03", "13", "1966").getTime(),
     username: "RoboCop",
     checkLogin: "yes",
-    major: "Geology",
+    major: majors.geology.name,
     year: "Freshman",
     classes: [classes.CS32.id],
     zoomid: "@RoboCop",
@@ -74,7 +75,7 @@ let mike = {
     birthday: new Date("07","21", "1944").getTime(),
     username: "HitMan",
     checkLogin: "yes",
-    major: "Mechanical Engineer",
+    major: majors.mechanicalEngineering.name,
     year: "Junior",
     classes: [classes.CS180.id],
     zoomid: "@HitMan",
@@ -89,7 +90,7 @@ let todd = {
     birthday: new Date("09", "24", "1984").getTime(),
     username: "TriggerHappy",
     checkLogin: "no",
-    major: "Mathematics",
+    major: majors.mathematics.name,
     year: "Ph.D",
     classes: [classes.CS194.id, classes.CSM192A.id],
     zoomid: "@TriggerHappy",
@@ -104,7 +105,7 @@ let saul = {
     birthday: new Date("11", "12", "1960").getTime(),
     username: "BetterCallSaul",
     checkLogin: "yes",
-    major: "J.D",
+    major: majors.jurisDoctor.name,
     year: "Ph.D",
     classes: [classes.CS181.id],
     zoomid: "@BetterCallSaul",
@@ -118,7 +119,7 @@ let skyler = {
     birthday: new Date("08", "11", "1970").getTime(),
     username: "SWhite",
     checkLogin: "no",
-    major: "Economics",
+    major: majors.economics.name,
     year: "Graduate",
     classes: [classes.CS152B.id],
     zoomid: "@SWhite",

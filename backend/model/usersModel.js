@@ -5,6 +5,7 @@
 var mongoose = require('mongoose');
 const DB = require("./DBconsts");
 const classes = require("./classes")
+const majors = require("./majors")
 const classIDs = classes.map((val, i) => val.id)
 
 /**
@@ -59,7 +60,11 @@ const userSchema = new mongoose.Schema({
   
     about: {type: String, required: false},
     birthday: {type: Date},
-    major: {type: String, required: false},
+    major: {
+        type: String,
+        enum: Object.values(majors).map((item, i) => item.name),
+        required: false
+    },
     year: {
         type: String,
         enum: [
