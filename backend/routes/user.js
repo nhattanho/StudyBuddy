@@ -165,3 +165,31 @@ router.put("/email/update", (req, res) => {
     });
   });
 });
+
+/*======================================DELETE method===================================*/
+router.delete("/delete/:email", async (req, res) => {
+  console.log("In delete user account");
+  const { email } = req.params;
+  User.findOneAndRemove({ email: email }, (err, user) => {
+    console.log(user);
+    if (err) {
+      res.send({
+        success: false,
+        message: err,
+      });
+    }
+    if (user) {
+      res.send({
+        success: true,
+        message: "Deleted Successfully!",
+        action: "deleted",
+      });
+      //res.redirect("/portfolio");
+    } else {
+      res.send({
+        success: false,
+        message: "Deleted Failed!",
+      });
+    }
+  });
+});

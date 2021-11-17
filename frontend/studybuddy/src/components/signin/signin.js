@@ -74,18 +74,19 @@ const Signin = (props) => {
             setIsOpenFalse(true);
             setMessage(res.data.message);
           } else {
-            dispatch(storeEmail(email));
-            dispatch(storeCheckLogin(true));
             axios
               .get(`http://localhost:5000/user/${email}/information`)
               .then((res) => {
                 if (res.data.success) {
                   setIsOpenFalse(false);
                   setMessage(res.data.message);
-                  console.log(res.data.user.birthday);
-                  res.data.user.birthday = res.data.user.birthday.split("T")[0];
-                  console.log(res.data.user.birthday);
+                  if(res.data.user.hasOwnProperty('birthday')){
+                    res.data.user.birthday = res.data.user.birthday.split("T")[0];
+                    console.log(res.data.user.birthday);
+                  }
                   dispatch(storeInformation(res.data.user));
+                  dispatch(storeEmail(email));
+                  dispatch(storeCheckLogin(true));
                   props.push('/home');
                 } else {
                   setIsOpenFalse(true);
@@ -106,6 +107,7 @@ const Signin = (props) => {
   /****************************************************************/
   return (
     <div className={classes.mainform}>
+      <div className={classes.login}> Login </div>
       <form className={classes.form}>
         <InputField
           className={classes.input}

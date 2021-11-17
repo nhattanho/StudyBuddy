@@ -82,7 +82,7 @@ export default function Header() {
                             </Button>
                         </Link>
 
-                        <Link to="/Pending" style={{ textDecoration: "none" }}>
+                        <Link to="/buddies" style={{ textDecoration: "none" }}>
                             <Button variant="contained" color="primary">
                                 Pending
                             </Button>
@@ -90,7 +90,7 @@ export default function Header() {
                         
                         <Link to="/sendingRequest" style={{ textDecoration: "none" }}>
                             <Button variant="contained" color="primary">
-                                Sending Request
+                                Request
                             </Button>
                         </Link>
 

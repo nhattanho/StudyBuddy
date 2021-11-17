@@ -10,12 +10,14 @@ import React from "react";
 import Modal from "react-modal";
 import {customStyles, InputField, useStyles} from "./styles.js";
 import {Typography, Button, Grid, Box} from '@material-ui/core';
+import { useHistory } from "react-router-dom";
 
 /* Import Redux */
 import { useDispatch, useSelector } from "react-redux";
 import { storeCheckLogin, storeInformation} from "../../redux/redux";
 /* =======================================================================*/
 const Home = () => {
+    const history = useHistory();
     /* Use Redux */
     const userinformation = useSelector((state) => state);
     const email = userinformation.email;
@@ -33,6 +35,7 @@ const Home = () => {
     /* =======================================================================*/
     const [modalIsOpenTrue, setIsOpenTrue] = React.useState(false);
     const [modalIsOpenFalse, setIsOpenFalse] = React.useState(false);
+    const [deleteUser, setDeleteUser] = React.useState(false);
     const [message, setMessage] = React.useState();
     /* Use for modal true */
     var subtitle;
@@ -48,6 +51,7 @@ const Home = () => {
     }
     const closeModal = () => {
         setIsOpenFalse(false);
+        setIsOpenTrue(false);
     };
     /* =======================================================================*/
     /**
@@ -72,7 +76,6 @@ const Home = () => {
             classes: userClasses,
             checkLogin: true,
         };
-
         axios
             .put(`http://localhost:5000/user/email/update`, updateObject)
             .then(res => {
@@ -80,6 +83,7 @@ const Home = () => {
                     setIsOpenTrue(true);
                     setIsOpenFalse(false);
                     setMessage(res.data.message);
+                    setDeleteUser(false);
                     dispatch(storeInformation(updateObject));
                 } else {
                     setIsOpenFalse(true);
@@ -93,15 +97,24 @@ const Home = () => {
     };
 
     const onDelete = () => {
-        //const id = userinfor._id;
+        setIsOpenTrue(true);
+        setIsOpenFalse(false);
+        setMessage("Are you sure?");
+        setDeleteUser(true);
+    };
+
+    /**
+    * Delete user
+    * @param {email} - email
+    * @return {none} - delete user account
+    */
+    const onDeleteUser = (props) => {
         axios
-            .post("http://localhost:5000/user/delete") 
+            .delete(`http://localhost:5000/user/delete/${email}`)
             .then(res => {
                 if (res.data.success) {
-                    setIsOpenTrue(true);
-                    setIsOpenFalse(false);
-                    setMessage(res.data.message);
                     dispatch(storeCheckLogin(false));
+                    props.push('/');
                 } else {
                     setIsOpenFalse(true);
                     setIsOpenTrue(false);
@@ -111,7 +124,8 @@ const Home = () => {
             .catch(function (e) {
                 console.log(e);
             });
-    };
+    }
+
 /* =======================================================================*/
     return (
         <Box component='div' className={classes.container}>
@@ -244,14 +258,32 @@ const Home = () => {
                 contentLabel="Modal for succesfully login"
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)}>{message}</h2>
-                <div
-                    style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "center",
-                    }}
-                >
-                </div>
+  
+                {deleteUser ? (
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <Link to='/home' style={{ textDecoration: "none" }}>
+                            <Button variant="contained" color="primary" size="small" onClick={closeModal}>
+                                No   
+                            </Button>
+                        </Link>
+                        <Link to="/" style={{ textDecoration: "none" }}>
+                            <Button
+                            variant="contained"
+                            color="secondary"
+                            size="small"
+                            onClick={() => onDeleteUser(history)}
+                            >
+                                Yes
+                            </Button>
+                        </Link>
+                    </div>
+                ):(<div></div>)}     
             </Modal>
 
             <Modal
