@@ -30,28 +30,49 @@ router.post("/register", (req, res) => {
         console.log("Password did not match");
         return res.send({ success: false, message: "Password did not match" });
     }
-    /*Continue working on it*/
-    const user = new User({
-      email: email,
-      name: name,
-      username: username,
-      password: password,
-      confirm_password: confirm_password,
-      checkLogin: checkLogin,
-    });
-    user
-      .save()
-      .then((result) => {
-        console.log(result);
-        res.send({
-          success: true,
-          message: "User successfully added",
+
+    User.find({
+      $or: [{ email: email }, { username: username }],
+    })
+    .exec()
+    .then((user) => {
+      //console.log("user is: ", user);
+      if (user.length >= 1) {
+        let message;
+        if (user[0].email === email) message = "Email already exists";
+        else message = "User name already exists";
+        res.send({ success: false, message: message });
+      } 
+      else {
+        bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+          if (err) {
+            res.send({ success: false, message: err });
+          } else {
+            const user = new User({
+              email: email,
+              name: name,
+              username: username,
+              password: password,
+              confirm_password: confirm_password,
+              checkLogin: checkLogin,
+            });
+            user
+              .save()
+              .then((result) => {
+                console.log(result);
+                res.send({
+                  success: true,
+                  message: "User successfully added",
+                });
+              })
+              .catch((err) => {
+                console.log(err);
+                res.send({ success: false, message: err });
+              });
+          }
         });
-      })
-      .catch((err) => {
-        console.log(err);
-        res.send({ success: false, message: err });
-      });
+      }
+    });
 });
 
 module.exports = router;
