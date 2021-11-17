@@ -1,10 +1,17 @@
 import {createStore} from "redux"
 import {composeWithDevTools} from "redux-devtools-extension"
+import {persistStore, persistReducer} from 'redux-persist';
+/*default storage*/
+import storage from 'redux-persist/lib/storage'; 
 
 const STORE_EMAIL = "STORE_EMAIL";
 const CHECK_LOGIN = "CHECK_LOGIN";
 const STORE_USER_INFORMATION = "STORE_USER_INFORMATION";
 
+const persistConfig = {
+    key: 'root',
+    storage,
+}
 
 const initialState = {
     checkLogin: false,
@@ -15,6 +22,7 @@ const initialState = {
     year: "",
     birthday: "",
     classes: "",
+    username: "",
 };
  
 /**
@@ -83,6 +91,7 @@ function userReducer(state = initialState, action) {
         case STORE_USER_INFORMATION:
             const {
                 name,
+                username,
                 about,
                 email,
                 major,
@@ -94,6 +103,7 @@ function userReducer(state = initialState, action) {
             return {
                 ...state,
                 name: name,
+                username: username,
                 about: about,
                 email: email,
                 major: major,
@@ -107,5 +117,7 @@ function userReducer(state = initialState, action) {
     }
 }
 
-let store = createStore(userReducer, composeWithDevTools());
-export default store;
+const persistedReducer = persistReducer(persistConfig, userReducer)
+export const store = createStore(persistedReducer, composeWithDevTools());
+export const persistor = persistStore(store);
+export default {store, persistor};

@@ -15,7 +15,9 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "mongoose": "^6.0.12",
-    "nodemailer": "^6.7.1"
+    "nodemailer": "^6.7.1",
+    "redux": "^4.1.2",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "supertest": "^6.1.6"

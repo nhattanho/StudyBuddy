@@ -46,11 +46,13 @@ const Register = () => {
     const onSubmit = () => {
         const registerObject = {
             name: firstName + " " + lastName,
+            firstName: firstName,
+            lastName: lastName,
             email: email,
             password: password,
             confirm_password: confirm_password,
             username: username,
-            checkLogin: false,
+            checkLogin: true,
         };
         let result = Validate({...registerObject});
         setErrors(result);

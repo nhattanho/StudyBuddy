@@ -1,5 +1,11 @@
 const Errors = {
     empty: {
+        name: "Must update your name",
+        major: "Must update your major",
+        year: "Must update your school year",
+        birthday: "Must update your birthday",
+        classes: "Must update your classes",
+        about: "Must update about you",
         firstname: "Must enter firstname",
         lastname: "Must enter lastname",
         email: "Must enter email",
@@ -63,6 +69,18 @@ const Validate = (props) => {
         temp.username = props.username ? "" : Errors.empty.username;
     if(props.confirm_password !== undefined)
         temp.confirm_password = props.confirm_password ? "" : Errors.invalid.password.confirm;
+    if(props.name !== undefined)
+        temp.name = props.name ? "" : Errors.empty.name;
+    if(props.about !== undefined)
+        temp.about = props.about ? "" : Errors.empty.about;
+    if(props.major !== undefined)
+        temp.major = props.major ? "" : Errors.empty.major;  
+    if(props.year !== undefined)
+        temp.year = props.year ? "" : Errors.empty.year;
+    if(props.birthday !== undefined)
+        temp.birthday = props.birthday ? "" : Errors.empty.birthday;
+    if(props.classes !== undefined)
+        temp.classes = props.classes.length != 0 ? "" : Errors.empty.classes;
 
     if (Object.values(temp).every((x) => x === "")) 
         temp.pass = true;

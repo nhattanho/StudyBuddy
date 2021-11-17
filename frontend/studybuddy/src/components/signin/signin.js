@@ -80,7 +80,7 @@ const Signin = (props) => {
                 if (res.data.success) {
                   setIsOpenFalse(false);
                   setMessage(res.data.message);
-                  if(res.data.user.hasOwnProperty('birthday')){
+                  if(res.data.user.hasOwnProperty('birthday') && res.data.user.birthday != null){
                     res.data.user.birthday = res.data.user.birthday.split("T")[0];
                     console.log(res.data.user.birthday);
                   }

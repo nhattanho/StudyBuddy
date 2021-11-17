@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 
 /* Import Redux */
 import { useDispatch, useSelector } from "react-redux";
@@ -37,12 +38,10 @@ export default function Header() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
-  /* Use Redux */
-    const checkLogin = useSelector((state) => state.checkLogin);
-    const userinformation = useSelector((state) => state);
+    /* Use Redux */
+    let checkLogin = useSelector((state) => state.checkLogin);
+    let userinformation = useSelector((state) => state);
     const dispatch = useDispatch();
-
-
     const setLogout = () => {
         dispatch(storeCheckLogin(false));
     };
@@ -103,7 +102,7 @@ export default function Header() {
                                 color="inherit"
                             >
                                 <Typography variant="h6" color="primary">
-                                    {userinformation.name}
+                                    {userinformation.username}
                                 </Typography>
                             </IconButton>
                         </Link>

@@ -8,9 +8,11 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import React from "react";
 import Modal from "react-modal";
+import { useEffect } from "react";
 import {customStyles, InputField, useStyles} from "./styles.js";
 import {Typography, Button, Grid, Box} from '@material-ui/core';
 import { useHistory } from "react-router-dom";
+import Validate from "../../components/validation/validate";
 
 /* Import Redux */
 import { useDispatch, useSelector } from "react-redux";
@@ -19,10 +21,10 @@ import { storeCheckLogin, storeInformation} from "../../redux/redux";
 const Home = () => {
     const history = useHistory();
     /* Use Redux */
-    const userinformation = useSelector((state) => state);
-    const email = userinformation.email;
     const dispatch = useDispatch();
-
+    const userinformation = useSelector((state) => state);
+    const checkLogin = userinformation.checkLogin; 
+    const email = userinformation.email;
     /* Use React Hook*/
     const classes = useStyles();
     let [name, setName] = React.useState("");
@@ -54,12 +56,22 @@ const Home = () => {
         setIsOpenTrue(false);
     };
     /* =======================================================================*/
+
+    useEffect(() => {
+        console.log("In update with userEffect " + checkLogin);
+        if(!checkLogin){
+            Object.keys(userinformation).forEach((i) => userinformation[i] = "");
+        }
+      }, []);
+
+
     /**
     * Creates a new buddy user
     * @param {object} registerObject - user's information getting from input
     * @return {object} - result which was sent back from backend side
     */
     const onUpdate = () => {
+        if(!checkLogin) return;
         if (name === "") name = userinformation.name;
         if (about === "") about = userinformation.about;
         if (birthday === "") birthday = userinformation.birthday;
@@ -76,6 +88,11 @@ const Home = () => {
             classes: userClasses,
             checkLogin: true,
         };
+        let result = Validate({...updateObject});
+        setErrors(result);
+        /*console.log("result error " + result.classes);
+        console.log("result error " + result.major);*/
+        if(!result.pass) return;
         axios
             .put(`http://localhost:5000/user/email/update`, updateObject)
             .then(res => {
@@ -97,6 +114,7 @@ const Home = () => {
     };
 
     const onDelete = () => {
+        if(!checkLogin) return;
         setIsOpenTrue(true);
         setIsOpenFalse(false);
         setMessage("Are you sure?");
@@ -146,6 +164,8 @@ const Home = () => {
                         inputProps={{ style: { color: "black" } }}
                         onChange={(e) => setName(e.target.value)} 
                         defaultValue={userinformation.name}
+                        error={!!errors.name}
+                        helperText={errors.name ? errors.name : ""}
                     />
                     <br/>
                     <InputField 
@@ -161,7 +181,8 @@ const Home = () => {
                         multiline={true}
                         defaultValue={userinformation.about}
                         inputProps={{ style:{color: 'black', height: '80px'} }}
-                        
+                        error={!!errors.about}
+                        helperText={errors.about ? errors.about : ""}
                         onChange={(e) => setAboutyou(e.target.value)}  
                     />
                     <br/>
@@ -190,6 +211,8 @@ const Home = () => {
                         inputProps={{ style: { color: "black" } }}
                         onChange={(e) => setMajor(e.target.value)}  
                         defaultValue={userinformation.major}
+                        error={!!errors.major}
+                        helperText={errors.major ? errors.major : ""}
                     />
                     <br/>
                     <InputField
@@ -204,6 +227,8 @@ const Home = () => {
                         inputProps={{ style: { color: "black" } }}
                         defaultValue={userinformation.year}
                         onChange={(e) => setYear(e.target.value)}
+                        error={!!errors.year}
+                        helperText={errors.year ? errors.year : ""}
                     />
                     <br/>
                     <InputField
@@ -218,6 +243,8 @@ const Home = () => {
                         inputProps={{ style: { color: "black" } }}
                         onChange={(e) => setBirthday(e.target.value)}
                         defaultValue={userinformation.birthday}
+                        error={!!errors.birthday}
+                        helperText={errors.birthday ? errors.birthday : ""}
                     />
                     <br/>
                     <InputField
@@ -233,6 +260,8 @@ const Home = () => {
                         inputProps={{ style: { color: "black" } }}
                         onChange={(e) => setClasses(e.target.value)}
                         defaultValue={userinformation.classes}
+                        error={!!errors.classes}
+                        helperText={errors.classes ? errors.classes : ""}
                     />
                     <br/>
                     <div className={classes.parentButton}>

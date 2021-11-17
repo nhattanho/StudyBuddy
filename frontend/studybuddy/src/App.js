@@ -2,13 +2,13 @@
 /* This is a driven for Application
 * @author NhatHo
 /* =======================================================================*/
-
 import React from "react"
 import {Route} from "react-router-dom"
 
 /* Import redux*/
-import store from "./redux/redux.js"
+import {store, persistor} from "./redux/redux.js"
 import {Provider} from "react-redux"
+import { PersistGate } from 'redux-persist/integration/react'
 
 /* Adding pages/components */
 import Landing from "./pages/landing/landing.js";
@@ -25,16 +25,18 @@ import './App.css';
 function App() {
   return (
     <Provider store={store}>
-      <div className="App">
-        <Header />
-        <Route exact path="/" component={Landing} />
-        <Route exact path="/requestpopup" component={RequestPopupPage} />
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/home" component={Home} />
-        <Route exact path="/sendingRequest" component={SendingRequest} />
-        <Route exact path="/buddies" component={Buddies} />
-        <Route exact path="/resetpassword" component={ResetPassword} />
-      </div>
+      <PersistGate loading={null} persistor={persistor}>
+        <div className="App">
+          <Header />
+          <Route exact path="/" component={Landing} />
+          <Route exact path="/requestpopup" component={RequestPopupPage} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/home" component={Home} />
+          <Route exact path="/sendingRequest" component={SendingRequest} />
+          <Route exact path="/buddies" component={Buddies} />
+          <Route exact path="/resetpassword" component={ResetPassword} />
+        </div>
+      </PersistGate>
     </Provider>
   );
 }
