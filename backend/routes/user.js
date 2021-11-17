@@ -88,6 +88,8 @@ async function checkPass(user, password) {
 router.get("/login", (req, res) => {
   const { email, password } = req.query;
 
+  /*console.log(email);*/
+
   if (email.length > 0 && password.length > 0) {
     /*find user with given email in the database*/
     User.findOne({ email: email }, async (err, user) => {
@@ -136,5 +138,30 @@ router.get("/:email/information", async (req, res) => {
         message: `User does not exist for ${email}`,
       });
     }
+  });
+});
+
+/*======================================PUT method===================================*/
+/*http://localhost:5000/user/email/update*/
+router.put("/email/update", (req, res) => {
+  let updateObject = req.body;
+  /*console.log("updateObject: " + updateObject.email);*/
+  User.findOneAndUpdate({ email: req.body.email }, updateObject, {
+    new: true,
+  })
+  .exec()
+  .then((data) => {
+    console.log("Updated data", data);
+    res.send({
+      success: true,
+      message: "Information updated",
+    });
+  })
+  .catch((err) => {
+    console.log("update fail in backend log");
+    res.send({
+      success: false,
+      message: "Update failed",
+    });
   });
 });

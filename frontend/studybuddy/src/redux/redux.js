@@ -10,7 +10,7 @@ const initialState = {
     checkLogin: false,
     name: "",
     email: "",
-    aboutYou: "",
+    about: "",
     major: "",
     year: "",
     birthday: "",
@@ -83,7 +83,7 @@ function userReducer(state = initialState, action) {
         case STORE_USER_INFORMATION:
             const {
                 name,
-                aboutYou,
+                about,
                 email,
                 major,
                 year,
@@ -94,7 +94,7 @@ function userReducer(state = initialState, action) {
             return {
                 ...state,
                 name: name,
-                aboutYou: aboutYou,
+                about: about,
                 email: email,
                 major: major,
                 checkLogin: checkLogin,

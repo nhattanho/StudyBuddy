@@ -18,17 +18,18 @@ import { storeCheckLogin, storeInformation} from "../../redux/redux";
 const Home = () => {
     /* Use Redux */
     const userinformation = useSelector((state) => state);
+    const email = userinformation.email;
     const dispatch = useDispatch();
 
     /* Use React Hook*/
     const classes = useStyles();
-    const [name, setName] = React.useState("");
-    const [aboutYou, setAboutyou] = React.useState("");
-    const [major, setMajor] = React.useState("");
-    const [year, setYear] = React.useState("");
-    const [birthday, setBirthday] = React.useState("");
-    const [userClasses, setClasses] = React.useState("");
-    const [errors, setErrors] = React.useState({});
+    let [name, setName] = React.useState("");
+    let [about, setAboutyou] = React.useState("");
+    let [major, setMajor] = React.useState("");
+    let [year, setYear] = React.useState("");
+    let [birthday, setBirthday] = React.useState("");
+    let [userClasses, setClasses] = React.useState("");
+    let [errors, setErrors] = React.useState({});
     /* =======================================================================*/
     const [modalIsOpenTrue, setIsOpenTrue] = React.useState(false);
     const [modalIsOpenFalse, setIsOpenFalse] = React.useState(false);
@@ -37,6 +38,9 @@ const Home = () => {
     var subtitle;
     function closeModalTrue() {
         setIsOpenTrue(false);
+    }
+    function afterOpenModalTrue() {
+        subtitle.style.color = "blue";
     }
     /* Use for modal false */
     function afterOpenModal() {
@@ -52,20 +56,25 @@ const Home = () => {
     * @return {object} - result which was sent back from backend side
     */
     const onUpdate = () => {
-        console.log(userinformation.aboutYou);
+        if (name === "") name = userinformation.name;
+        if (about === "") about = userinformation.about;
+        if (birthday === "") birthday = userinformation.birthday;
+        if (year === "") year = userinformation.year;
+        if (major === "") major = userinformation.major;
+        if (userClasses === "") userClasses = userinformation.classes;
         const updateObject = {
             name: name,
-            email: userinformation.email,
-            aboutYou: aboutYou,
+            email: email,
+            about: about,
             major: major,
             year: year,
             birthday: birthday,
             classes: userClasses,
-            checkLogin: userinformation.checkLogin,
+            checkLogin: true,
         };
 
         axios
-            .post("http://localhost:5000/user/update", updateObject) 
+            .put(`http://localhost:5000/user/email/update`, updateObject)
             .then(res => {
                 if (res.data.success) {
                     setIsOpenTrue(true);
@@ -121,7 +130,7 @@ const Home = () => {
                         fullWidth={true}
                         required={true}
                         inputProps={{ style: { color: "black" } }}
-                        onChange={(e) => setName(e.target.value)}  
+                        onChange={(e) => setName(e.target.value)} 
                         defaultValue={userinformation.name}
                     />
                     <br/>
@@ -136,7 +145,7 @@ const Home = () => {
                         fullWidth={true}
                         required={true}                        
                         multiline={true}
-                        defaultValue={userinformation.aboutYou}
+                        defaultValue={userinformation.about}
                         inputProps={{ style:{color: 'black', height: '80px'} }}
                         
                         onChange={(e) => setAboutyou(e.target.value)}  
@@ -226,6 +235,43 @@ const Home = () => {
                     </div>
                 </Box>
             </Grid>
+            <Modal
+                isOpen={modalIsOpenTrue}
+                ariaHideApp={false}
+                onAfterOpen={afterOpenModalTrue}
+                onRequestClose={closeModalTrue}
+                style={customStyles}
+                contentLabel="Modal for succesfully login"
+            >
+                <h2 ref={(_subtitle) => (subtitle = _subtitle)}>{message}</h2>
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "center",
+                    }}
+                >
+                </div>
+            </Modal>
+
+            <Modal
+                isOpen={modalIsOpenFalse}
+                onAfterOpen={afterOpenModal}
+                onRequestClose={closeModal}
+                ariaHideApp={false}
+                style={customStyles}
+                contentLabel="Example Modal"
+            >
+                <h2 ref={(_subtitle) => (subtitle = _subtitle)}>{message}</h2>
+                <div
+                style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                }}
+                >
+                </div>
+            </Modal>
         </Box>
     );
 };

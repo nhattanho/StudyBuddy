@@ -2,7 +2,7 @@ import React from "react";
 
 /* Import Redux */
 import { useDispatch, useSelector } from "react-redux";
-import { storeCheckLogin } from "../../redux/redux";
+import { storeCheckLogin, storeInformation } from "../../redux/redux";
 /* Material UI */
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -39,6 +39,7 @@ export default function Header() {
 
   /* Use Redux */
     const checkLogin = useSelector((state) => state.checkLogin);
+    const userinformation = useSelector((state) => state);
     const dispatch = useDispatch();
 
 
@@ -69,15 +70,27 @@ export default function Header() {
                             </IconButton>
                         </Link>
 
+                        <Link to="/home" style={{ textDecoration: "none" }}>
+                            <Button variant="contained" color="primary">
+                                Home
+                            </Button>
+                        </Link>
+            
+                        <Link to="/findBuddy" style={{ textDecoration: "none" }}>
+                            <Button variant="contained" color="primary">
+                                FindBuddy
+                            </Button>
+                        </Link>
+
                         <Link to="/Pending" style={{ textDecoration: "none" }}>
                             <Button variant="contained" color="primary">
                                 Pending
                             </Button>
                         </Link>
-
-                        <Link to="/findBuddy" style={{ textDecoration: "none" }}>
+                        
+                        <Link to="/sendingRequest" style={{ textDecoration: "none" }}>
                             <Button variant="contained" color="primary">
-                                FindBuddy
+                                Sending Request
                             </Button>
                         </Link>
 
@@ -90,7 +103,7 @@ export default function Header() {
                                 color="inherit"
                             >
                                 <Typography variant="h6" color="primary">
-                                "Nhat Ho"
+                                    {userinformation.name}
                                 </Typography>
                             </IconButton>
                         </Link>
@@ -138,16 +151,6 @@ export default function Header() {
                         <Link to="/register" style={{ textDecoration: "none" }}>
                             <Button variant="contained" color="primary">
                                 Register
-                            </Button>
-                        </Link>
-                        <Link to="/home" style={{ textDecoration: "none" }}>
-                            <Button variant="contained" color="primary">
-                                Home
-                            </Button>
-                        </Link>
-                        <Link to="/sendingRequest" style={{ textDecoration: "none" }}>
-                            <Button variant="contained" color="primary">
-                                Sending Request
                             </Button>
                         </Link>
                     </Toolbar>

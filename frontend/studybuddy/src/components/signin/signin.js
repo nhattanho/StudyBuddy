@@ -31,7 +31,6 @@ const Signin = (props) => {
   const [message, setMessage] = React.useState("");
   const [password, setPass] = React.useState("");
   /*Will store information of current user after discussing about the userModel table*/
-  const [information, setInformation] = React.useState("");
   const [errors, setErrors] = React.useState({});
   const history = useHistory();
   /****************************************************************/
@@ -51,7 +50,7 @@ const Signin = (props) => {
   * @return {object} - user's information which was sent back from backend side
   */
   const onSubmit = (props) => {
-    console.log(password);
+    /*console.log(password);*/
     const loginObject = {
       email: email,
       password: password,
@@ -60,7 +59,7 @@ const Signin = (props) => {
     console.log(result);
     setErrors(result);
     if(!result.pass) return;
-
+    /*console.log("email " + email);*/
     axios
       .get("http://localhost:5000/user/login", {
         params: {
@@ -83,12 +82,15 @@ const Signin = (props) => {
                 if (res.data.success) {
                   setIsOpenFalse(false);
                   setMessage(res.data.message);
-                  setInformation(res.data.user);
+                  console.log(res.data.user.birthday);
+                  res.data.user.birthday = res.data.user.birthday.split("T")[0];
+                  console.log(res.data.user.birthday);
                   dispatch(storeInformation(res.data.user));
                   props.push('/home');
                 } else {
                   setIsOpenFalse(true);
                   setMessage(res.data.message);
+                  props.push('/');
                 }
               })
               .catch((err) => {
@@ -119,6 +121,7 @@ const Signin = (props) => {
           onChange={(e) => setEmail(e.target.value)}
           error={!!errors.email}
           helperText={errors.email ? errors.email : ""}
+          defaultValue={email}
         />
         <InputField
           className={classes.input}
@@ -135,6 +138,7 @@ const Signin = (props) => {
           onChange={(e) => setPass(e.target.value)}
           error={!!errors.password}
           helperText={errors.password ? errors.password : ""}
+          defaultValue={password}
         />
         <div className={classes.button}>
           <Button variant="contained" color="primary" onClick={() => onSubmit(history)}>
@@ -169,7 +173,7 @@ const Signin = (props) => {
               Register
             </Button>
           </Link>
-          <Link style={{ textDecoration: "none" }}>
+          <Link to="/" style={{ textDecoration: "none" }}>
             <Button
               variant="contained"
               color="primary"
