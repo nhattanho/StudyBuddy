@@ -154,6 +154,12 @@ const Signin = (props) => {
         </Link>
       </div>
 
+      <div className={classes.newaccount}>
+        <Link to="/resetpassword" variant="body2">
+          {"Forgot Password? Reset"}
+        </Link>
+      </div>
+
       <Modal
         isOpen={modalIsOpenFalse}
         onAfterOpen={afterOpenModal}

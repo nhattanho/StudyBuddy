@@ -47,11 +47,13 @@ const Validate = (props) => {
         } else temp.email = Errors.invalid.email;
     } else temp.email = Errors.empty.email;
 
-    if (props.password) {
-        if (props.password.length >= 8) {
-            temp.password = "";
-        } else temp.password = Errors.invalid.password.length;
-    } else temp.password = Errors.empty.password;
+    if(props.password !== undefined){
+        if (props.password) {
+            if (props.password.length >= 8) {
+                temp.password = "";
+            } else temp.password = Errors.invalid.password.length;
+        } else temp.password = Errors.empty.password;
+    }
 
     if(props.firstName !== undefined)
         temp.firstName = props.firstName ? "" : Errors.empty.firstname;

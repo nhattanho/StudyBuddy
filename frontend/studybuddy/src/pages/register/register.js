@@ -60,13 +60,11 @@ const Register = () => {
         axios
             .post("http://localhost:5000/user/register", registerObject) 
             .then(res => {
-                // if user's profile is set up
                 if (res.data.success) {
                     setIsOpenTrue(true);
                     setIsOpenFalse(false);
                     setMessage(res.data.message);
                 } else {
-                // user's profile isn't set up
                 console.log("user profile is not set up");
                 setIsOpenFalse(true);
                 setIsOpenTrue(false);

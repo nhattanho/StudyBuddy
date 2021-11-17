@@ -18,6 +18,7 @@ import Home from "./pages/home/home.js";
 import Header from "../src/components/header/header.js";
 import SendingRequest from "./pages/sendingRequest/sendingRequest.js";
 import Buddies from "./pages/buddies/buddies.js";
+import ResetPassword from "./pages/resetPassword/reset";
 
 import './App.css';
 
@@ -32,6 +33,7 @@ function App() {
         <Route exact path="/home" component={Home} />
         <Route exact path="/sendingRequest" component={SendingRequest} />
         <Route exact path="/buddies" component={Buddies} />
+        <Route exact path="/resetpassword" component={ResetPassword} />
       </div>
     </Provider>
   );

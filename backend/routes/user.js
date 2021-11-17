@@ -7,6 +7,8 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../model/usersModel");
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 
 //for hashing passwords
 const bcrypt = require("bcryptjs");
@@ -74,7 +76,37 @@ router.post("/register", (req, res) => {
     });
 });
 
-module.exports = router;
+/*======================================POST method to reset password===================================*/
+/* Register a user for requesting http://localhost:5000/user/register */
+router.post("/resetPassword", (req, res) => {
+  const {email} = req.body;
+  User.findOne({
+    where: { email: email }
+  })
+  .exec()
+  .then((user) => {
+    if(user === null){
+      console.log('email not in DB');
+      res.send({ success: false, message: "Email does not exist!" });
+    } 
+    else {
+      const token = crypto.randomBytes(20).toString('hex');
+      console.log("test token " + token);
+      user.update({
+        resetPasswordToken: token,
+        resetPasswordExpires: Date.now() + 360000, //expire in 1 hour
+      });
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: `${process.env.EMAIL_ADDRESS}`,//will update later for env
+          pass: `${process.env.EMAIL_PASSWORD}`,
+        },
+      });
+    }
+  });
+});
+
 
 /*======================================GET method for login===================================*/
 async function checkPass(user, password) {
@@ -184,7 +216,6 @@ router.delete("/delete/:email", async (req, res) => {
         message: "Deleted Successfully!",
         action: "deleted",
       });
-      //res.redirect("/portfolio");
     } else {
       res.send({
         success: false,
@@ -193,3 +224,5 @@ router.delete("/delete/:email", async (req, res) => {
     }
   });
 });
+
+module.exports = router;
