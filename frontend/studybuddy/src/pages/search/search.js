@@ -37,69 +37,34 @@ export default function Search() {
     const SEARCH_ENDPOINT = process.env.REACT_APP_SEARCH_ENDPOINT;
     const MAJOR_ENDPOINT = process.env.REACT_APP_MAJOR_ENDPOINT;
     const CLASSES_ENDPOINT = process.env.REACT_APP_CLASSES_ENDPOINT;
+    let page = 0;
     const DEFAULT_DISPLAY_COUNT = 5;
-    const filters = [];
+    const filters = {
+        year: [],
+        classes: [],
+        major: [],
+    };
     const [majorDisplayCount, changeMajorDisplayCount] = useState(DEFAULT_DISPLAY_COUNT);
     const [classesDisplayCount, changeClassesDisplayCount] = useState(DEFAULT_DISPLAY_COUNT);
     let [majors, addMajors] = useState([]);
     let [nClasses, addClasses] = useState([]);
     let [userResults, addUserResults] = useState([]);
 
-    const respMajors = [
-        "Chemistry",
-        "MBA",
-        "Geology",
-        "Mechanical Engineer",
-        "Mathematics",
-        "J.D",
-        "Economics"
-    ]
-
-    const respClasses = [
-        "CS30",
-        "CS31",
-        "CS32",
-        "CS33",
-        "CS35L",
-        "CSM51A",
-        "CS97",
-        "CS99",
-        "CS111",
-        "CS112",
-        "CS117",
-        "CS118",
-        "CSM119",
-        "CSCM121",
-        "CSCM122",
-        "CSCM124",
-        "CS130",
-        "CS131",
-        "CS132",
-        "CS133",
-        "CS134",
-        "CS136",
-        "CSC137A",
-        "CSC137B",
-        "CS143",
-        "CS144",
-        "CS145",
-        "M146",
-        "M148",
-        "M151B",
-        "M152A",
-        "CS152B",
-        "CS161",
-        "CS168"
+    const years = [
+        "Freshman",
+        "Sophomore",
+        "Junior",
+        "Senior",
+        "Graduate",
+        "Ph.D"
     ]
 
     function getMajors(){
         const destination = MAJOR_ENDPOINT;
-        // addMajors(respMajors);
         axios.get(
             destination,
             {}).then((resp) => {
-                console.log(resp)
-                addMajors(resp.body.data)
+                addMajors(resp.data)
         }).catch((err) => {
             throw err;
         })
@@ -107,12 +72,11 @@ export default function Search() {
 
     function getClasses(){
         const destination = CLASSES_ENDPOINT;
-        // addClasses(respClasses);
         axios.get(
             destination,
-            {}
+            {skipC: page}
         ).then((resp) => {
-            addClasses(respClasses);
+            addClasses(resp.data)
         }).catch((err) => {
             throw err
         });
@@ -121,25 +85,82 @@ export default function Search() {
     useEffect(() => {
         getMajors();
         getClasses();
-        console.log("Called");
     },[]);
 
-    const userResultParam = {
-        name: "Walter White",
-        username: "Hiesenberg",
-        major: "Chemistry",
-        classes: ["CS199"],
-        profileURL: "https://static.wikia.nocookie.net/breakingbad/images/e/e7/BB-S5B-Walt-590.jpg"
+    function onChangeMajorControlLabel(event, id){
+        if (event.target.checked){
+            filters.major.push(id)
+        } else {
+            let idx = filters.major.indexOf(id);
+            if (idx != -1)
+                filters.major.splice(idx);
+        }
+        requestSearch();
     }
 
-    function queryParams(){
+    function onChangeClassesControlLabel(event, id){
+        if (event.target.checked){
+            filters.classes.push(id)
+        } else {
+            let idx = filters.classes.indexOf(id);
+            if (idx != -1)
+                filters.classes.splice(idx);
+        }
+        requestSearch();
+    }
 
+    function onChangeYearControlLabel(event){
+        if (event.target.checked){
+            filters.year.push(event.target.value)
+        } else {
+            let idx = filters.year.indexOf(event.target.value)
+            if (idx != -1)
+                filters.year.splice(idx)
+        }
+        requestSearch();
+    }
+
+    function requestSearch(){
+        const destination = SEARCH_ENDPOINT;
+        axios.get(destination, filters).then((resp) => {
+            addUserResults(resp.data)
+        }).catch((err) => {
+            throw err
+        });
+    }
+
+    function yearsComponent() {
+        return (
+            <FormGroup id="yearGroup">
+                {years.map((item, id) => {
+                    return (
+                        <FormControlLabel
+                            id="year"
+                            key={id}
+                            value={item}
+                            control={<Checkbox />}
+                            label={item}
+                            onChange={onChangeYearControlLabel}/>
+                    );
+                })}
+            </FormGroup>
+        )
     }
 
     function majorsComponent(){
         return (
-            <FormGroup>
-                {majors.slice(0,majorDisplayCount).map((item, id) => <FormControlLabel key={id} value={item} control={<Checkbox />} label={item} />)}
+            <FormGroup id="majorGroup">
+                {majors.slice(0,majorDisplayCount).map((item, id) => {
+                    return (
+                    <FormControlLabel
+                        id="major"
+                        key={id}
+                        value={item.name}
+                        control={<Checkbox />}
+                        label={item.name}
+                        onChange={(event) => {onChangeMajorControlLabel(event, item.id)}} />
+                    );
+                })}
             </FormGroup>
         );
     }
@@ -150,10 +171,16 @@ export default function Search() {
 
     function classesComponent(){
         return (
-            <FormGroup>
+            <FormGroup id="classesGroup">
                 {nClasses.slice(0, classesDisplayCount).map((item, id) => {
                     return (
-                        <FormControlLabel key={id} value={item} control={<Checkbox />} label={item} />
+                        <FormControlLabel
+                            id="classes"
+                            key={id}
+                            value={item.name}
+                            control={<Checkbox />}
+                            label={item.name}
+                            onChange={(event) => {onChangeClassesControlLabel(event, item.id)}} />
                     );
                 })}
             </FormGroup>
@@ -161,6 +188,13 @@ export default function Search() {
     }
 
     function onMoreClassesClick(event){
+        page+=1
+        const destination = CLASSES_ENDPOINT;
+        axios.get(destination, {skipC: page}).then((resp) => {
+            addClasses(nClasses.concat(resp.data))
+        }).catch((err) => {
+            throw err
+        });
         changeClassesDisplayCount(classesDisplayCount + DEFAULT_DISPLAY_COUNT);
     }
 
@@ -170,28 +204,21 @@ export default function Search() {
             <div id="filterBar" className={classes.filterBarStyle}>
                 <List style={{display: "flex", flexDirection: "column", height: '100%'}}>
                     <Typography>Year</Typography>
-                    <FormGroup>
-                        <FormControlLabel value="Freshman" control={<Checkbox />} label="Freshman" />
-                        <FormControlLabel value="Sophomore" control={<Checkbox />} label="Sophomore" />
-                        <FormControlLabel value="Junior" control={<Checkbox />} label="Junior" />
-                        <FormControlLabel value="Senior" control={<Checkbox />} label="Senior" />
-                        <FormControlLabel value="Graduate" control={<Checkbox />} label="Graduate" />
-                        <FormControlLabel value="Ph.D" control={<Checkbox />} label="Ph.D" />
-                    </FormGroup>
+                    {yearsComponent()}
                     <Typography>Majors</Typography>
                     {majorsComponent()}
-                    <Button variant="text" size="small" onClick={onMoreMajorsClick}>More</Button>
+                    <Button id="moreMajorsButton" variant="text" size="small" onClick={onMoreMajorsClick}>More</Button>
                     <Typography>Classes</Typography>
                     <FormGroup>
                         {classesComponent()}
                     </FormGroup>
-                    <Button variant="text" size="small" onClick={onMoreClassesClick}>More</Button>
+                    <Button id="moreClassesButton" variant="text" size="small" onClick={onMoreClassesClick}>More</Button>
                 </List>
             </div>
             <div id="results" style={{display: "flex", flexDirection: "column", flex: "1 0 75%"}}>
                 {userResults.map((item, id) => {
                     return (
-                        <UserResult key={id} params={item} />
+                        <UserResult id="userResult" key={id} params={item} />
                     );
                 })}
             </div>
