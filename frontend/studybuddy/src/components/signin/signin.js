@@ -51,6 +51,7 @@ const Signin = (props) => {
   * @return {object} - user's information which was sent back from backend side
   */
   const onSubmit = (props) => {
+    console.log(password);
     const loginObject = {
       email: email,
       password: password,
