@@ -13,6 +13,12 @@ const DB = {
         },
         BuddyRequest: {
             name: "BuddyRequest"
+        },
+        Class: {
+            name: "Class"
+        },
+        Major: {
+            name: "Major"
         }
     }
 }

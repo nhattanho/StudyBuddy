@@ -6,6 +6,11 @@
 const usersModel = require("../model/usersModel");
 const buddyRequestsModel = require("../model/buddyRequestsModel");
 const testUsers = require("./testUserData");
+const classes = require("../model/classes");
+const classModel = require("../model/classModel");
+const majorModel = require("../model/majorModel");
+let majors = require("../model/majors");
+majors = Object.values(majors);
 let testBuddyRequests = require("./testBuddyRequestsData");
 testBuddyRequests = Object.values(testBuddyRequests)
 
@@ -18,6 +23,8 @@ testBuddyRequests = Object.values(testBuddyRequests)
 function initializeDB() {
     return [
         usersModel.insertMany(testUsers),
+        classModel.insertMany(classes),
+        majorModel.insertMany(majors),
         buddyRequestsModel.insertMany(testBuddyRequests)
     ];
 }
@@ -31,6 +38,8 @@ function initializeDB() {
 function clearDB() {
     return [
         usersModel.deleteMany({}),
+        classModel.deleteMany({}),
+        majorModel.deleteMany({}),
         buddyRequestsModel.deleteMany({})
     ];
 }
