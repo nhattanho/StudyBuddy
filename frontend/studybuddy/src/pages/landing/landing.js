@@ -11,7 +11,7 @@ import { Button } from "@material-ui/core";
 /* Adding components */
 import Image from "./images/ucla.jpeg";
 import Signin from "../../components/signin/signin.js";
-import { storeCheckLogin } from "../../redux/redux";
+import { storeCheckLogin, storeInformation } from "../../redux/redux";
 
 /* Adding Material UI styles */
 var styles = {
@@ -58,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Landing = (props) => {
   const checkLogin = useSelector((state) => state.checkLogin);
+  const name = useSelector((state) => state.name);
   const dispatch = useDispatch();
 
   const setLogout = () => {
@@ -81,7 +82,7 @@ const Landing = (props) => {
         <div className={classes.signin}>
           {checkLogin ? (
             <h> 
-              Hey Nhat Ho, do you want to sign out?
+              Hey {name}, do you want to sign out?
               <div>
                 <Button
                   variant="contained"
