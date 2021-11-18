@@ -30,10 +30,15 @@ router.post("/create", (req, res) => {
     buddyRequest
     .save()
     .then((res) => {
-        console.log("successfully created!");
+      res.send({
+        success: true
+      });
     })
     .catch((err) => {
-        console.log("can not save new buddyrequest: ", err);
+      res.send({
+        success: true,
+        error: err,
+      });
     });
     console.log("hello!")
 });
@@ -44,10 +49,14 @@ router.delete("/delete/:id", async (req, res) => {
     BuddyRequestModel.findOneAndRemove({ _id: id }, (err, buddyrequest) => {
       console.log(buddyrequest);
       if (err) {
-        console.log(err)
+        res.send({
+          success: false
+        });
       }
       if (buddyrequest) {
-        console.log("deleted successfully")
+        res.send({
+          success: true
+        });
       } else {
         console.log("failed to delete")
       }
@@ -64,10 +73,15 @@ router.post("/accept", (req, res) => {
     })
     .exec()
     .then((data) => {
-        console.log("Accepted BuddyRequest", data);
+        res.send({
+          success: true
+        });
     })
     .catch((err) => {
-        console.log("update fail in backend log");
+        res.send({
+          success: false,
+          error: err
+        });
     });
 });
 
@@ -76,27 +90,22 @@ router.get("/:id/sent", async (req, res) => {
     const { id } = req.params;
 
     BuddyRequestModel.find({ sender: id }, async (err, buddyrequests) => {
-      console.log("buddyrequests", buddyrequests);
-      if (buddyrequests.length != 0) {
-        console.log("Wooo found some buddyrequests!");
-      } else {
-        console.log("No buddyrequests to display!");
-      }
+        res.send({
+          success: true,
+          buddyrequests: buddyrequests,
+        });
     });
 });
 
 //Get all requests received by user with given id
 router.get("/:id/received", async (req, res) => {
     const { id } = req.params;
-
     BuddyRequestModel.find({ receiver: id }, async (err, buddyrequests) => {
-      console.log("buddyrequests", buddyrequests);
-      if (buddyrequests.length != 0) {
-        console.log("Wooo found some buddyrequests!")
-      } else {
-        console.log("No buddyrequests to display!");
-      }
-    });
+      res.send({
+        success: true,
+        buddyrequests: buddyrequests,
+        });}
+    );
 });
 
 
