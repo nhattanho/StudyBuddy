@@ -1,4 +1,4 @@
-const express = require("express");
+    const express = require("express");
 const router = express.Router();
 const usersModel = require("../model/usersModel");
 
@@ -12,9 +12,6 @@ const usersModel = require("../model/usersModel");
 function getUsersFilter(queries) {
     let filter = {};
     for(let qParam in queries){
-        // if (qParam == "classes")
-        //     filter["classes"] = {$in: queries[qParam]}
-        // else
         filter[qParam] = {$in: queries[qParam]}
     }
     return filter
