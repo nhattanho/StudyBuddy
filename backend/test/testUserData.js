@@ -20,7 +20,7 @@ let walter = {
     classes: [classes.CS199.id],
     zoomid: "@Hiesenberg",
     email: "Hiesenberg@gmail.com",
-    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/e/e7/BB-S5B-Walt-590.jpg/revision/latest/scale-to-width-down/540?cb=20130928055404"
+    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/e/e7/BB-S5B-Walt-590.jpg"
 }
 
 let jesse = {
@@ -35,7 +35,7 @@ let jesse = {
     classes: [classes.CS31.id, classes.CS32.id],
     zoomid: "@YeahScience!",
     email: "YeahScience@gmail.com",
-    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/0/0c/JesseS5B.jpg/revision/latest/scale-to-width-down/446?cb=20130804210124"
+    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/0/0c/JesseS5B.jpg"
 }
 
 let gus = {
@@ -50,7 +50,7 @@ let gus = {
     classes: [classes.CS188.id],
     zoomid: "@LosPollosHermano",
     email: "LosPollosHermano@gmail.com",
-    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/b/be/Season_4_-_Gus.jpg/revision/latest/scale-to-width-down/1000?cb=20200608213000"
+    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/b/be/Season_4_-_Gus.jpg"
 }
 
 
@@ -66,7 +66,7 @@ let hank = {
     classes: [classes.CS32.id],
     zoomid: "@RoboCop",
     email: "RoboCop@gmail.com",
-    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/7/7b/Hank_S5b.jpg/revision/latest/scale-to-width-down/750?cb=20130717044210"
+    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/7/7b/Hank_S5b.jpg"
 }
 
 let mike = {
@@ -80,7 +80,7 @@ let mike = {
     classes: [classes.CS180.id],
     zoomid: "@HitMan",
     email: "HitMan@gmail.com",
-    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/8/8b/MikeS5.jpg/revision/latest/scale-to-width-down/750?cb=20120620015454"
+    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/8/8b/MikeS5.jpg"
 }
 
 
@@ -95,7 +95,7 @@ let todd = {
     classes: [classes.CS194.id, classes.CSM192A.id],
     zoomid: "@TriggerHappy",
     email: "TriggerHappy@gmail.com",
-    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/f/f5/Todd_S5b.jpg/revision/latest/scale-to-width-down/750?cb=20130717044419"
+    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/f/f5/Todd_S5b.jpg"
 }
 
 let saul = {
@@ -110,7 +110,7 @@ let saul = {
     classes: [classes.CS181.id],
     zoomid: "@BetterCallSaul",
     email: "BetterCallSaul@gmail.com",
-    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/a/a4/Saul_S5b.jpg/revision/latest/scale-to-width-down/750?cb=20130717044437"
+    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/a/a4/Saul_S5b.jpg"
 }
 
 let skyler = {
@@ -124,7 +124,7 @@ let skyler = {
     classes: [classes.CS152B.id],
     zoomid: "@SWhite",
     email: "SWhite@gmail.com",
-    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/3/33/Skyler_S5b.jpg/revision/latest/scale-to-width-down/750?cb=20130717044318"
+    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/3/33/Skyler_S5b.jpg"
 }
 
 walter["pastbuddies"] = [
