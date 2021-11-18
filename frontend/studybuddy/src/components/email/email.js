@@ -1,38 +1,39 @@
 /**
- * Creates an email from "studybuddy.com"
- * Note: mandrill has a 2000 email limit per account, so don't run this excessively
+ * Creates an email from the studybuddy gmail
+ * Note: gmail has a 500 email limit per day, and these tend to be marked as spam
  * @author Chanel Young
  * @param {string} message - email content
  * @param {string} subject - email subject line
  * @param {string} recipient - email of recipient
  * @return {boolean} - result of sending email
  */
-function create_email(message, subject, recipient){
-    console.log("aslfdkjsdf");
+
+async function create_email(message, subject, recipient) {
     const nodemailer = require("nodemailer");
-    const mandrillTransport = require('nodemailer-mandrill-transport');
+    let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    secure: false, //we love security here at StudyBuddy
+    auth: {
+        user: 'studybuddycs130@gmail.com',
+        pass: 'StudyBuddy123', 
+    },
+    });
 
-    var smtpTransport = nodemailer.createTransport(mandrillTransport({
-        auth: {
-        apiKey : 'b24ddf35fb67f9e79283ead105c54086-us20'
-        }
-    }));
-
-    let mailData={
-    from : 'studybuddy@studybuddy.com',
-    to : recipient,
-    subject : subject,
-    html : message
+    const mailOptions = {
+        from: '"StudyBuddy 📚 " <studybuddycs130@gmail.com>', 
+        to: recipient, 
+        subject: subject, 
+        text: message, 
     };
 
-    smtpTransport.sendMail(mailData, function(error, response){
-    if(error) {
-        console.log(error);
-        console.log("Error in sending email");
-        return false; 
-    }
-    console.log("Message sent: " + JSON.stringify(response));
-    return true; 
+    let info = await transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+            return false; 
+        } else {
+            console.log('Email sent: ' + info.response);
+            return true; 
+        }
     });
 }
 
@@ -44,14 +45,13 @@ function create_email(message, subject, recipient){
  * @param {string} recipient2 - email of recipient 2
  * @return {boolean} - result of sending email
  */
+async function create_accept_request_email(zoomlink, recipient1, recipient2) {
+    let message = "Thank you for scheduling your study session with StudyBuddy, here's your link: " + zoomlink;
+    let subject = "Your StudyBuddy zoom link";  
+    create_email(message, subject, recipient1);
+    create_email(message, subject, recipient2);
+}
 
-/**
- * New account email
- * @author Chanel Young
- * @param {string} message - email content
- * @param {string} subject - email subject line
- * @param {string} recipient - email of recipient
- * @return {boolean} - result of sending email
- */
+//console.log(create_email("hello there", "this is a subject","chanelyoung99@gmail.com"))
+//console.log(create_accept_request_email("google.com", "chanelyoung99@gmail.com", "chanelyoung99@gmail.com"))
 
- console.log(create_email("hello there", "this is a subject","chanelyoung99@gmail.com"))
