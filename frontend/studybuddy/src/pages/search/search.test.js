@@ -11,6 +11,33 @@ require("regenerator-runtime/runtime");
 configure({adapter: new Adapter()});
 
 jest.mock("axios");
+jest.mock("react-redux", () => {
+    return {
+        useDispatch: jest.fn().mockImplementation((param) => jest.fn()),
+        useSelector: jest.fn().mockImplementation((param) => {
+            return {
+                searchState: {
+                    filters: {
+                        major: [],
+                        classes: [],
+                        year: []
+                    },
+                    page: 0
+                }
+            }
+        })
+    }
+})
+
+
+jest.mock("../../redux/redux", () => {
+    return {
+        storePage: jest.fn()
+    }
+})
+// import { storePage} from "../../redux/redux";
+// storePage = jest.fn();
+
 
 beforeAll(() => {
     process.env.REACT_APP_USER_ENDPOINT = "1ENDPOINT";
@@ -149,14 +176,10 @@ describe("Test for search component", () => {
         let values = classLabels.map((item, id) => {
             return item.find("span").at(2).children().debug();
         })
-        expect(values).toEqual(classes.slice(0,5).map((item, id) => item.name))
+        expect(values).toEqual(classes.slice(0,5).map((item, id) => item.id))
 
         axios.get = jest.fn().mockImplementation((destination, par) => {
-            if (par.skipC == 1){
-                return Promise.resolve({data: classes.slice(5,10)})
-            } else {
-                return Promise.resolve({data: classes.slice(0, 5)})
-            }
+            return Promise.resolve({data: classes.slice(5,10)})
         })
         // Request More
         let moreClassesButton = component.find("#moreClassesButton");
@@ -169,7 +192,7 @@ describe("Test for search component", () => {
         values = classLabels.map((item, id) => {
             return item.find("span").at(2).children().debug();
         })
-        expect(values).toEqual(classes.slice(0,10).map((item, id) => item.name))
+        expect(values).toEqual(classes.slice(0,10).map((item, id) => item.id))
     });
 
     test("User Check a year(Freshman) filter box", async () => {
@@ -188,8 +211,8 @@ describe("Test for search component", () => {
         let yearLabels = component.find("label#year");
         expect(yearLabels.getElements().length).toEqual(6);
         let yearLabel = yearLabels.at(0);
-        axios.get = jest.fn().mockImplementation((destination, filters) => {
-            let years = filters.year
+        axios.get = jest.fn().mockImplementation((destination, methodParams) => {
+            let years = methodParams.params.year
             let resp = []
             for(let i = 0; i < years.length; i++){
                 for(let u = 0; u < fakeTestUsers.length; u++){
@@ -229,8 +252,8 @@ describe("Test for search component", () => {
         });
         let yearLabels = component.find("label#year");
         let yearLabel = yearLabels.at(0);
-        axios.get = jest.fn().mockImplementation((destination, filters) => {
-            let years = filters.year
+        axios.get = jest.fn().mockImplementation((destination, methodParams) => {
+            let years = methodParams.params.year
             let resp = []
             for(let i = 0; i < years.length; i++){
                 for(let u = 0; u < fakeTestUsers.length; u++){
@@ -267,9 +290,9 @@ describe("Test for search component", () => {
         let majorLabels = component.find("label#major")
         let majorLabel = majorLabels.at(0);
 
-        axios.get = jest.fn().mockImplementation((destination, filters) => {
-            let majors = filters.major
-            majors = fakeMajors.filter(item => majors.includes(item.id))
+        axios.get = jest.fn().mockImplementation((destination, methodParams) => {
+            let majors = methodParams.params.major
+            majors = fakeMajors.filter(item => majors.includes(item.name))
             majors = majors.map((item, id) => item.name)
             let resp = []
             for(let i = 0; i < majors.length; i++){
@@ -305,8 +328,8 @@ describe("Test for search component", () => {
 
         let classLabels = component.find("label#classes")
         let classLabel = classLabels.at(0);
-        axios.get = jest.fn().mockImplementation((destination, filters) => {
-            let fClasses = filters.classes
+        axios.get = jest.fn().mockImplementation((destination, methodParams) => {
+            let fClasses = methodParams.params.classes
             fClasses = classes.filter(item => fClasses.includes(item.id))
             fClasses = fClasses.map((item, id) => item.id)
             let resp = []

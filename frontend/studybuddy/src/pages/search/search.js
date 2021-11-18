@@ -9,7 +9,12 @@ import Button from  '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core';
 
 import axios from 'axios';
+
 import UserResult from "../../components/search/userResult";
+import { useDispatch, useSelector } from "react-redux";
+import { storePage} from "../../redux/redux";
+
+
 
 const useStyles = makeStyles((theme) => ({
     pageStyle: {
@@ -37,13 +42,12 @@ export default function Search() {
     const SEARCH_ENDPOINT = process.env.REACT_APP_SEARCH_ENDPOINT;
     const MAJOR_ENDPOINT = process.env.REACT_APP_MAJOR_ENDPOINT;
     const CLASSES_ENDPOINT = process.env.REACT_APP_CLASSES_ENDPOINT;
-    let page = 0;
     const DEFAULT_DISPLAY_COUNT = 5;
-    const filters = {
-        year: [],
-        classes: [],
-        major: [],
-    };
+    /* Use Redux for filters    */
+    const searchState = useSelector((state) => state).searchState;
+    const dispatch = useDispatch();
+    const filters = searchState.filters;
+    let page = searchState.page;
     const [majorDisplayCount, changeMajorDisplayCount] = useState(DEFAULT_DISPLAY_COUNT);
     const [classesDisplayCount, changeClassesDisplayCount] = useState(DEFAULT_DISPLAY_COUNT);
     let [majors, addMajors] = useState([]);
@@ -74,7 +78,7 @@ export default function Search() {
         const destination = CLASSES_ENDPOINT;
         axios.get(
             destination,
-            {skipC: page}
+            {params: {skipC: page}}
         ).then((resp) => {
             addClasses(resp.data)
         }).catch((err) => {
@@ -121,12 +125,18 @@ export default function Search() {
     }
 
     function requestSearch(){
-        const destination = SEARCH_ENDPOINT;
-        axios.get(destination, filters).then((resp) => {
-            addUserResults(resp.data)
-        }).catch((err) => {
-            throw err
-        });
+        const destination = `${SEARCH_ENDPOINT}/users`;
+        if (filters.year.length == 0 &&
+            filters.classes.length == 0 &&
+            filters.major.length == 0){
+                addUserResults([]);
+        } else {
+            axios.get(destination, {params: filters}).then((resp) => {
+                addUserResults(resp.data)
+            }).catch((err) => {
+                throw err
+            });
+        }
     }
 
     function yearsComponent() {
@@ -158,7 +168,7 @@ export default function Search() {
                         value={item.name}
                         control={<Checkbox />}
                         label={item.name}
-                        onChange={(event) => {onChangeMajorControlLabel(event, item.id)}} />
+                        onChange={(event) => {onChangeMajorControlLabel(event, item.name)}} />
                     );
                 })}
             </FormGroup>
@@ -177,9 +187,9 @@ export default function Search() {
                         <FormControlLabel
                             id="classes"
                             key={id}
-                            value={item.name}
+                            value={item.id}
                             control={<Checkbox />}
-                            label={item.name}
+                            label={item.id}
                             onChange={(event) => {onChangeClassesControlLabel(event, item.id)}} />
                     );
                 })}
@@ -189,8 +199,9 @@ export default function Search() {
 
     function onMoreClassesClick(event){
         page+=1
+        dispatch(storePage(page));
         const destination = CLASSES_ENDPOINT;
-        axios.get(destination, {skipC: page}).then((resp) => {
+        axios.get(destination, {params: {skipC: page}}).then((resp) => {
             addClasses(nClasses.concat(resp.data))
         }).catch((err) => {
             throw err

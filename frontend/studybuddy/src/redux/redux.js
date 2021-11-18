@@ -1,6 +1,7 @@
 import {createStore} from "redux"
 import {composeWithDevTools} from "redux-devtools-extension"
 
+const STORE_PAGE = "STORE_PAGE";
 const STORE_EMAIL = "STORE_EMAIL";
 const CHECK_LOGIN = "CHECK_LOGIN";
 const STORE_USER_INFORMATION = "STORE_USER_INFORMATION";
@@ -15,6 +16,14 @@ const initialState = {
     year: "",
     birthday: "",
     classes: "",
+    searchState: {
+        filters: {
+            year: [],
+            classes: [],
+            major: [],
+        },
+        page: 0
+    }
 };
  
 /**
@@ -61,6 +70,21 @@ export function storeInformation(userinformation) {
 }
 
 /**
+* Shared searchState as global variable for application
+* @param {object} - page - requested page
+* @return {object} - object saved the global variable for email
+*/
+export function storePage(page) {
+    console.log("store seach action");
+    return {
+      type: STORE_PAGE,
+      payload: {
+        page: page,
+      },
+    };
+  }
+
+/**
 * Shared user's information as global variable for application
 * @param {object} initialState - user's initialize information
 * @return {object} - object saved all global variables for application
@@ -69,6 +93,15 @@ function userReducer(state = initialState, action) {
     console.log("hit");
     const {payload} = action;
     switch(action.type) {
+        case STORE_PAGE:
+            console.log("case store page");
+            return {
+                ...state,
+                searchState: {
+                    ...state.searchState,
+                    page: payload.page
+                }
+            };
         case STORE_EMAIL:
             console.log("case store email");
             return {
