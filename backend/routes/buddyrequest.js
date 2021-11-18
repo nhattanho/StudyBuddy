@@ -58,7 +58,10 @@ router.delete("/delete/:id", async (req, res) => {
           success: true
         });
       } else {
-        console.log("failed to delete")
+        res.send({
+          success: true,
+          error: err,
+        });
       }
     });
   });
@@ -94,7 +97,14 @@ router.get("/:id/sent", async (req, res) => {
           success: true,
           buddyrequests: buddyrequests,
         });
-    });
+    }).catch(
+      (err) => {
+        res.send({
+          success: false,
+          error: err
+        });
+      }
+    );
 });
 
 //Get all requests received by user with given id
@@ -105,6 +115,13 @@ router.get("/:id/received", async (req, res) => {
         success: true,
         buddyrequests: buddyrequests,
         });}
+    ).catch(
+      (err) => {
+        res.send({
+          success: false,
+          error: err
+        });
+      }
     );
 });
 
