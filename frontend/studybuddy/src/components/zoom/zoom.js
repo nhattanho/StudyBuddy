@@ -30,8 +30,8 @@ function create_zoom(userid, _starttime){
     .then(response => {
         return response.data;
     })
-    .catch(error => {
-        console.log(error);
+    .catch(err => {
+        return ({error: err});
     });
 }
 

@@ -48,8 +48,7 @@ async function create_email(message, subject, recipient) {
 async function create_accept_request_email(zoomlink, recipient1, recipient2) {
     let message = "Thank you for scheduling your study session with StudyBuddy, here's your link: " + zoomlink;
     let subject = "Your StudyBuddy zoom link";  
-    create_email(message, subject, recipient1);
-    create_email(message, subject, recipient2);
+    return create_email(message, subject, recipient1) && create_email(message, subject, recipient2);
 }
 
 //console.log(create_email("hello there", "this is a subject","chanelyoung99@gmail.com"))
