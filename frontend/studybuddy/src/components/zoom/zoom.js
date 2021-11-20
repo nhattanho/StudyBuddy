@@ -28,10 +28,10 @@ function create_zoom(userid, _starttime){
 
     axios(request)
     .then(response => {
-        console.log(response.data);
+        return response.data;
     })
-    .catch(error => {
-        console.log(error);
+    .catch(err => {
+        return ({error: err});
     });
 }
 
