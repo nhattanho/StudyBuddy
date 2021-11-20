@@ -1,7 +1,7 @@
 /* =======================================================================*/
 /**
 /* This is SignIn Component
-* @author NhatHo
+* @author NhatHo, Ty Koslowski
 */
 /* =======================================================================*/
 
@@ -20,6 +20,10 @@ import { storeCheckLogin, storeEmail, storeInformation } from "../../redux/redux
 import {Button} from "@material-ui/core";
 import {customStyles, InputField, useStyles} from "./style";
 
+/* Import Facebook login */
+import FacebookLogin from "react-facebook-login";
+import { Card, Image } from "react-bootstrap";
+
 /* Main here */
 const Signin = (props) => {
   /* Use Redux */
@@ -30,6 +34,12 @@ const Signin = (props) => {
   const [email, setEmail] = React.useState("");
   const [message, setMessage] = React.useState("");
   const [password, setPass] = React.useState("");
+
+  /* Stuff for Facebook login */
+  const [login, setLogin] = React.useState(false);
+  const [data, setData] = React.useState({});
+  const [picture, setPicture] = React.useState("");
+
   /*Will store information of current user after discussing about the userModel table*/
   const [information, setInformation] = React.useState("");
   const [errors, setErrors] = React.useState({});
@@ -43,6 +53,25 @@ const Signin = (props) => {
   const closeModal = () => {
     setIsOpenFalse(false);
   };
+
+  /****************************************************************/
+  /**
+  * Facebook login for new user
+  * @param {object} response - user's information including email and password
+  *  getting from input
+  * @return {object} - user's information which was sent back from backend side
+  */
+  const responseFacebook = (response) => {
+    console.log(response);
+    setData(response);
+    setPicture(response.picture.data.url);
+    if (response.accessToken) {
+      setLogin(true);
+    } else {
+      setLogin(false);
+    }
+  }
+
   /****************************************************************/
   /**
   * SignIn for new buddy user
@@ -140,6 +169,32 @@ const Signin = (props) => {
             Submit
           </Button>
         </div>
+        <div class="container">
+        <Card style={{ width: '600px' }}>
+          <Card.Header>
+            {!login &&
+              <FacebookLogin
+                appId="428962065561834"
+                autoLoad={true}
+                fields="name,email,picture"
+                scope="public_profile,user_friends"
+                callback={responseFacebook}
+                icon="fa-facebook" />
+            }
+            {login &&
+              <Image src={picture} roundedCircle />
+            }
+          </Card.Header>
+          {login &&
+            <Card.Body>
+              <Card.Title>{data.name}</Card.Title>
+              <Card.Text>
+                {data.email}
+              </Card.Text>
+            </Card.Body>
+          }
+        </Card>
+    </div>
       </form>
       <div className={classes.newaccount}>
         <Link to="/register" variant="body2">
