@@ -4,6 +4,7 @@
  */
 const IDs = require('./testIds');
 const testBuddyRequests = require('./testBuddyRequestsData')
+const majors = require('../model/majors')
 let classes = require('../model/classes')
 classes = classes.reduce((o, key) => ({...o,[key.id] : key}), {})
 
@@ -14,12 +15,12 @@ let walter = {
     birthday: new Date("09","07","1958").getTime(),
     username: "Hiesenberg",
     checkLogin: "yes",
-    major: "Chemistry",
+    major: majors.chemistry.name,
     year: "Ph.D",
     classes: [classes.CS199.id],
     zoomid: "@Hiesenberg",
     email: "Hiesenberg@gmail.com",
-    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/e/e7/BB-S5B-Walt-590.jpg/revision/latest/scale-to-width-down/540?cb=20130928055404"
+    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/e/e7/BB-S5B-Walt-590.jpg"
 }
 
 let jesse = {
@@ -29,12 +30,12 @@ let jesse = {
     birthday: new Date("09", "24", "1984").getTime(),
     username: "YeahScience!",
     checkLogin: "yes",
-    major: "Chemistry",
+    major: majors.chemistry.name,
     year: "Freshman",
     classes: [classes.CS31.id, classes.CS32.id],
     zoomid: "@YeahScience!",
     email: "YeahScience@gmail.com",
-    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/0/0c/JesseS5B.jpg/revision/latest/scale-to-width-down/446?cb=20130804210124"
+    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/0/0c/JesseS5B.jpg"
 }
 
 let gus = {
@@ -44,12 +45,12 @@ let gus = {
     birthday: new Date("04", "26", "1958").getTime(),
     username: "LosPollosHermano",
     checkLogin: "no",
-    major: "MBA",
+    major: majors.mba.name,
     year: "Graduate",
     classes: [classes.CS188.id],
     zoomid: "@LosPollosHermano",
     email: "LosPollosHermano@gmail.com",
-    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/b/be/Season_4_-_Gus.jpg/revision/latest/scale-to-width-down/1000?cb=20200608213000"
+    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/b/be/Season_4_-_Gus.jpg"
 }
 
 
@@ -60,12 +61,12 @@ let hank = {
     birthday: new Date("03", "13", "1966").getTime(),
     username: "RoboCop",
     checkLogin: "yes",
-    major: "Geology",
+    major: majors.geology.name,
     year: "Freshman",
     classes: [classes.CS32.id],
     zoomid: "@RoboCop",
     email: "RoboCop@gmail.com",
-    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/7/7b/Hank_S5b.jpg/revision/latest/scale-to-width-down/750?cb=20130717044210"
+    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/7/7b/Hank_S5b.jpg"
 }
 
 let mike = {
@@ -74,12 +75,12 @@ let mike = {
     birthday: new Date("07","21", "1944").getTime(),
     username: "HitMan",
     checkLogin: "yes",
-    major: "Mechanical Engineer",
+    major: majors.mechanicalEngineering.name,
     year: "Junior",
     classes: [classes.CS180.id],
     zoomid: "@HitMan",
     email: "HitMan@gmail.com",
-    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/8/8b/MikeS5.jpg/revision/latest/scale-to-width-down/750?cb=20120620015454"
+    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/8/8b/MikeS5.jpg"
 }
 
 
@@ -89,12 +90,12 @@ let todd = {
     birthday: new Date("09", "24", "1984").getTime(),
     username: "TriggerHappy",
     checkLogin: "no",
-    major: "Mathematics",
+    major: majors.mathematics.name,
     year: "Ph.D",
-    classes: [classes.CS199.id, classes.CSM192A.id],
+    classes: [classes.CS194.id, classes.CSM192A.id],
     zoomid: "@TriggerHappy",
     email: "TriggerHappy@gmail.com",
-    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/f/f5/Todd_S5b.jpg/revision/latest/scale-to-width-down/750?cb=20130717044419"
+    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/f/f5/Todd_S5b.jpg"
 }
 
 let saul = {
@@ -104,12 +105,12 @@ let saul = {
     birthday: new Date("11", "12", "1960").getTime(),
     username: "BetterCallSaul",
     checkLogin: "yes",
-    major: "J.D",
+    major: majors.jurisDoctor.name,
     year: "Ph.D",
     classes: [classes.CS181.id],
     zoomid: "@BetterCallSaul",
     email: "BetterCallSaul@gmail.com",
-    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/a/a4/Saul_S5b.jpg/revision/latest/scale-to-width-down/750?cb=20130717044437"
+    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/a/a4/Saul_S5b.jpg"
 }
 
 let skyler = {
@@ -118,12 +119,12 @@ let skyler = {
     birthday: new Date("08", "11", "1970").getTime(),
     username: "SWhite",
     checkLogin: "no",
-    major: "Economics",
+    major: majors.economics.name,
     year: "Graduate",
     classes: [classes.CS152B.id],
     zoomid: "@SWhite",
     email: "SWhite@gmail.com",
-    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/3/33/Skyler_S5b.jpg/revision/latest/scale-to-width-down/750?cb=20130717044318"
+    profileURL: "https://static.wikia.nocookie.net/breakingbad/images/3/33/Skyler_S5b.jpg"
 }
 
 walter["pastbuddies"] = [

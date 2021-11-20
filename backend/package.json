@@ -8,13 +8,21 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "mongoose": "^6.0.12"
+    "mongoose": "^6.0.12",
+    "nodemailer": "^6.7.1",
+    "redux": "^4.1.2",
+    "redux-persist": "^6.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "rewire": "^5.0.0",
+    "supertest": "^6.1.6"
+  },
   "scripts": {
     "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"

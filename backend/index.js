@@ -9,6 +9,9 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const user = require("./routes/user.js");
+const major = require("./routes/major.js");
+const classes = require("./routes/classes.js");
+const search = require("./routes/search.js");
 const buddyrequest = require("./routes/buddyrequest.js");
 
 require("dotenv").config();
@@ -34,10 +37,15 @@ app.use(function (req, res, next) {
 });
 
 /* Create and connect to DB */
+const connectParams = {
+  dbName: process.env.DATABASE_NAME
+};
+
 mongoose.connect(
     process.env.DATABASE_ACCESS,
+    connectParams,
     () => console.log("Database connected"),
-    { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
+    { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}
 );
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
@@ -45,7 +53,10 @@ db.once("open", () => {
   console.log("connected to db");
 });
 app.use("/user", user);
+app.use("/major", major);
+app.use("/classes", classes);
 app.use("/buddyrequest", buddyrequest);
+app.use("/search", search);
 /* Listening on Port */
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log("listening at port", port));
