@@ -32,7 +32,8 @@ const initialState = {
         },
         page: 0
     },
-    username: ""
+    username: "",
+    profileURL: "",
 };
  
 /**
@@ -134,6 +135,7 @@ function userReducer(state = initialState, action) {
                 birthday,
                 checkLogin,
                 classes,
+                profileURL,
             } = payload.userinformation;
             return {
                 ...state,
@@ -147,6 +149,7 @@ function userReducer(state = initialState, action) {
                 birthday: birthday,
                 year: year,
                 id: _id,
+                profileURL: profileURL,
             };
         default:
             return state;
