@@ -175,7 +175,7 @@ router.get("/:email/information", async (req, res) => {
 });
 
 /*======================================GET method for get user's information based on id===================================*/
-/*http://localhost:5000/user/:id/information*/
+/*http://localhost:5000/user/:id*/
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   console.log("The id is " + id);
