@@ -44,7 +44,7 @@ export const useStyles = makeStyles((theme) => ({
         flexDirection: "column",
     },
     login: {
-        backgroundColor: "#BEB7A4",
+        backgroundColor: "#FFCB77",
         fontSize: 35,
         padding: ".5em 0",
         borderRadius: "10px"
