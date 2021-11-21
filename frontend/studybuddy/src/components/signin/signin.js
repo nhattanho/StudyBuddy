@@ -84,7 +84,20 @@ const Signin = (props) => {
                     res.data.user.birthday = res.data.user.birthday.split("T")[0];
                     console.log(res.data.user.birthday);
                   }
-                  /*console.log(res.data.user._id);*/
+                  /* @dayz can refer how to get user's infor based on ObjectId
+                  console.log(res.data.user._id);
+                  let id = res.data.user._id;
+                  axios
+                  .get(`http://localhost:5000/user/${id}`)
+                  .then((res) =>{
+                    if (res.data.success) {
+                      console.log(res.data.user.name);
+                    }
+                    else{
+                      console.log("false");
+                    }
+                  });
+                  */
                   dispatch(storeInformation(res.data.user));
                   dispatch(storeEmail(email));
                   dispatch(storeCheckLogin(true));

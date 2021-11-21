@@ -9,6 +9,7 @@ const router = express.Router();
 const User = require("../model/usersModel");
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
+var ObjectId = require('mongodb').ObjectId; 
 
 //for hashing passwords
 const bcrypt = require("bcryptjs");
@@ -173,6 +174,25 @@ router.get("/:email/information", async (req, res) => {
   });
 });
 
+/*======================================GET method for get user's information based on id===================================*/
+/*http://localhost:5000/user/:id/information*/
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  console.log("The id is " + id);
+  /* Check if portfolio exist*/
+  User.findOne({_id: new ObjectId(id) }, async (err, user) => {
+    console.log("user", user);
+    if (user) {
+      res.send({ success: true, message: "Success!", user: user });
+    } else {
+      res.send({
+        success: false,
+        message: `User does not exist for ${id}`,
+      });
+    }
+  });
+});
+
 /*======================================PUT method===================================*/
 /*http://localhost:5000/user/email/update*/
 router.put("/email/update", (req, res) => {
@@ -193,7 +213,7 @@ router.put("/email/update", (req, res) => {
     console.log("update fail in backend log");
     res.send({
       success: false,
-      message: "Update failed",
+      message: `Update failed, error is ${err}`,
     });
   });
 });
