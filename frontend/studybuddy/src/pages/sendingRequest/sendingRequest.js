@@ -7,21 +7,46 @@ import {customStyles, InputField, useStyles} from "../home/styles";
 import {Typography, Button, Grid, Box} from '@material-ui/core';
 import Placeholder from './placeholder.png'
 import './sendingRequest.css';
+import RequestPopupPage from '../requestPopup/RequestPopupPage.js';
+
+const Popup = (props) => {
+  return (
+    <div className="popup">
+      <div className="popup_inner">
+        <h1 style={{ 'color' : '#ffffff' }}> Send a Request </h1>
+          <RequestPopupPage/>
+        <Button variant="contained" color="primary" style={{ height : '30px', width : '100px', 'marginTop' : '50px' }} onClick={props.closePopup}>
+          Done
+        </Button>
+      </div>
+    </div>
+  );
+}
 
 const SendingRequest = (props) => {
-  const checkLogin = useSelector((state) => state.checkLogin);
+  
   const dispatch = useDispatch();
 
+  const userinformation = useSelector((state) => state);
+  const checkLogin = userinformation.checkLogin; 
+  const email = userinformation.email;
+  
   const classes = useStyles();
 
   const setLogout = () => {
     dispatch(storeCheckLogin(false));
   };
 
-  const sendRequest = () => {
+  const [requesting, setRequesting] = React.useState(false);
 
+  const sendRequest = () => {
+    setRequesting(true);
   };
-  
+
+  const closeRequest = () => {
+    setRequesting(false);
+  };
+
   return (
     <div>
       <div className='background'>
@@ -70,6 +95,13 @@ const SendingRequest = (props) => {
           </div>
         </div>
       </div>
+      {requesting ? 
+        <Popup
+          text='Create a Goal'
+          closePopup={closeRequest}
+        />
+        : null
+      }
     </div>
   );
 };
