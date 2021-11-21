@@ -58,7 +58,8 @@ const Home = () => {
     /* =======================================================================*/
 
     useEffect(() => {
-        console.log("In update with userEffect " + checkLogin);
+        /*console.log("test in usereffect " + userinformation.id);
+        console.log("In update with userEffect " + checkLogin);*/
         if(!checkLogin){
             Object.keys(userinformation).forEach((i) => userinformation[i] = "");
         }

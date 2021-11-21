@@ -84,6 +84,7 @@ const Signin = (props) => {
                     res.data.user.birthday = res.data.user.birthday.split("T")[0];
                     console.log(res.data.user.birthday);
                   }
+                  /*console.log(res.data.user._id);*/
                   dispatch(storeInformation(res.data.user));
                   dispatch(storeEmail(email));
                   dispatch(storeCheckLogin(true));
