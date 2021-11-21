@@ -73,13 +73,14 @@ const Home = () => {
     const onUpdate = () => {
         if(!checkLogin) return;
         if (name === "") name = userinformation.name;
-        if (about === "") about = userinformation.about;
-        if (birthday === "") birthday = userinformation.birthday;
-        if (year === "") year = userinformation.year;
-        if (major === "") major = userinformation.major;
+        if (about === "" && userinformation.about) about = userinformation.about;
+        if (birthday === "" && userinformation.birthday) birthday = userinformation.birthday;
+        if (year === "" && userinformation.year) year = userinformation.year;
+        if (major === "" && userinformation.major) major = userinformation.major;
         if (userClasses === "") userClasses = userinformation.classes;
-        const updateObject = {
+        let updateObject = {
             name: name,
+            username: userinformation.username,
             email: email,
             about: about,
             major: major,
@@ -91,7 +92,7 @@ const Home = () => {
         let result = Validate({...updateObject});
         setErrors(result);
         /*console.log("result error " + result.classes);
-        console.log("result error " + result.major);*/
+        console.log("result about " + result.about);*/
         if(!result.pass) return;
         axios
             .put(`http://localhost:5000/user/email/update`, updateObject)

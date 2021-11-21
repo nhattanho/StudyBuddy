@@ -75,7 +75,7 @@ export default function Header() {
                             </Button>
                         </Link>
             
-                        <Link to="/findBuddy" style={{ textDecoration: "none" }}>
+                        <Link to="/search" style={{ textDecoration: "none" }}>
                             <Button variant="contained" color="primary">
                                 FindBuddy
                             </Button>
