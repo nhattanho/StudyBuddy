@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-modal";
 import Validate from "../validation/validate";
+import checkIfValidEmail from "../validation/validate"
 import { useHistory } from "react-router-dom";
 
 /* Import Redux */
@@ -23,6 +24,9 @@ import {customStyles, InputField, useStyles} from "./style";
 /* Import Facebook login */
 import FacebookLogin from "react-facebook-login";
 import { Card, Image } from "react-bootstrap";
+
+/* Import Google login */
+//import { GoogleLogin } from "react-google-login";
 
 /* Main here */
 const Signin = (props) => {
@@ -65,12 +69,65 @@ const Signin = (props) => {
     console.log(response);
     setData(response);
     setPicture(response.picture.data.url);
+
     if (response.accessToken) {
+      /* Login is valid */
       setLogin(true);
+      axios
+      .get("http://localhost:5000/user/login", {
+        params: {
+          email: response.email,
+        },
+      })
+      .then(
+        /* The user exists in DB */
+        (res) => {
+          if (!res.data.success) {
+            setIsOpenFalse(true);
+            setMessage(res.data.message);
+          } else {
+            dispatch(storeEmail(email));
+            dispatch(storeCheckLogin(true));
+            axios
+              .get(`http://localhost:5000/user/${email}/information`)
+              .then((res) => {
+                if (res.data.success) {
+                  setIsOpenFalse(false);
+                  setMessage(res.data.message);
+                  setInformation(res.data.user);
+                  dispatch(storeInformation(res.data.user));
+                  props.push('/home');
+                } else {
+                  setIsOpenFalse(true);
+                  setMessage(res.data.message);
+                }
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }
+        }
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+
     } else {
+      /* Login is not valid */
       setLogin(false);
     }
   }
+
+  /****************************************************************/
+  /**
+  * Google login functions for new user
+  */
+  // const googleSuccess = (res) => {
+  //   console.log('[Login Success] currentUser:', res.profileObj);
+  // };
+  // const googleFailure = (res) => {
+  //   console.log('[Login Failure] res:', res);
+  // };
 
   /****************************************************************/
   /**
@@ -169,32 +226,34 @@ const Signin = (props) => {
             Submit
           </Button>
         </div>
-        <div class="container">
-        <Card style={{ width: '600px' }}>
-          <Card.Header>
-            {!login &&
-              <FacebookLogin
-                appId="428962065561834"
-                autoLoad={true}
-                fields="name,email,picture"
-                scope="public_profile,user_friends"
-                callback={responseFacebook}
-                icon="fa-facebook" />
-            }
+        <div className={classes.button}>
+          <Card>
+            <Card.Header>
+              {!login &&
+                <FacebookLogin
+                  appId="428962065561834"
+                  autoLoad={false}
+                  fields="name,email,picture"
+                  scope="public_profile,email"
+                  callback={responseFacebook}
+                  icon="fa-facebook" />
+              }
+              {login &&
+                <Image src={picture} roundedCircle />
+              }
+            </Card.Header>
             {login &&
-              <Image src={picture} roundedCircle />
+              <Card.Body>
+                <Link to="/register" variant="body2">
+                  <Card.Title>Continue as {data.name}</Card.Title>
+                </Link>
+                <Card.Text>
+                  {data.email}
+                </Card.Text>
+              </Card.Body>
             }
-          </Card.Header>
-          {login &&
-            <Card.Body>
-              <Card.Title>{data.name}</Card.Title>
-              <Card.Text>
-                {data.email}
-              </Card.Text>
-            </Card.Body>
-          }
-        </Card>
-    </div>
+          </Card>
+      </div>
       </form>
       <div className={classes.newaccount}>
         <Link to="/register" variant="body2">
