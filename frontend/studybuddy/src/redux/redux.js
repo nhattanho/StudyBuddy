@@ -30,7 +30,7 @@ const initialState = {
             major: [],
         },
         page: 0
-    }
+    },
     username: ""
 };
  
