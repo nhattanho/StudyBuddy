@@ -7,8 +7,17 @@ import { Alert, AlertTitle } from "@material-ui/lab"
 
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 
+/**
+ * Popup to create a buddyrequest between two users
+ * @author Chanel Young
+ * @param {function} onClose - function called when popup closed
+ * @param {string} user - objectid of current user
+ * @param {string} recipient - objectid of request recipient
+ * @return {Dialog} - the request dialog
+ */
 function RequestPopup(props) {
-  
+  const axios = require('axios');
+
   const MAX_SLOTS = 4;
   let now = new Date(); 
 
@@ -99,9 +108,31 @@ function RequestPopup(props) {
       </Alert>);
     }
     else{
-      //TODO: call requests API to create request
-      console.log(`start times: ${startDateTimes}`)
-      console.log(`end times: ${endDateTimes}`)
+      let _dateslots = []
+      for(let i = 0; i < startDateTimes.length; i++){
+        _dateslots.push(startDateTimes[i], endDateTimes[i]);
+      }
+
+      const body = {
+          sender: props.user, 
+          receiver: props.recipient,
+          dateslots: _dateslots,
+      };
+      
+      axios 
+      .post(`http://localhost:5000/buddyrequest/create`, body)
+      .then((res) => {
+          if (res.data.success) {
+          console.log("success!")
+          } else {
+          console.log("fail :(");
+          }
+      })
+      .catch(function (e) {
+          console.log(e); 
+      });
+
+      props.onClose()
     }
   };
 
