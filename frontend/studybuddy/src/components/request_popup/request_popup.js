@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import DateFnsUtils from '@date-io/date-fns';
+import axios from "axios";
 
 import { Button } from "@material-ui/core";
 import { Stack, Dialog, Box } from "@mui/material"
@@ -115,24 +116,27 @@ function RequestPopup(props) {
 
       const body = {
           sender: props.user, 
-          receiver: props.recipient,
+          receiver: props.receiver,
           dateslots: _dateslots,
       };
-      
+
       axios 
       .post(`http://localhost:5000/buddyrequest/create`, body)
       .then((res) => {
           if (res.data.success) {
-          console.log("success!")
+            console.log("success!")
+            props.onClose(res.data.request);
+            return;
           } else {
-          console.log("fail :(");
+            console.log("fail :(");
+            console.log(res.data.error)
           }
       })
       .catch(function (e) {
           console.log(e); 
       });
 
-      props.onClose()
+      props.onClose(null);
     }
   };
 

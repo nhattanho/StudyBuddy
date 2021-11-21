@@ -139,6 +139,7 @@ function userReducer(state = initialState, action) {
             } = payload.userinformation;
             return {
                 ...state,
+                _id: _id,
                 name: name,
                 username: username,
                 about: about,

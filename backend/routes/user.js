@@ -142,7 +142,7 @@ router.get("/login", (req, res) => {
         } else {
         //   /*email and passwords match*/
           console.log("Success: email and password match");
-          res.send({ success: true, message: "Successful login!" });
+          res.send({ success: true, id: user._id, message: "Successful login!" });
         }
       }
     });
@@ -184,11 +184,11 @@ router.get("/facebookLogin", (req, res) => {
 
 /*======================================GET method for get user's information===================================*/
 /*http://localhost:5000/user/:email/information*/
-router.get("/:email/information", async (req, res) => {
-  const { email } = req.params;
+router.get("/:id/information", async (req, res) => {
+  const { id } = req.params;
   console.log("Inside get information");
   /* Check if portfolio exist*/
-  User.findOne({ email: email }, async (err, user) => {
+  User.findOne({ _id: id }, async (err, user) => {
     console.log("user", user);
     if (user) {
       res.send({ success: true, message: "Success!", user: user });

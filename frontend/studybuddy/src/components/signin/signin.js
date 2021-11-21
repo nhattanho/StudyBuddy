@@ -77,7 +77,7 @@ const Signin = (props) => {
             setMessage(res.data.message);
           } else {
             axios
-              .get(`http://localhost:5000/user/${email}/information`)
+              .get(`http://localhost:5000/user/${res.data.id}/information`)
               .then((res) => {
                 if (res.data.success) {
                   setIsOpenFalse(false);
