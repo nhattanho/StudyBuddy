@@ -15,6 +15,7 @@ const persistConfig = {
 }
 
 const initialState = {
+    id: "",
     checkLogin: false,
     name: "",
     email: "",
@@ -31,7 +32,8 @@ const initialState = {
         },
         page: 0
     },
-    username: ""
+    username: "",
+    profileURL: "",
 };
  
 /**
@@ -123,6 +125,7 @@ function userReducer(state = initialState, action) {
             };
         case STORE_USER_INFORMATION:
             const {
+                _id,
                 name,
                 username,
                 about,
@@ -132,6 +135,7 @@ function userReducer(state = initialState, action) {
                 birthday,
                 checkLogin,
                 classes,
+                profileURL,
             } = payload.userinformation;
             return {
                 ...state,
@@ -144,6 +148,8 @@ function userReducer(state = initialState, action) {
                 classes: classes,
                 birthday: birthday,
                 year: year,
+                id: _id,
+                profileURL: profileURL,
             };
         default:
             return state;

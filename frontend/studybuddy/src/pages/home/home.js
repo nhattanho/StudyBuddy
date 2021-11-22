@@ -13,6 +13,7 @@ import {customStyles, InputField, useStyles} from "./styles.js";
 import {Typography, Button, Grid, Box} from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import Validate from "../../components/validation/validate";
+import { PrimaryButton, SecondaryButton } from "../../components/button/button";
 
 /* Import Redux */
 import { useDispatch, useSelector } from "react-redux";
@@ -58,7 +59,8 @@ const Home = () => {
     /* =======================================================================*/
 
     useEffect(() => {
-        console.log("In update with userEffect " + checkLogin);
+        /*console.log("test in usereffect " + userinformation.id);
+        console.log("In update with userEffect " + checkLogin);*/
         if(!checkLogin){
             Object.keys(userinformation).forEach((i) => userinformation[i] = "");
         }
@@ -150,7 +152,7 @@ const Home = () => {
         <Box component='div' className={classes.container}>
             <Grid container justify='center' style={{zIndex: 2}}>
                 <Box component='form' className={classes.form}>
-                    <Typography variant='h5' style={{color: 'tomato', textAlign: 'center', textTransform: 'uppercase'}}>
+                    <Typography variant='h5' style={{color: '#6157BB', textAlign: 'center', textTransform: 'uppercase', paddingBottom: "1em"}}>
                         Your Information
                     </Typography>
                     <InputField
@@ -267,14 +269,10 @@ const Home = () => {
                     <br/>
                     <div className={classes.parentButton}>
                         <div className={classes.button}>
-                            <Button variant="contained" color="primary" onClick={onUpdate}>
-                                Update
-                            </Button>
+                            <PrimaryButton text="Update" onClick={onUpdate} />
                         </div>
                         <div className={classes.button}>
-                            <Button variant="contained" color="primary" onClick={onDelete}>
-                                Delete
-                            </Button>
+                            <SecondaryButton text="Delete" onClick={onDelete} />
                         </div>
                     </div>
                 </Box>

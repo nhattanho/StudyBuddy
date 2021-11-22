@@ -41,11 +41,13 @@ export const InputField = withStyles({
 export const useStyles = makeStyles((theme) => ({
     infor: {
         display: "flex",
-        flexDirection: "column"
+        flexDirection: "column",
     },
     login: {
-        backgroundColor: "greenyellow",
-        fontSize: 35
+        backgroundColor: "#FFCB77",
+        fontSize: 35,
+        padding: ".5em 0",
+        borderRadius: "10px"
     },
     form: {
         display: "flex",

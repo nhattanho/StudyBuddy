@@ -9,6 +9,7 @@ const router = express.Router();
 const User = require("../model/usersModel");
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
+var ObjectId = require('mongodb').ObjectId; 
 
 //for hashing passwords
 const bcrypt = require("bcryptjs");
@@ -108,7 +109,7 @@ router.post("/resetPassword", (req, res) => {
 });
 
 
-/*======================================GET method for login===================================*/
+/*======================================GET method for normal login===================================*/
 async function checkPass(user, password) {
   /*compare input password with hashed password in db*/
   const match = await bcrypt.compare(password, user.password);
@@ -141,7 +142,7 @@ router.get("/login", (req, res) => {
         } else {
         //   /*email and passwords match*/
           console.log("Success: email and password match");
-          res.send({ success: true, message: "Successful login!" });
+          res.send({ success: true, id: user._id, message: "Successful login!" });
         }
       }
     });
@@ -150,6 +151,33 @@ router.get("/login", (req, res) => {
     res.send({
       success: false,
       message: "Email or Password can not be empty!",
+    });
+  }
+});
+
+/*======================================GET method for Facebook login===================================*/
+/* User login for requesting http://localhost:5000/user/facebookLogin
+ body: {email} */
+router.get("/facebookLogin", (req, res) => {
+  const { email } = req.query;
+
+  if (email.length > 0) {
+    /*find user with given email in the database*/
+    User.findOne({ email: email }, async (err, user) => {
+      /*no user in database has specified email*/
+      if (!user) {
+        console.log("User does not exists");
+        res.send({ success: false, message: "User does not exist!" });
+      } else {
+        console.log("Success: email matched");
+        res.send({ success: true, message: "email existed!", user: user });
+      }
+    });
+  } else {
+    console.log("No inputted email");
+    res.send({
+      success: false,
+      message: "Email can not be empty!",
     });
   }
 });
@@ -168,6 +196,25 @@ router.get("/:email/information", async (req, res) => {
       res.send({
         success: false,
         message: `User does not exist for ${email}`,
+      });
+    }
+  });
+});
+
+/*======================================GET method for get user's information based on id===================================*/
+/*http://localhost:5000/user/:id*/
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  console.log("The id is " + id);
+  /* Check if portfolio exist*/
+  User.findOne({_id: new ObjectId(id) }, async (err, user) => {
+    console.log("user", user);
+    if (user) {
+      res.send({ success: true, message: "Success!", user: user });
+    } else {
+      res.send({
+        success: false,
+        message: `User does not exist for ${id}`,
       });
     }
   });
@@ -193,7 +240,7 @@ router.put("/email/update", (req, res) => {
     console.log("update fail in backend log");
     res.send({
       success: false,
-      message: "Update failed",
+      message: `Update failed, error is ${err}`,
     });
   });
 });

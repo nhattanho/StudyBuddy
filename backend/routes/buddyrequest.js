@@ -29,14 +29,15 @@ router.post("/create", (req, res) => {
 
     buddyRequest
     .save()
-    .then((res) => {
+    .then((result) => {
       res.send({
-        success: true
+        success: true,
+        request: result,
       });
     })
     .catch((err) => {
       res.send({
-        success: true,
+        success: false,
         error: err,
       });
     });
@@ -53,13 +54,13 @@ router.delete("/delete/:id", async (req, res) => {
           success: false
         });
       }
-      if (buddyrequest) {
+      else if (buddyrequest) {
         res.send({
           success: true
         });
       } else {
         res.send({
-          success: true,
+          success: false,
           error: err,
         });
       }
@@ -97,14 +98,7 @@ router.get("/:id/sent", async (req, res) => {
           success: true,
           buddyrequests: buddyrequests,
         });
-    }).catch(
-      (err) => {
-        res.send({
-          success: false,
-          error: err
-        });
-      }
-    );
+    });
 });
 
 //Get all requests received by user with given id
@@ -114,15 +108,8 @@ router.get("/:id/received", async (req, res) => {
       res.send({
         success: true,
         buddyrequests: buddyrequests,
-        });}
-    ).catch(
-      (err) => {
-        res.send({
-          success: false,
-          error: err
         });
-      }
-    );
+    });
 });
 
 
