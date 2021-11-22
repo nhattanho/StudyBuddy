@@ -8,20 +8,8 @@ import {Typography, Button, Grid, Box} from '@material-ui/core';
 import Placeholder from './placeholder.png'
 import './sendingRequest.css';
 import RequestPopupPage from '../requestPopup/RequestPopupPage.js';
-
-const Popup = (props) => {
-  return (
-    <div className="popup">
-      <div className="popup_inner">
-        <h1 style={{ 'color' : '#ffffff' }}> Send a Request </h1>
-          <RequestPopupPage/>
-        <Button variant="contained" color="primary" style={{ height : '30px', width : '100px', 'marginTop' : '50px' }} onClick={props.closePopup}>
-          Done
-        </Button>
-      </div>
-    </div>
-  );
-}
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SendingRequest = (props) => {
   
@@ -29,26 +17,42 @@ const SendingRequest = (props) => {
 
   const userinformation = useSelector((state) => state);
   const checkLogin = userinformation.checkLogin; 
-  const email = userinformation.email;
-  
+  const currentUserObjectId = userinformation.id;
+  const currentRecipientObjectId = userinformation.rid;
+
   const classes = useStyles();
 
   const setLogout = () => {
     dispatch(storeCheckLogin(false));
   };
 
-  const [requesting, setRequesting] = React.useState(false);
-
-  const sendRequest = () => {
-    setRequesting(true);
-  };
-
-  const closeRequest = () => {
-    setRequesting(false);
+  const notify = (success, res) => {
+    if (success) {
+      toast.success(res, {
+        position: 'bottom-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      toast.error(res, {
+        position: 'bottom-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   };
 
   return (
     <div>
+      <ToastContainer />
       <div className='background'>
         <h1 className='name'>
         	Joe Bruin
@@ -89,19 +93,10 @@ const SendingRequest = (props) => {
         </div>
         <div className={classes.parentButton}>
           <div className={classes.button}>
-            <Button variant="contained" color="primary" onClick={sendRequest}>
-              Request!
-            </Button>
+            <RequestPopupPage user={currentUserObjectId} recipient={currentRecipientObjectId} callback={notify} />
           </div>
         </div>
       </div>
-      {requesting ? 
-        <Popup
-          text='Create a Goal'
-          closePopup={closeRequest}
-        />
-        : null
-      }
     </div>
   );
 };

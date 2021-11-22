@@ -33,7 +33,7 @@ function App() {
           <Route exact path="/requestpopup" component={RequestPopupPage} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/home" component={Home} />
-          <Route exact path="/sendingRequest" component={SendingRequest} />
+          <Route path="/sendingRequest/:objectID" component={SendingRequest} />
           <Route exact path="/buddies" component={Buddies} />
           <Route exact path="/search" component={Search} />
           <Route exact path="/resetpassword" component={ResetPassword} />
