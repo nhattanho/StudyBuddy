@@ -123,10 +123,10 @@ function RequestPopup(props) {
       .post(`http://localhost:5000/buddyrequest/create`, body)
       .then((res) => {
           if (res.data.success) {
-          console.log("success!")
-          props.callback(true, 'Request successfully submitted!')
+            console.log("success!")
+            props.callback(true, 'Request successfully submitted!')
           } else {
-          console.log("fail :(");
+            console.log("fail :(");
           }
       })
       .catch(function (e) {
