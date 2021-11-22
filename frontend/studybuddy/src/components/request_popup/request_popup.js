@@ -125,13 +125,13 @@ function RequestPopup(props) {
       .then((res) => {
           if (res.data.success) {
             console.log("success!")
-            props.onSubmit(res.data.request);
+            props.callback(true, 'Request successfully submitted!')
           } else {
             console.log("fail :(");
-            console.log(res.data.error)
           }
       })
       .catch(function (e) {
+          props.callback(false, `Request failed to submit: ${e}`)
           console.log(e); 
       });
 

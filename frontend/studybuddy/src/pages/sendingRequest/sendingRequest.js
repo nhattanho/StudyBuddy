@@ -8,10 +8,18 @@ import {Typography, Button, Grid, Box} from '@material-ui/core';
 import { PrimaryButton } from "../../components/button/button";
 import Placeholder from './placeholder.png'
 import './sendingRequest.css';
+import RequestPopupPage from '../requestPopup/RequestPopupPage.js';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SendingRequest = (props) => {
-  const checkLogin = useSelector((state) => state.checkLogin);
+  
   const dispatch = useDispatch();
+
+  const userinformation = useSelector((state) => state);
+  const checkLogin = userinformation.checkLogin; 
+  const currentUserObjectId = userinformation.id;
+  const currentRecipientObjectId = userinformation.rid;
 
   const classes = useStyles();
 
@@ -19,12 +27,33 @@ const SendingRequest = (props) => {
     dispatch(storeCheckLogin(false));
   };
 
-  const sendRequest = () => {
-
+  const notify = (success, res) => {
+    if (success) {
+      toast.success(res, {
+        position: 'bottom-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      toast.error(res, {
+        position: 'bottom-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   };
-  
+
   return (
     <div>
+      <ToastContainer />
       <div className='background'>
         <h1 className='name'>
         	Joe Bruin
@@ -65,7 +94,7 @@ const SendingRequest = (props) => {
         </div>
         <div className={classes.parentButton}>
           <div className={classes.button}>
-            <PrimaryButton text="Request!" onClick={sendRequest} />
+            <RequestPopupPage user={currentUserObjectId} recipient={currentRecipientObjectId} callback={notify} />
           </div>
         </div>
       </div>

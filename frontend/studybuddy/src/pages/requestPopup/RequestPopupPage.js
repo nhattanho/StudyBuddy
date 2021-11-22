@@ -17,11 +17,11 @@ const RequestPopupPage = (props) => {
 
     return(
         <div>
-            <Button onClick={handleClickOpen}>
-                Open request dialog
+            <Button Button variant="contained" color="primary" onClick={handleClickOpen}>
+                Request!
             </Button>
 
-            <RequestPopup onClose={handleClose} open={open} user={user} recipient={recipient}/>
+            <RequestPopup onClose={handleClose} open={open} user={user} recipient={recipient} callback={props.callback} />
         </div>
     )
 };
