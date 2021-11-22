@@ -142,7 +142,7 @@ router.get("/login", (req, res) => {
         } else {
         //   /*email and passwords match*/
           console.log("Success: email and password match");
-          res.send({ success: true, message: "Successful login!" });
+          res.send({ success: true, id: user._id, message: "Successful login!" });
         }
       }
     });

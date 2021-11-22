@@ -1,13 +1,11 @@
-import React, { useState } from "react"
+import React, { useState, useEffect, useRef } from "react"
+import { useSelector } from "react-redux";
+import axios from "axios";
+
 import { makeStyles } from "@material-ui/core/styles";
-import { List, ListItem, Button, Dialog, Card, CardContent, CardMedia, Typography } from "@material-ui/core";
+import { List, ListItem, Button, Dialog, DialogTitle, Card, CardContent, CardMedia, Typography } from "@material-ui/core";
 import { PrimaryButton, SecondaryButton, DefaultButton } from "../../components/button/button";
-import DannyPic from "./images/danny.jpg";
-import SamPic from "./images/sam.jpg";
-import TuckerPic from "./images/tucker.png";
-import JazzPic from  "./images/jazz.png";
-import ValPic from  "./images/val.png";
-import DashPic from  "./images/dash.png";
+import RequestPopup from "../../components/request_popup/request_popup.js";
 
 const useStyles = makeStyles((theme) => ({
   threeCol: {
@@ -60,6 +58,15 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: "2em",
 		fontWeight: "bold",
 		marginBottom: "1em"
+	},
+	deleteConfirmation: {
+		display: "flex",
+		flexDirection: "column"
+	},
+	horizontalOptions: {
+		display: "flex",
+		justifyContent: "space-around",
+		margin: "0em 3em 1em 3em"
 	}
 }));
 
@@ -68,46 +75,6 @@ const BuddyType = {
 	INCOMING: "incoming",
 	MATCHED: "matched",
 }
-
-// Remove these hardcodes
-const OUTGOING_BUDDIES = [
-	{
-		id: 1,
-		name: "Valerie Gray",
-		pic: ValPic,
-	},
-	{
-		id: 2,
-		name: "Dash Baxter",
-		pic: DashPic,
-	},
-]
-
-const INCOMING_BUDDIES = [
-	{
-		id: 3,
-		name: "Jazz Fenton",
-		pic: JazzPic,
-	},
-]
-
-const MATCHED_BUDDIES = [
-	{
-		id: 4,
-		name: "Danny Fenton",
-		pic: DannyPic,
-	},
-	{
-		id: 5,
-		name: "Sam Manson",
-		pic: SamPic,
-	},
-	{
-		id: 6,
-		name: "Tucker Foley",
-		pic: TuckerPic,
-	},
-]
 
 const REQUEST_TIMES = [
 	{
@@ -120,44 +87,204 @@ const REQUEST_TIMES = [
 	}
 ]
 
+
 /**
  * React component for the Buddies Requests page.
  */
 export default function Buddies() {
 	const classes = useStyles();
-	const [outgoing, setOutgoing] = useState(OUTGOING_BUDDIES);
-	const [incoming, setIncoming] = useState(INCOMING_BUDDIES);
-	const [matched, setMatched] = useState(MATCHED_BUDDIES);
 
-	// TODO: get the actual buddies/requests
+	const userinformation = useSelector((state) => state);
 
-	const removeById = (id, buddyList) => {
-		return buddyList.filter(buddy => buddy.id !== id);
+	const [outgoing, setOutgoing] = useState([]);
+	const [incoming, setIncoming] = useState([]);
+	const [matched, setMatched] = useState([]);
+	const [loadingOutgoing, setLoadingOutgoing] = useState(true);
+	const [loadingIncoming, setLoadingIncoming] = useState(true);
+	const [loadingMatched, setLoadingMatched] = useState(true);
+
+	let outgoingRequests = useRef([]);
+	let incomingRequests = useRef([]);
+	let fullUserInfo = useRef();
+
+	function getBuddies() {
+		setOutgoing([]);
+		setIncoming([]);
+		setMatched([]);
+
+    axios
+    	.get(`http://localhost:5000/buddyrequest/${userinformation.id}/sent`)
+      .then((resp) => {
+      	const buddyrequests = resp.data.buddyrequests
+      	let outgoingBuddies = []
+      	for (let i=0; i<buddyrequests.length; i++) {
+      		if (buddyrequests[i].status == 'Pending') {
+	      		axios
+				    	.get(`http://localhost:5000/user/${buddyrequests[i].receiver}`)
+				      .then((resp) => {
+				      	outgoingRequests.current = outgoingRequests.current.concat(buddyrequests[i])
+				      	setOutgoing(outgoing => outgoing.concat(resp.data.user));
+				    }).catch((err) => {
+				        throw err;
+				    })
+				  }
+      	}
+      	setLoadingOutgoing(false);
+    }).catch((err) => {
+        throw err;
+    })
+    axios
+    	.get(`http://localhost:5000/buddyrequest/${userinformation.id}/received`)
+      .then((resp) => {
+      	const buddyrequests = resp.data.buddyrequests
+      	for (let i=0; i<buddyrequests.length; i++) {
+      		if (buddyrequests[i].status == 'Pending') {
+      			axios
+				    	.get(`http://localhost:5000/user/${buddyrequests[i].sender}`)
+				      .then((resp) => {
+				      	incomingRequests.current = incomingRequests.current.concat(buddyrequests[i])
+				      	setIncoming(incoming => incoming.concat(resp.data.user));
+				    }).catch((err) => {
+				        throw err;
+				    })
+      		}
+      	}
+      	setLoadingIncoming(false);
+    }).catch((err) => {
+        throw err;
+    })
+    axios
+    	.get(`http://localhost:5000/user/${userinformation.id}`)
+      .then((resp) => {
+      	fullUserInfo.current = resp.data.user;
+      	setMatched(resp.data.user.pastbuddies);
+      	setLoadingMatched(false);
+    }).catch((err) => {
+        throw err;
+    })
+    console.log("data loaded")
+  }
+
+  useEffect(() => {
+  	getBuddies()
+  }, [])
+
+	const removeById = (id, list) => {
+		return list.filter(item => item._id !== id);
 	}
 
-	const handleAcceptRequest = (buddy, handleClose) => {
-		setIncoming(removeById(buddy.id, incoming));
-		setMatched([buddy].concat(matched));
-		handleClose();
-
+	const removeBuddyRequest = (buddyId, requestId, buddies, requests, setBuddies) => {
+		requests = removeById(requestId, requests)
+    setBuddies(removeById(buddyId, buddies));
 	}
 
-	const handleRejectRequest = (buddy, handleClose) => {
-		setIncoming(removeById(buddy.id, incoming));
-		handleClose();
+	const handleAcceptRequest = (buddy, request, handleClose) => {
+		axios
+			.post(`http://localhost:5000/buddyrequest/accept`, { id: request._id })
+			.then((resp) => {
+				if (resp.data.success) {
+					removeBuddyRequest(buddy._id, request._id, incoming, incomingRequests.current, setIncoming);
+					let updated = Object.assign({}, fullUserInfo.current);
+					updated.pastbuddies = [{
+						_id: buddy._id,
+						name: buddy.name,
+						profileURL: buddy.profileURL,
+					}].concat(updated.pastbuddies)
+
+					axios
+			    	.put(`http://localhost:5000/user/email/update/`, updated)
+			      .then((resp) => {
+			      	if (resp.data.success) {
+			      		fullUserInfo.current = updated
+			      		setMatched(fullUserInfo.current.pastbuddies);
+			      	}
+			      	if (resp.data.err) {
+			      		console.log(resp.data.err)
+			      	}
+			      	handleClose();
+			    }).catch((err) => {
+			        throw err;
+			    })
+				}
+			})
 	}
 
-	const handleDeleteBuddy = (buddy) => {
-		setMatched(removeById(buddy.id, matched));
+	const handleNewRequest = (buddy, request) => {
+		console.log("NEW")
+		console.log(request)
+		if (request == null) {
+			return;
+		}
+		outgoingRequests.current = [request].concat([])
+		setOutgoing(outgoing => [buddy].concat(outgoing));
 	}
 
-	return (
-		<div className={classes.threeCol}>
-			<BuddyColumn type={BuddyType.OUTGOING} buddies={outgoing} />
-			<BuddyColumn type={BuddyType.INCOMING} buddies={incoming} handleAccept={handleAcceptRequest} handleReject={handleRejectRequest}/>
-			<BuddyColumn type={BuddyType.MATCHED} buddies={matched} handleDelete={handleDeleteBuddy}/>
-		</div>
-	);
+	const handleRejectRequest = (buddy, request, handleClose) => {
+		axios
+    	.delete(`http://localhost:5000/buddyrequest/delete/${request._id}`)
+      .then((resp) => {
+      	if (resp.data.success) {
+      		removeBuddyRequest(buddy._id, request._id, incoming, incomingRequests.current, setIncoming);
+      	}
+      	if (resp.data.err) {
+      		console.log(resp.data.err)
+      	}
+      	handleClose();
+    }).catch((err) => {
+        throw err;
+    })
+	}
+
+	const handleCancelRequest = (buddy, request, handleClose) => {
+		axios
+    	.delete(`http://localhost:5000/buddyrequest/delete/${request._id}`)
+      .then((resp) => {
+      	if (resp.data.success) {
+      		removeBuddyRequest(buddy._id, request._id, outgoing, outgoingRequests.current, setOutgoing);
+      	}
+      	if (resp.data.err) {
+      		console.log(resp.data.err)
+      	}
+      	handleClose();
+    }).catch((err) => {
+        throw err;
+    })
+	}
+
+	const handleDeleteBuddy = (buddy, handleClose) => {
+		let updated = Object.assign({}, fullUserInfo.current);
+		updated.pastbuddies = removeById(buddy._id, updated.pastbuddies)
+
+		axios
+    	.put(`http://localhost:5000/user/email/update/`, updated)
+      .then((resp) => {
+      	if (resp.data.success) {
+      		setMatched(removeById(buddy._id, matched));
+      		fullUserInfo.current = updated
+      	}
+      	if (resp.data.err) {
+      		console.log(resp.data.err)
+      	}
+      	handleClose();
+    }).catch((err) => {
+        throw err;
+    })
+	}
+
+	const render = () => {
+		if (loadingIncoming || loadingOutgoing || loadingMatched) {
+			return <h4>Loading...</h4>
+		} else {
+			return (
+				<div className={classes.threeCol}>
+					<BuddyColumn type={BuddyType.OUTGOING} buddies={outgoing} requests={outgoingRequests.current} handleCancel={handleCancelRequest}/>
+					<BuddyColumn type={BuddyType.INCOMING} buddies={incoming} requests={incomingRequests.current} handleAccept={handleAcceptRequest} handleReject={handleRejectRequest} handleNew={handleNewRequest}/>
+					<BuddyColumn type={BuddyType.MATCHED} buddies={matched} requests={[]} handleNew={handleNewRequest} handleDelete={handleDeleteBuddy}/>
+				</div>
+			);
+		}
+	}
+	return render();
 }
 
 /**
@@ -165,11 +292,12 @@ export default function Buddies() {
  * Each column contains a specific type of buddy/request (outgoing, incoming, matched).
  * @prop {enum} type The type of buddy shown in the column
  * @prop {[]object]} buddies The buddies populating the column
+ * @prop {[]object]} requests The requests corresponding to each buddy
  * @prop {functions} handleFns Callback functions to handle accepting/rejecting/cancelling/deleting buddies
  */
 const BuddyColumn = (props) => {
 	const classes = useStyles();
-	const { type, buddies, ...handleFns } = props;
+	const { type, buddies, requests, ...handleFns } = props;
 
 	let colName;
 	switch (type) {
@@ -186,7 +314,7 @@ const BuddyColumn = (props) => {
 
 	let buddyComponents = []
 	for (let i=0; i<buddies.length; i++) {
-		buddyComponents.push(<Buddy key={buddies[i].id} buddyInfo={buddies[i]} type={type} {...handleFns}/>)
+		buddyComponents.push(<Buddy key={buddies[i]._id} buddyInfo={buddies[i]} requestInfo={requests[i]} type={type} {...handleFns}/>)
 	}
 
 	return (
@@ -201,48 +329,92 @@ const BuddyColumn = (props) => {
  * Component representing a card showing basic buddy info.
  * Contains options for interacting with the buddy card that are dependent on buddy type.
  * @prop {object} buddyInfo The specific buddy's info
+ * @prop {object} requestInfo Info about the particular request
  * @prop {enum} type The type of buddy
  * @prop {functions} handleFns  Callback functions to handle accepting/rejecting/cancelling/deleting buddies
  */
 const Buddy = (props) => {
+	const { buddyInfo, requestInfo, type, ...handleFns } = props;
 	const classes = useStyles();
-	const [showRequest, setShowRequest] = useState(false);
-	let options, requestDetails;
+	const userinformation = useSelector((state) => state);
 
-	switch (props.type) {
+	const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
+	const [showRequestDetails, setShowRequestDetails] = useState(false);
+	const [showNewRequest, setShowNewRequest] = useState(false);
+	const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+
+	const requestPopup =
+		<RequestPopup
+			open={showNewRequest}
+			onClose={() => setShowNewRequest(false)}
+			onSubmit={(request) => props.handleNew(buddyInfo, request)}
+			user={userinformation._id}
+			receiver={buddyInfo._id}
+		/>
+
+	let options, requestDetails, newRequest, deleteConfirmation, cancelConfirmation;
+
+	switch (type) {
 		case BuddyType.OUTGOING:
-			options = null
-			requestDetails = null
+			options =<div className={classes.options}><SecondaryButton className={classes.optionButton} text="Cancel Request" onClick={() => setShowCancelConfirmation(true)} /></div>
+			requestDetails = null;
+			newRequest = null;
+			deleteConfirmation = null;
+			cancelConfirmation =
+				<CancelConfirmation
+					show={showCancelConfirmation}
+					buddyInfo={buddyInfo}
+					requestInfo={requestInfo}
+					handleClose={() => setShowCancelConfirmation(false)}
+					handleCancel={props.handleCancel}
+				/>
 			break;
 		case BuddyType.INCOMING:
-			options = <div><PrimaryButton className={classes.options} variant="contained" text="View Request" onClick={() => setShowRequest(true)} /></div>
+			options = <div><PrimaryButton className={classes.options} variant="contained" text="View Request" onClick={() => setShowRequestDetails(true)} /></div>
+			newRequest = requestPopup;
 			requestDetails =
 				<RequestDetails
-					show={showRequest}
-					times={REQUEST_TIMES}
-					handleClose={() => setShowRequest(false)}
+					show={showRequestDetails}
+					buddyInfo={buddyInfo}
+					requestInfo={requestInfo}
+					handleClose={() => setShowRequestDetails(false)}
 					handleAccept={props.handleAccept}
 					handleReject={props.handleReject}
+					handleNew={() => setShowNewRequest(true)}
 				/>
+				deleteConfirmation = null;
+				cancelConfirmation = null;
 			break;
 		case BuddyType.MATCHED:
 			options =
 				<div className={classes.options}>
-					<PrimaryButton className={classes.optionButton} variant="contained" text="Request" />
-					<SecondaryButton className={classes.optionButton} variant="contained" text="Delete" onClick={() => props.handleDelete(props.buddyInfo)} />
+					<PrimaryButton className={classes.optionButton} variant="contained" text="Request" onClick={() => setShowNewRequest(true)} />
+					<SecondaryButton className={classes.optionButton} variant="contained" text="Delete" onClick={() => setShowDeleteConfirmation(true)} />
 				</div>
-			requestDetails = null
+			requestDetails = null;
+			newRequest = requestPopup;
+			deleteConfirmation =
+				<DeleteConfirmation
+					show={showDeleteConfirmation}
+					buddyInfo={buddyInfo}
+					handleClose={() => setShowDeleteConfirmation(false)}
+					handleDelete= {props.handleDelete}
+				/>
+				cancelConfirmation = null;
 			break;
 	}
 	return (
 		<Card className={classes.buddy}>
-			<CardMedia component="img" image={props.buddyInfo.pic} className={classes.buddyImg}></CardMedia>
+			<CardMedia component="img" image={buddyInfo.profileURL} className={classes.buddyImg}></CardMedia>
 			<CardContent>
-			 	<Typography className={classes.nameText}>{props.buddyInfo.name}</Typography>
+			 	<Typography className={classes.nameText}>{buddyInfo.name}</Typography>
 			</CardContent>
 			<CardContent>
 			 	{options}
 			 	{requestDetails}
+			 	{newRequest}
+			 	{deleteConfirmation}
+			 	{cancelConfirmation}
 			</CardContent>
 		</Card>
 	)
@@ -253,19 +425,20 @@ const Buddy = (props) => {
  * Allows users to select from one of the proposed times and accept the request,
  * or reject or propose a new time for the study session.
  * @prop {boolean} show Whether the modal should be open or not
- * @prop {[]Date} times The proposed study session times
- * @prop handleFns {Function} Callback functions to handle accepting/rejecting buddies and closing the modal
+ * @prop {object} buddyInfo The specific buddy's info
+ * @prop {object} requestInfo Info about the particular request
+ * @prop handleFns {functions} Callback functions to handle accepting/rejecting buddies and closing the modal
  */
 const RequestDetails = (props) => {
 	const classes = useStyles();
 	return (
-		<Dialog onClose={props.handleClose} open={props.show} maxWidth="sm" fullWidth>
+		<Dialog onClose={props.handleClose} open={props.show} maxWidth="md" fullWidth>
 			<div className={classes.requestDetails}>
-				<RequestedTimes times={props.times}></RequestedTimes>
+				<RequestedTimes dates={props.requestInfo.dateslots}></RequestedTimes>
 				<div className={classes.options}>
-					<PrimaryButton className={classes.optionButton} text="Accept" onClick={() => props.handleAccept(props.buddyInfo, props.handleClose)} />
-					<SecondaryButton className={classes.optionButton} text="Reject" onClick={() => props.handleReject(props.buddyInfo, props.handleClose)} />
-					<DefaultButton className={classes.optionButton} text="Propose New" />
+					<PrimaryButton className={classes.optionButton} text="Accept" onClick={() => props.handleAccept(props.buddyInfo, props.requestInfo, props.handleClose)} />
+					<SecondaryButton className={classes.optionButton} text="Reject" onClick={() => props.handleReject(props.buddyInfo, props.requestInfo, props.handleClose)} />
+					<DefaultButton className={classes.optionButton} text="Propose New" onClick={() => {props.handleNew(); props.handleClose()}}/>
 				</div>
 			</div>
 			<Button variant="outlined" onClick={props.handleClose}>Close</Button>
@@ -275,24 +448,74 @@ const RequestDetails = (props) => {
 
 /**
  * Component showing a selectable list of proposed study times.
- * @prop {[]Date} The proposed study times
+ * @prop {[]Date} times The proposed study times
  */
 const RequestedTimes = (props) => {
 	const [selectedItem, setSelectedItem] = useState(-1);
 
-	let timeListItems = []
-	for (let i=0; i<props.times.length; i++) {
-		timeListItems.push(
+	let dateListItems = [];
+	let start, end, formattedStart, formattedEnd;
+	for (let i=0; i<props.dates.length; i+=2) {
+		start = new Date(props.dates[i]);
+		end = new Date(props.dates[i+1]);
+		var options = { month: 'long', day: 'numeric' };
+		formattedStart = start.toLocaleDateString("en-US", options) + " " + start.toLocaleTimeString('en-US');
+		formattedEnd = end.toLocaleDateString("en-US", options) + " " + end.toLocaleTimeString('en-US');
+		dateListItems.push(
 			<ListItem button selected={selectedItem == i} onClick={() => setSelectedItem(i)} key={i}>
-				{props.times[i].start} - {props.times[i].end}
+				<Typography variant="h6">{formattedStart} - {formattedEnd}</Typography>
 			</ListItem>
 		)
 	}
 	return (
 		<div>
 			<List>
-				{timeListItems}
+				{dateListItems}
 			</List>
 		</div>
 	)
 }
+
+/**
+ * Component showing a delete confirmation dialog.
+ * @prop {boolean} show Whether the modal should be open or not
+ * @prop {object} buddyInfo The specific buddy's info
+ * @prop handleFns {functions} Callback functions to handle deleting buddies and closing the modal
+ */
+const DeleteConfirmation = (props) => {
+	const classes = useStyles();
+	return (
+		<Dialog onClose={props.handleClose} open={props.show} maxWidth="xs" fullWidth>
+			<div className={classes.confirmation}>
+				<DialogTitle>Are you sure you want to delete this buddy?</DialogTitle>
+				<div className={classes.horizontalOptions}>
+					<SecondaryButton className={classes.optionButton} text="Yes, Delete" onClick={() => props.handleDelete(props.buddyInfo, props.handleClose)} />
+					<DefaultButton className={classes.optionButton} text="Nevermind" onClick={props.handleClose} />
+				</div>
+			</div>
+		</Dialog>
+	)
+}
+
+/**
+ * Component showing a cancel confirmation dialog.
+ * @prop {boolean} show Whether the modal should be open or not
+ * @prop {object} buddyInfo The specific buddy's info
+ * @prop {object} requestInfo Info about the particular request
+ * @prop handleFns {functions} Callback functions to handle deleting buddies and closing the modal
+ */
+const CancelConfirmation = (props) => {
+	const classes = useStyles();
+	return (
+		<Dialog onClose={props.handleClose} open={props.show} maxWidth="xs" fullWidth>
+			<div className={classes.confirmation}>
+				<DialogTitle>Are you sure you want to cancel this request?</DialogTitle>
+				<div className={classes.horizontalOptions}>
+					<SecondaryButton className={classes.optionButton} text="Yes Cancel Request" onClick={() => props.handleCancel(props.buddyInfo, props.requestInfo, props.handleClose)} />
+					<DefaultButton className={classes.optionButton} text="Nevermind" onClick={props.handleClose} />
+				</div>
+			</div>
+		</Dialog>
+	)
+}
+
