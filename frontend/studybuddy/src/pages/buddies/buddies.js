@@ -120,7 +120,7 @@ export default function Buddies() {
       	for (let i=0; i<buddyrequests.length; i++) {
       		if (buddyrequests[i].status == 'Pending') {
 	      		axios
-				    	.get(`http://localhost:5000/user/${buddyrequests[i].receiver}/information`)
+				    	.get(`http://localhost:5000/user/${buddyrequests[i].receiver}`)
 				      .then((resp) => {
 				      	outgoingRequests.current = outgoingRequests.current.concat(buddyrequests[i])
 				      	setOutgoing(outgoing => outgoing.concat(resp.data.user));
@@ -140,7 +140,7 @@ export default function Buddies() {
       	for (let i=0; i<buddyrequests.length; i++) {
       		if (buddyrequests[i].status == 'Pending') {
       			axios
-				    	.get(`http://localhost:5000/user/${buddyrequests[i].sender}/information`)
+				    	.get(`http://localhost:5000/user/${buddyrequests[i].sender}`)
 				      .then((resp) => {
 				      	incomingRequests.current = incomingRequests.current.concat(buddyrequests[i])
 				      	setIncoming(incoming => incoming.concat(resp.data.user));
@@ -154,7 +154,7 @@ export default function Buddies() {
         throw err;
     })
     axios
-    	.get(`http://localhost:5000/user/${userinformation.id}/information`)
+    	.get(`http://localhost:5000/user/${userinformation.id}`)
       .then((resp) => {
       	fullUserInfo.current = resp.data.user;
       	setMatched(resp.data.user.pastbuddies);
