@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { makeStyles } from "@material-ui/core/styles";
-import { List, ListItem, Button, Dialog, Card, CardContent, CardMedia } from "@material-ui/core";
+import { List, ListItem, Button, Dialog, Card, CardContent, CardMedia, Typography } from "@material-ui/core";
+import { PrimaryButton, SecondaryButton, DefaultButton } from "../../components/button/button";
 import DannyPic from "./images/danny.jpg";
 import SamPic from "./images/sam.jpg";
 import TuckerPic from "./images/tucker.png";
@@ -16,17 +17,19 @@ const useStyles = makeStyles((theme) => ({
   column: {
     width: "100%",
     height: "100vh",
-    border: "2px solid black",
+    margin: "2em 0",
+    borderRight: "2px solid",
+    borderRightColor: "#201E1D"
   },
   buddy: {
   	borderRadius: "10px",
-  	background: "silver",
   	width: "90%",
   	height: "6em",
   	margin: "1em auto",
   	display: 'flex',
     alignItems: 'center',
     justifyContent: "space-between",
+    boxShadow: "10px 10px 30px silver"
   },
   buddyImg: {
   	borderRadius:"50%",
@@ -48,6 +51,15 @@ const useStyles = makeStyles((theme) => ({
 	},
 	optionButton: {
 		margin: ".25em 0"
+	},
+	nameText: {
+		fontSize: "1.5em",
+		fontWeight: "bold"
+	},
+	columnName: {
+		fontSize: "2em",
+		fontWeight: "bold",
+		marginBottom: "1em"
 	}
 }));
 
@@ -179,7 +191,7 @@ const BuddyColumn = (props) => {
 
 	return (
 		<div className={classes.column}>
-			<h1>{colName}</h1>
+			<Typography className={classes.columnName}>{colName}</Typography>
 			{buddyComponents}
 		</div>
 	)
@@ -203,7 +215,7 @@ const Buddy = (props) => {
 			requestDetails = null
 			break;
 		case BuddyType.INCOMING:
-			options =<div className={classes.options}><Button onClick={() => setShowRequest(true)} color="primary" variant="contained">View Request</Button></div>
+			options = <div><PrimaryButton className={classes.options} variant="contained" text="View Request" onClick={() => setShowRequest(true)} /></div>
 			requestDetails =
 				<RequestDetails
 					show={showRequest}
@@ -216,8 +228,8 @@ const Buddy = (props) => {
 		case BuddyType.MATCHED:
 			options =
 				<div className={classes.options}>
-					<Button color="primary" variant="contained" className={classes.optionButton}>Request</Button>
-					<Button color="secondary" variant="contained" className={classes.optionButton} onClick={() => props.handleDelete(props.buddyInfo)}>Delete</Button>
+					<PrimaryButton className={classes.optionButton} variant="contained" text="Request" />
+					<SecondaryButton className={classes.optionButton} variant="contained" text="Delete" onClick={() => props.handleDelete(props.buddyInfo)} />
 				</div>
 			requestDetails = null
 			break;
@@ -226,7 +238,7 @@ const Buddy = (props) => {
 		<Card className={classes.buddy}>
 			<CardMedia component="img" image={props.buddyInfo.pic} className={classes.buddyImg}></CardMedia>
 			<CardContent>
-			 	<h2>{props.buddyInfo.name}</h2>
+			 	<Typography className={classes.nameText}>{props.buddyInfo.name}</Typography>
 			</CardContent>
 			<CardContent>
 			 	{options}
@@ -251,20 +263,12 @@ const RequestDetails = (props) => {
 			<div className={classes.requestDetails}>
 				<RequestedTimes times={props.times}></RequestedTimes>
 				<div className={classes.options}>
-					<Button variant="contained" color="primary" className={classes.optionButton} onClick={() => props.handleAccept(props.buddyInfo, props.handleClose)}>
-						Accept
-					</Button>
-					<Button variant="contained" color="secondary" className={classes.optionButton} onClick={() => props.handleReject(props.buddyInfo, props.handleClose)}>
-						Reject
-					</Button>
-					<Button variant="contained" className={classes.optionButton}>
-						Propose New
-					</Button>
+					<PrimaryButton className={classes.optionButton} text="Accept" onClick={() => props.handleAccept(props.buddyInfo, props.handleClose)} />
+					<SecondaryButton className={classes.optionButton} text="Reject" onClick={() => props.handleReject(props.buddyInfo, props.handleClose)} />
+					<DefaultButton className={classes.optionButton} text="Propose New" />
 				</div>
 			</div>
-			<Button variant="outlined" onClick={props.handleClose}>
-				Close
-			</Button>
+			<Button variant="outlined" onClick={props.handleClose}>Close</Button>
 		</Dialog>
 	)
 }

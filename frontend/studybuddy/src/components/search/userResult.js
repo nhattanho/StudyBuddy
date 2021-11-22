@@ -6,14 +6,20 @@ const useStyles = makeStyles((theme) => ({
     cardStyle: {
         display: "flex",
         justifyContent: "flex-end",
-        margin: 5
+        margin: 5,
+        boxShadow: "10px 10px 30px silver",
+        borderRadius: "10px"
     },
     cardContentStyle: {
         display: "flex",
         flexDirection: "column",
-        flex: "0 0 70%",
+        margin: "auto",
         justifyContent: "space-around"
-    }
+    },
+    nameText: {
+        fontSize: "1.2em",
+        fontWeight: "bold"
+    },
 }))
 
 export default function UserResult(props){
@@ -23,7 +29,7 @@ export default function UserResult(props){
     return(
         <Card className={classes.cardStyle}>
             <CardContent className={classes.cardContentStyle}>
-                <Typography>{userParams.name}</Typography>
+                <Typography className={classes.nameText}>{userParams.name}</Typography>
                 <Typography>{userParams.major}</Typography>
                 {userParams.classes.map((item, id) => <Typography key={id}>{item}</Typography>)}
             </CardContent>

@@ -21,16 +21,20 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         flexDirection: "row",
         justifyContent: "center",
-        margin: "10%"
+        padding: "8% 10%"
     },
     filterBarStyle: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-around',
         borderRight: 'solid',
-        borderRightColor: '#a3aaaf',
+        borderRightColor: '#201E1D',
         padding: '1%',
-        width: '25vw',
+        marginRight: '1%',
+        width: '25vw'
+    },
+    filterSection: {
+        paddingBottom: '10%'
     }
 }));
 
@@ -214,16 +218,22 @@ export default function Search() {
         <div id="searchPage" className={classes.pageStyle}>
             <div id="filterBar" className={classes.filterBarStyle}>
                 <List style={{display: "flex", flexDirection: "column", height: '100%'}}>
-                    <Typography>Year</Typography>
-                    {yearsComponent()}
-                    <Typography>Majors</Typography>
-                    {majorsComponent()}
-                    <Button id="moreMajorsButton" variant="text" size="small" onClick={onMoreMajorsClick}>More</Button>
-                    <Typography>Classes</Typography>
-                    <FormGroup>
-                        {classesComponent()}
-                    </FormGroup>
-                    <Button id="moreClassesButton" variant="text" size="small" onClick={onMoreClassesClick}>More</Button>
+                    <div className={classes.filterSection}>
+                        <Typography variant="h6">Year</Typography>
+                        {yearsComponent()}
+                    </div>
+                    <div className={classes.filterSection}>
+                        <Typography variant="h6">Majors</Typography>
+                        {majorsComponent()}
+                        <Button id="moreMajorsButton" variant="text" size="small" onClick={onMoreMajorsClick}>More</Button>
+                    </div>
+                    <div className={classes.filterSection} style={{"paddingBottom": 0}}>
+                        <Typography variant="h6">Classes</Typography>
+                        <FormGroup>
+                            {classesComponent()}
+                        </FormGroup>
+                        <Button id="moreClassesButton" variant="text" size="small" onClick={onMoreClassesClick}>More</Button>
+                    </div>
                 </List>
             </div>
             <div id="results" style={{display: "flex", flexDirection: "column", flex: "1 0 75%"}}>

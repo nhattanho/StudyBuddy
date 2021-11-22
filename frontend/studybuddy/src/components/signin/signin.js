@@ -20,6 +20,8 @@ import { storeCheckLogin, storeEmail, storeInformation } from "../../redux/redux
 import {Button} from "@material-ui/core";
 import {customStyles, InputField, useStyles} from "./style";
 
+import { PrimaryButton } from "../../components/button/button";
+
 /* Main here */
 const Signin = (props) => {
   /* Use Redux */
@@ -157,9 +159,7 @@ const Signin = (props) => {
           defaultValue={password}
         />
         <div className={classes.button}>
-          <Button variant="contained" color="primary" onClick={() => onSubmit(history)}>
-            Submit
-          </Button>
+          <PrimaryButton text="Submit" onClick={() => onSubmit(history)} />
         </div>
       </form>
       <div className={classes.newaccount}>
