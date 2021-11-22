@@ -109,7 +109,7 @@ router.post("/resetPassword", (req, res) => {
 });
 
 
-/*======================================GET method for login===================================*/
+/*======================================GET method for normal login===================================*/
 async function checkPass(user, password) {
   /*compare input password with hashed password in db*/
   const match = await bcrypt.compare(password, user.password);
@@ -151,6 +151,33 @@ router.get("/login", (req, res) => {
     res.send({
       success: false,
       message: "Email or Password can not be empty!",
+    });
+  }
+});
+
+/*======================================GET method for Facebook login===================================*/
+/* User login for requesting http://localhost:5000/user/facebookLogin
+ body: {email} */
+router.get("/facebookLogin", (req, res) => {
+  const { email } = req.query;
+
+  if (email.length > 0) {
+    /*find user with given email in the database*/
+    User.findOne({ email: email }, async (err, user) => {
+      /*no user in database has specified email*/
+      if (!user) {
+        console.log("User does not exists");
+        res.send({ success: false, message: "User does not exist!" });
+      } else {
+        console.log("Success: email matched");
+        res.send({ success: true, message: "email existed!", user: user });
+      }
+    });
+  } else {
+    console.log("No inputted email");
+    res.send({
+      success: false,
+      message: "Email can not be empty!",
     });
   }
 });
