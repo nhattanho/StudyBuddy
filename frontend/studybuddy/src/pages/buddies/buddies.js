@@ -113,7 +113,7 @@ export default function Buddies() {
 		setMatched([]);
 
     axios
-    	.get(`http://localhost:5000/buddyrequest/${userinformation._id}/sent`)
+    	.get(`http://localhost:5000/buddyrequest/${userinformation.id}/sent`)
       .then((resp) => {
       	const buddyrequests = resp.data.buddyrequests
       	let outgoingBuddies = []
@@ -134,7 +134,7 @@ export default function Buddies() {
         throw err;
     })
     axios
-    	.get(`http://localhost:5000/buddyrequest/${userinformation._id}/received`)
+    	.get(`http://localhost:5000/buddyrequest/${userinformation.id}/received`)
       .then((resp) => {
       	const buddyrequests = resp.data.buddyrequests
       	for (let i=0; i<buddyrequests.length; i++) {
@@ -154,7 +154,7 @@ export default function Buddies() {
         throw err;
     })
     axios
-    	.get(`http://localhost:5000/user/${userinformation._id}/information`)
+    	.get(`http://localhost:5000/user/${userinformation.id}/information`)
       .then((resp) => {
       	fullUserInfo.current = resp.data.user;
       	setMatched(resp.data.user.pastbuddies);
@@ -210,6 +210,8 @@ export default function Buddies() {
 	}
 
 	const handleNewRequest = (buddy, request) => {
+		console.log("NEW")
+		console.log(request)
 		if (request == null) {
 			return;
 		}
@@ -276,7 +278,7 @@ export default function Buddies() {
 			return (
 				<div className={classes.threeCol}>
 					<BuddyColumn type={BuddyType.OUTGOING} buddies={outgoing} requests={outgoingRequests.current} handleCancel={handleCancelRequest}/>
-					<BuddyColumn type={BuddyType.INCOMING} buddies={incoming} requests={incomingRequests.current} handleAccept={handleAcceptRequest} handleReject={handleRejectRequest}/>
+					<BuddyColumn type={BuddyType.INCOMING} buddies={incoming} requests={incomingRequests.current} handleAccept={handleAcceptRequest} handleReject={handleRejectRequest} handleNew={handleNewRequest}/>
 					<BuddyColumn type={BuddyType.MATCHED} buddies={matched} requests={[]} handleNew={handleNewRequest} handleDelete={handleDeleteBuddy}/>
 				</div>
 			);
@@ -341,11 +343,20 @@ const Buddy = (props) => {
 	const [showNewRequest, setShowNewRequest] = useState(false);
 	const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
+	const requestPopup =
+		<RequestPopup
+			open={showNewRequest}
+			onClose={() => setShowNewRequest(false)}
+			onSubmit={(request) => props.handleNew(buddyInfo, request)}
+			user={userinformation._id}
+			receiver={buddyInfo._id}
+		/>
+
 	let options, requestDetails, newRequest, deleteConfirmation, cancelConfirmation;
 
 	switch (type) {
 		case BuddyType.OUTGOING:
-			options =<div className={classes.options}><Button color="secondary" variant="contained" className={classes.optionButton} onClick={() => setShowCancelConfirmation(true)}>Cancel Request</Button></div>
+			options =<div className={classes.options}><SecondaryButton className={classes.optionButton} text="Cancel Request" onClick={() => setShowCancelConfirmation(true)} /></div>
 			requestDetails = null;
 			newRequest = null;
 			deleteConfirmation = null;
@@ -359,7 +370,8 @@ const Buddy = (props) => {
 				/>
 			break;
 		case BuddyType.INCOMING:
-			options = <div><PrimaryButton className={classes.options} variant="contained" text="View Request" onClick={() => setShowRequest(true)} /></div>
+			options = <div><PrimaryButton className={classes.options} variant="contained" text="View Request" onClick={() => setShowRequestDetails(true)} /></div>
+			newRequest = requestPopup;
 			requestDetails =
 				<RequestDetails
 					show={showRequestDetails}
@@ -368,8 +380,8 @@ const Buddy = (props) => {
 					handleClose={() => setShowRequestDetails(false)}
 					handleAccept={props.handleAccept}
 					handleReject={props.handleReject}
+					handleNew={() => setShowNewRequest(true)}
 				/>
-				newRequest = null;
 				deleteConfirmation = null;
 				cancelConfirmation = null;
 			break;
@@ -380,13 +392,7 @@ const Buddy = (props) => {
 					<SecondaryButton className={classes.optionButton} variant="contained" text="Delete" onClick={() => setShowDeleteConfirmation(true)} />
 				</div>
 			requestDetails = null;
-			newRequest =
-				<RequestPopup
-					open={showNewRequest}
-					onClose={(request) => {props.handleNew(buddyInfo, request); setShowNewRequest(false)}}
-					user={userinformation._id}
-					receiver={buddyInfo._id}
-				/>
+			newRequest = requestPopup;
 			deleteConfirmation =
 				<DeleteConfirmation
 					show={showDeleteConfirmation}
@@ -432,7 +438,7 @@ const RequestDetails = (props) => {
 				<div className={classes.options}>
 					<PrimaryButton className={classes.optionButton} text="Accept" onClick={() => props.handleAccept(props.buddyInfo, props.requestInfo, props.handleClose)} />
 					<SecondaryButton className={classes.optionButton} text="Reject" onClick={() => props.handleReject(props.buddyInfo, props.requestInfo, props.handleClose)} />
-					<DefaultButton className={classes.optionButton} text="Propose New" />
+					<DefaultButton className={classes.optionButton} text="Propose New" onClick={() => {props.handleNew(); props.handleClose()}}/>
 				</div>
 			</div>
 			<Button variant="outlined" onClick={props.handleClose}>Close</Button>
@@ -483,12 +489,8 @@ const DeleteConfirmation = (props) => {
 			<div className={classes.confirmation}>
 				<DialogTitle>Are you sure you want to delete this buddy?</DialogTitle>
 				<div className={classes.horizontalOptions}>
-					<Button variant="contained" color="secondary" className={classes.optionButton} onClick={() => props.handleDelete(props.buddyInfo, props.handleClose)}>
-						Yes, Delete
-					</Button>
-					<Button variant="contained" className={classes.optionButton} onClick={props.handleClose}>
-						Nevermind
-					</Button>
+					<SecondaryButton className={classes.optionButton} text="Yes, Delete" onClick={() => props.handleDelete(props.buddyInfo, props.handleClose)} />
+					<DefaultButton className={classes.optionButton} text="Nevermind" onClick={props.handleClose} />
 				</div>
 			</div>
 		</Dialog>
@@ -509,12 +511,8 @@ const CancelConfirmation = (props) => {
 			<div className={classes.confirmation}>
 				<DialogTitle>Are you sure you want to cancel this request?</DialogTitle>
 				<div className={classes.horizontalOptions}>
-					<Button variant="contained" color="secondary" className={classes.optionButton} onClick={() => props.handleCancel(props.buddyInfo, props.requestInfo, props.handleClose)}>
-						Yes, Cancel Request`
-					</Button>
-					<Button variant="contained" className={classes.optionButton} onClick={props.handleClose}>
-						Nevermind
-					</Button>
+					<SecondaryButton className={classes.optionButton} text="Yes Cancel Request" onClick={() => props.handleCancel(props.buddyInfo, props.requestInfo, props.handleClose)} />
+					<DefaultButton className={classes.optionButton} text="Nevermind" onClick={props.handleClose} />
 				</div>
 			</div>
 		</Dialog>

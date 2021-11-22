@@ -184,11 +184,11 @@ router.get("/facebookLogin", (req, res) => {
 
 /*======================================GET method for get user's information===================================*/
 /*http://localhost:5000/user/:email/information*/
-router.get("/:id/information", async (req, res) => {
-  const { id } = req.params;
+router.get("/:email/information", async (req, res) => {
+  const { email } = req.params;
   console.log("Inside get information");
   /* Check if portfolio exist*/
-  User.findOne({ _id: id }, async (err, user) => {
+  User.findOne({ email: email }, async (err, user) => {
     console.log("user", user);
     if (user) {
       res.send({ success: true, message: "Success!", user: user });
