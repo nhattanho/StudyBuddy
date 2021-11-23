@@ -15,12 +15,14 @@ import {customStyles, InputField, useStyles} from "./styles.js";
 const Register = () => {
     const classes = useStyles();
     const [firstName, setFirstName] = React.useState("");
+    const [zoomid, setZoomId] = React.useState("");
     const [lastName, setLastName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [confirm_password, setConfirmPassword] = React.useState("");
     const [errors, setErrors] = React.useState({});
+    
     /* =======================================================================*/
     const [modalIsOpenTrue, setIsOpenTrue] = React.useState(false);
     const [modalIsOpenFalse, setIsOpenFalse] = React.useState(false);
@@ -53,6 +55,7 @@ const Register = () => {
             confirm_password: confirm_password,
             username: username,
             checkLogin: true,
+            zoomid: zoomid,
         };
         let result = Validate({...registerObject});
         setErrors(result);
@@ -180,7 +183,23 @@ const Register = () => {
                     helperText={errors.confirm_password ? errors.confirm_password : ""}
                 />
             </div>
-
+            <div>
+                <InputField
+                    className={classes.input}
+                    fullWidth={false}
+                    label="Zoom ID"
+                    name="zoomid"
+                    required={true}
+                    variant="outlined"
+                    margin="dense"
+                    size="medium"
+                    inputProps={{ style: { color: "black" } }}
+                    onChange={(e) => setZoomId(e.target.value)}
+                    value={zoomid}
+                    error={!!errors.zoomid}
+                    helperText={errors.zoomid ? errors.zoomid : ""}
+                />      
+            </div>
             <div className={classes.button}>
             <Button variant="contained" color="primary" onClick={onSubmit}>
                 Submit
