@@ -12,6 +12,7 @@ const Errors = {
         password: "Must enter password",
         confirm_password: "Must enter confirm password",
         username: "Must enter user name",
+        zoomid: "Must enter zoom id",
     },
     invalid: {
         email: "Enter valid email",
@@ -61,6 +62,8 @@ const Validate = (props) => {
         } else temp.password = Errors.empty.password;
     }
 
+    if(props.zoomid !== undefined)
+        temp.zoomid = props.zoomid ? "" : Errors.empty.zoomid;
     if(props.firstName !== undefined)
         temp.firstName = props.firstName ? "" : Errors.empty.firstname;
     if(props.lastName !== undefined)

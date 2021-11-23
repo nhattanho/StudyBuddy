@@ -34,6 +34,7 @@ const initialState = {
     },
     username: "",
     profileURL: "",
+    zoomid: "",
 };
  
 /**
@@ -136,6 +137,7 @@ function userReducer(state = initialState, action) {
                 checkLogin,
                 classes,
                 profileURL,
+                zoomid,
             } = payload.userinformation;
             return {
                 ...state,
@@ -150,6 +152,7 @@ function userReducer(state = initialState, action) {
                 year: year,
                 id: _id,
                 profileURL: profileURL,
+                zoomid: zoomid,
             };
         default:
             return state;
