@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { List, ListItem, Button, Dialog, DialogTitle, Card, CardContent, CardMedia, Typography } from "@material-ui/core";
+import { List, ListItem, Button, Dialog, DialogTitle, Card, CardContent, CardMedia, Typography, Link } from "@material-ui/core";
 import { PrimaryButton, SecondaryButton, DefaultButton } from "../../components/button/button";
 import RequestPopup from "../../components/request_popup/request_popup.js";
 
@@ -52,7 +52,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	nameText: {
 		fontSize: "1.5em",
-		fontWeight: "bold"
+		fontWeight: "bold",
+		color: "black"
 	},
 	columnName: {
 		fontSize: "2em",
@@ -210,7 +211,6 @@ export default function Buddies() {
 	}
 
 	const handleNewRequest = (buddy, request) => {
-		console.log("NEW")
 		console.log(request)
 		if (request == null) {
 			return;
@@ -403,11 +403,14 @@ const Buddy = (props) => {
 				cancelConfirmation = null;
 			break;
 	}
+	let profileLink = "/sendingRequest/" + buddyInfo._id;
 	return (
 		<Card className={classes.buddy}>
 			<CardMedia component="img" image={buddyInfo.profileURL} className={classes.buddyImg}></CardMedia>
 			<CardContent>
-			 	<Typography className={classes.nameText}>{buddyInfo.name}</Typography>
+				<Link href={profileLink} className={classes.nameText}>
+					{buddyInfo.name}
+				</Link>
 			</CardContent>
 			<CardContent>
 			 	{options}
