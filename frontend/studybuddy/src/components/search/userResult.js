@@ -20,20 +20,26 @@ const useStyles = makeStyles((theme) => ({
         fontSize: "1.2em",
         fontWeight: "bold"
     },
+    aStyles: {
+        textDecoration: 'none'
+    }
 }))
 
 export default function UserResult(props){
     const userParams = props.params
     const classes = useStyles();
-
+    const userID = userParams._id;
+    const userPageURL = `/sendingRequest/${userID}`;
     return(
-        <Card className={classes.cardStyle}>
-            <CardContent className={classes.cardContentStyle}>
-                <Typography className={classes.nameText}>{userParams.name}</Typography>
-                <Typography>{userParams.major}</Typography>
-                {userParams.classes.map((item, id) => <Typography key={id}>{item}</Typography>)}
-            </CardContent>
-            <CardMedia component="img" style={{width: 100}} src={userParams.profileURL} />
-        </Card>
+        <a href={userPageURL} className={classes.aStyles}>
+            <Card className={classes.cardStyle}>
+                <CardContent className={classes.cardContentStyle}>
+                    <Typography className={classes.nameText}>{userParams.name}</Typography>
+                    <Typography>{userParams.major}</Typography>
+                    {userParams.classes.map((item, id) => <Typography key={id}>{item}</Typography>)}
+                </CardContent>
+                <CardMedia component="img" style={{width: 100}} src={userParams.profileURL} />
+            </Card>
+        </a>
     );
 }

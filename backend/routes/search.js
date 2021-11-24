@@ -23,7 +23,7 @@ router.get("/users", (req, res) => {
     usersModel.find(
         filter,
         {
-            _id: 0,
+            _id: 1,
             username: 1,
             name: 1,
             about: 1,
