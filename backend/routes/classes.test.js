@@ -14,7 +14,7 @@ let testClasses = require('../model/classes')
 testClassesMap = testClasses.reduce((o, key) => ({...o,[key.id] : key}), {})
 
 const connectParams = {
-    dbName: DB.name
+    dbName: DB.test_name
 }
 
 beforeAll(async () => {

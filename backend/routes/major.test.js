@@ -13,7 +13,7 @@ const major = require('./major');
 let majors = require('../model/majors')
 
 const connectParams = {
-    dbName: DB.name
+    dbName: DB.test_name
 }
 
 beforeAll(async () => {

@@ -13,7 +13,7 @@
  const buddyrequest = require('./buddyrequest');
 
  const connectParams = {
-     dbName: DB.name
+     dbName: DB.test_name
  }
  
  beforeAll(async () => {
