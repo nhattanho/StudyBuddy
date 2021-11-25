@@ -41,7 +41,6 @@ router.post("/create", (req, res) => {
         error: err,
       });
     });
-    console.log("hello!")
 });
 
 //Delete

@@ -108,6 +108,9 @@ export default function Buddies() {
 	let incomingRequests = useRef([]);
 	let fullUserInfo = useRef();
 
+	const email = require("../../components/email/email.js");
+	const zoom = require("../../components/zoom/zoom.js");
+
 	function getBuddies() {
 		setOutgoing([]);
 		setIncoming([]);
@@ -198,6 +201,39 @@ export default function Buddies() {
 			      	if (resp.data.success) {
 			      		fullUserInfo.current = updated
 			      		setMatched(fullUserInfo.current.pastbuddies);
+						console.log(buddy);
+						console.log(request.dateslots[0]); 
+						let zoominfo = {
+							userid: buddy.zoomid,
+							starttime: request.dateslots[0]
+						};
+						axios
+						.post(`http://localhost:5000/zoom/create`, zoominfo)
+						.then((resp) => {
+							console.log(resp); 
+							let zoomlink = resp.data.data.join_url;
+							let _message = "Thank you for scheduling your study session with StudyBuddy, here's your link: " + zoomlink; 
+							let _subject = "Your StudyBuddy zoom link"; 
+							
+							let buddy_email_info = {
+								message: _message,
+								subject: _subject,
+								recipient: buddy.email,
+							}
+							let user_email_info = {
+								message: _message,
+								subject: _subject,
+								recipient: userinformation.email,
+							}
+
+							axios
+							.post(`http://localhost:5000/email/create`, buddy_email_info);
+							axios
+							.post(`http://localhost:5000/email/create`, user_email_info);
+							
+						}).catch((err) => {
+							throw err; 
+						});
 			      	}
 			      	if (resp.data.err) {
 			      		console.log(resp.data.err)
