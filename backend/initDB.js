@@ -28,28 +28,44 @@ testBuddyRequests = Object.values(testBuddyRequests);
     mongoose.connect(
         DB.DEFAULT_DB_ENDPOINT,
         connectParams,
-        () => console.log("Database connected"),
-        { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}
+        () => console.log("Database connected"), {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useFindAndModify: false
+        }
     );
     const db = mongoose.connection;
     db.on("error", console.error.bind(console, "connection error:"));
     db.once("open", () => {
-      console.log("connected to db");
-      usersModel.insertMany(testUsers).then(
-          (param) => {console.log("Users Inserted")}).catch((err) => {
-              console.log(err);
-          })
-      classModel.insertMany(classes).then(
-          (param) => {console.log("Classes Inserted")}).catch((err) => {
-              console.log(err);
-          })
-      majorModel.insertMany(majors).then(
-          (param) => {console.log("Majors Inserted")}).catch((err) => {
-              console.log(err);
-          })
-      buddyRequestsModel.insertMany(testBuddyRequests).then(
-          (param) => {console.log("Buddy Requests Inserted")}).catch((err) => {
-              console.log(err);
-          })
+        console.log("connected to db");
     });
+    try {
+        console.log("Dropping users")
+        await usersModel.deleteMany({
+            _id: {
+                $in: testUsers.map((item, id) => item._id)
+            }
+        });
+        await usersModel.insertMany(testUsers);
+        console.log("Users Inserted")
+
+        console.log("Dropping Classes")
+        await classModel.deleteMany({});
+        await classModel.insertMany(classes);
+        console.log("Classes Inserted")
+
+        console.log("Dropping Majors")
+        await majorModel.deleteMany({});
+        await majorModel.insertMany(majors);
+        console.log("Majors Inserted")
+
+        console.log("Dropping buddyrequests")
+        await buddyRequestsModel.deleteMany({});
+        await buddyRequestsModel.insertMany(testBuddyRequests);
+        console.log("buddyrequests Inserted")
+    } catch (err) {
+        mongoose.disconnect();
+        throw new Error(err);
+    }
+    mongoose.disconnect();
 })();
