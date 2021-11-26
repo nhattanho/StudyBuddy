@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-modal";
 import Validate from "../validation/validate";
-import checkIfValidEmail from "../validation/validate"
+//import checkIfValidEmail from "../validation/validate"
 import { useHistory } from "react-router-dom";
 
 /* Import Redux */
@@ -24,6 +24,7 @@ import {customStyles, InputField, useStyles} from "./style";
 /* Import Facebook login */
 import FacebookLogin from "react-facebook-login";
 import { Card, Image } from "react-bootstrap";
+//const User = require("../../../model/usersModel");
 
 /* Import Google login */
 //import { GoogleLogin } from "react-google-login";
@@ -73,48 +74,34 @@ const Signin = (props) => {
     if (response.accessToken) {
       /* Login is valid */
       setLogin(true);
-      axios
-      .get("http://localhost:5000/user/login", {
-        params: {
-          email: response.email,
-        },
-      })
-      .then(
-        /* The user exists in DB */
-        (res) => {
-          if (!res.data.success) {
-            setIsOpenFalse(true);
-            setMessage(res.data.message);
-          } else {
-            dispatch(storeEmail(email));
-            dispatch(storeCheckLogin(true));
-            axios
-              .get(`http://localhost:5000/user/${email}/information`)
-              .then((res) => {
-                if (res.data.success) {
-                  setIsOpenFalse(false);
-                  setMessage(res.data.message);
-                  setInformation(res.data.user);
-                  dispatch(storeInformation(res.data.user));
-                  props.push('/home');
-                } else {
-                  setIsOpenFalse(true);
-                  setMessage(res.data.message);
-                }
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          }
-        }
-      )
-      .catch((err) => {
-        console.log(err);
-      });
-
+      // User.findOne({ email: response.email }, async (err, user) => {
+      //   if (!user) {
+      //     console.log("User with email provided by Facebook not found");
+      //   } else {
+          /* Log the user in */
+          axios
+          .get(`http://localhost:5000/user/${response.email}/information`)
+          .then((res) => {
+            if (res.data.success) {
+              setIsOpenFalse(false);
+              setMessage(res.data.message);
+              setInformation(res.data.user);
+              dispatch(storeInformation(res.data.user));
+              props.push('/home');
+            } else {
+              setIsOpenFalse(true);
+              setMessage(res.data.message);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            console.log("User email does not exist in DB")
+          });
+        //}
+      //});
     } else {
-      /* Login is not valid */
-      setLogin(false);
+      /* Facebook login not recognized */
+      console.log("Invalid Facebook login");
     }
   }
 
