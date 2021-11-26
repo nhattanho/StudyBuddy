@@ -127,6 +127,7 @@ function RequestPopup(props) {
             console.log("success!")
             props.callback(true, 'Request successfully submitted!')
           } else {
+            console.log(res.data); 
             console.log("fail :(");
           }
       })
