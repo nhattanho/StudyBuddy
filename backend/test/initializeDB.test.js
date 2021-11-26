@@ -8,7 +8,7 @@ const IDs = require('./testIds');
 const DB = require('../model/DBconsts')
 
 const connectParams = {
-    dbName: DB.name
+    dbName: DB.test_name
 };
 
 beforeAll(async () => {

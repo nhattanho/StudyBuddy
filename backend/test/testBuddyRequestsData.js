@@ -19,7 +19,7 @@ const requestWalterGus = {
     sender: IDs.users.walter,
     receiver: IDs.users.gus,
     status: "Pending",
-    dateslots: [Date(), Date(), Date()]
+    dateslots: [Date(), Date(), Date(), Date()]
 }
 
 const requestWalterHank = {
@@ -27,7 +27,7 @@ const requestWalterHank = {
     sender: IDs.users.walter,
     receiver: IDs.users.hank,
     status: "Cancelled",
-    dateslots: [Date()]
+    dateslots: [Date(), Date()]
 }
 
 // Below walter is the reciever
@@ -45,7 +45,7 @@ const requestSkylerWalter = {
     sender: IDs.users.skyler,
     receiver: IDs.users.walter,
     status: "Pending",
-    dateslots: [Date(), Date(), Date()]
+    dateslots: [Date(), Date(), Date(), Date()]
 }
 
 const requestSaulWalter = {
@@ -53,7 +53,7 @@ const requestSaulWalter = {
     sender: IDs.users.saul,
     receiver: IDs.users.walter,
     status: "Cancelled",
-    dateslots: [Date()]
+    dateslots: [Date(), Date()]
 }
 
 
@@ -65,7 +65,7 @@ const requestJesseWalter = {
     sender: IDs.users.jesse,
     receiver: IDs.users.walter,
     status: "Pending",
-    dateslots: [Date(), Date(), Date()]
+    dateslots: [Date(), Date(), Date(), Date()]
 }
 
 
@@ -76,7 +76,7 @@ const requestHankJesse = {
     sender: IDs.users.hank,
     receiver: IDs.users.jesse,
     status: "Pending",
-    dateslots: [Date()]
+    dateslots: [Date(), Date()]
 }
 
 const testBuddyRequests = {

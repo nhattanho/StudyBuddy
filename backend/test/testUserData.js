@@ -20,6 +20,8 @@ let walter = {
     classes: [classes.CS199.id],
     zoomid: "@Hiesenberg",
     email: "Hiesenberg@gmail.com",
+    password: '$2a$10$hDehc2VFpnHp9PAVJwQel.Z3lf2.QPC6JadeEWS.9wipuOxWj/doq',
+    confirm_password: '$2a$10$hDehc2VFpnHp9PAVJwQel.Z3lf2.QPC6JadeEWS.9wipuOxWj/doq',
     profileURL: "https://static.wikia.nocookie.net/breakingbad/images/e/e7/BB-S5B-Walt-590.jpg"
 }
 
@@ -35,6 +37,8 @@ let jesse = {
     classes: [classes.CS31.id, classes.CS32.id],
     zoomid: "@YeahScience!",
     email: "YeahScience@gmail.com",
+    password: '$2a$10$hDehc2VFpnHp9PAVJwQel.Z3lf2.QPC6JadeEWS.9wipuOxWj/doq',
+    confirm_password: '$2a$10$hDehc2VFpnHp9PAVJwQel.Z3lf2.QPC6JadeEWS.9wipuOxWj/doq',
     profileURL: "https://static.wikia.nocookie.net/breakingbad/images/0/0c/JesseS5B.jpg"
 }
 
@@ -50,6 +54,8 @@ let gus = {
     classes: [classes.CS188.id],
     zoomid: "@LosPollosHermano",
     email: "LosPollosHermano@gmail.com",
+    password: '$2a$10$hDehc2VFpnHp9PAVJwQel.Z3lf2.QPC6JadeEWS.9wipuOxWj/doq',
+    confirm_password: '$2a$10$hDehc2VFpnHp9PAVJwQel.Z3lf2.QPC6JadeEWS.9wipuOxWj/doq',
     profileURL: "https://static.wikia.nocookie.net/breakingbad/images/b/be/Season_4_-_Gus.jpg"
 }
 
@@ -66,6 +72,8 @@ let hank = {
     classes: [classes.CS32.id],
     zoomid: "@RoboCop",
     email: "RoboCop@gmail.com",
+    password: '$2a$10$hDehc2VFpnHp9PAVJwQel.Z3lf2.QPC6JadeEWS.9wipuOxWj/doq',
+    confirm_password: '$2a$10$hDehc2VFpnHp9PAVJwQel.Z3lf2.QPC6JadeEWS.9wipuOxWj/doq',
     profileURL: "https://static.wikia.nocookie.net/breakingbad/images/7/7b/Hank_S5b.jpg"
 }
 
@@ -80,6 +88,8 @@ let mike = {
     classes: [classes.CS180.id],
     zoomid: "@HitMan",
     email: "HitMan@gmail.com",
+    password: '$2a$10$hDehc2VFpnHp9PAVJwQel.Z3lf2.QPC6JadeEWS.9wipuOxWj/doq',
+    confirm_password: '$2a$10$hDehc2VFpnHp9PAVJwQel.Z3lf2.QPC6JadeEWS.9wipuOxWj/doq',
     profileURL: "https://static.wikia.nocookie.net/breakingbad/images/8/8b/MikeS5.jpg"
 }
 
@@ -95,6 +105,8 @@ let todd = {
     classes: [classes.CS194.id, classes.CSM192A.id],
     zoomid: "@TriggerHappy",
     email: "TriggerHappy@gmail.com",
+    password: '$2a$10$hDehc2VFpnHp9PAVJwQel.Z3lf2.QPC6JadeEWS.9wipuOxWj/doq',
+    confirm_password: '$2a$10$hDehc2VFpnHp9PAVJwQel.Z3lf2.QPC6JadeEWS.9wipuOxWj/doq',
     profileURL: "https://static.wikia.nocookie.net/breakingbad/images/f/f5/Todd_S5b.jpg"
 }
 
@@ -110,6 +122,8 @@ let saul = {
     classes: [classes.CS181.id],
     zoomid: "@BetterCallSaul",
     email: "BetterCallSaul@gmail.com",
+    password: '$2a$10$hDehc2VFpnHp9PAVJwQel.Z3lf2.QPC6JadeEWS.9wipuOxWj/doq',
+    confirm_password: '$2a$10$hDehc2VFpnHp9PAVJwQel.Z3lf2.QPC6JadeEWS.9wipuOxWj/doq',
     profileURL: "https://static.wikia.nocookie.net/breakingbad/images/a/a4/Saul_S5b.jpg"
 }
 
@@ -124,6 +138,8 @@ let skyler = {
     classes: [classes.CS152B.id],
     zoomid: "@SWhite",
     email: "SWhite@gmail.com",
+    password: '$2a$10$hDehc2VFpnHp9PAVJwQel.Z3lf2.QPC6JadeEWS.9wipuOxWj/doq',
+    confirm_password: '$2a$10$hDehc2VFpnHp9PAVJwQel.Z3lf2.QPC6JadeEWS.9wipuOxWj/doq',
     profileURL: "https://static.wikia.nocookie.net/breakingbad/images/3/33/Skyler_S5b.jpg"
 }
 

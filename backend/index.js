@@ -13,6 +13,8 @@ const major = require("./routes/major.js");
 const classes = require("./routes/classes.js");
 const search = require("./routes/search.js");
 const buddyrequest = require("./routes/buddyrequest.js");
+const zoom = require("./routes/zoom.js");
+const email = require("./routes/email.js");
 
 require("dotenv").config();
 
@@ -57,6 +59,8 @@ app.use("/major", major);
 app.use("/classes", classes);
 app.use("/buddyrequest", buddyrequest);
 app.use("/search", search);
+app.use("/zoom", zoom);
+app.use("/email", email);
 /* Listening on Port */
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log("listening at port", port));
