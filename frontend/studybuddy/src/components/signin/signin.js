@@ -72,35 +72,27 @@ const Signin = (props) => {
     console.log(response);
     setData(response);
     setPicture(response.picture.data.url);
-
     if (response.accessToken) {
       /* Login is valid */
       setLogin(true);
-      // User.findOne({ email: response.email }, async (err, user) => {
-      //   if (!user) {
-      //     console.log("User with email provided by Facebook not found");
-      //   } else {
-          /* Log the user in */
-          axios
-          .get(`http://localhost:5000/user/${response.email}/information`)
-          .then((res) => {
-            if (res.data.success) {
-              setIsOpenFalse(false);
-              setMessage(res.data.message);
-              setInformation(res.data.user);
-              dispatch(storeInformation(res.data.user));
-              props.push('/home');
-            } else {
-              setIsOpenFalse(true);
-              setMessage(res.data.message);
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-            console.log("User email does not exist in DB")
-          });
-        //}
-      //});
+      axios
+      .get(`http://localhost:5000/user/${response.email}/information`)
+      .then((res) => {
+        if (res.data.success) {
+          setIsOpenFalse(false);
+          setMessage(res.data.message);
+          //setInformation(res.data.user);
+          dispatch(storeInformation(res.data.user));
+          props.push('/home');
+        } else {
+          setIsOpenFalse(true);
+          setMessage(res.data.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("User email does not exist in DB")
+      });
     } else {
       /* Facebook login not recognized */
       console.log("Invalid Facebook login");
