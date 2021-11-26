@@ -86,7 +86,9 @@ const userSchema = new mongoose.Schema({
     profileURL: {type: String, required: false},
     zoomid: { type: String, required: false},
     pastbuddies: { type: [pastBuddySchema] },
-    buddyrequests: { type: [userBuddyRequestSchema] }
+    buddyrequests: { type: [userBuddyRequestSchema] },
+    resetPasswordToken: {type: String, required: false},
+    resetPasswordExpires: {type: Date, required: false},
 });
 
 

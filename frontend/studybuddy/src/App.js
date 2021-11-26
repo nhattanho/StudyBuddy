@@ -19,7 +19,8 @@ import Header from "../src/components/header/header.js";
 import SendingRequest from "./pages/sendingRequest/sendingRequest.js";
 import Buddies from "./pages/buddies/buddies.js";
 import Search from "./pages/search/search.js";
-import ResetPassword from "./pages/resetPassword/reset"
+import ResetPassword from "./pages/resetPassword/reset";
+import UpdatePassword from "./pages/resetPassword/updatePass.js";
 
 import './App.css';
 
@@ -37,6 +38,7 @@ function App() {
           <Route exact path="/buddies" component={Buddies} />
           <Route exact path="/search" component={Search} />
           <Route exact path="/resetpassword" component={ResetPassword} />
+          <Route exact path='/reset/:token' component={UpdatePassword} />
         </div>
       </PersistGate>
     </Provider>

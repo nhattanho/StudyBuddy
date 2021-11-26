@@ -1,6 +1,6 @@
 /* =======================================================================*/
 /**
-/* This is Reset Password Page
+/* This is a page for entering email to reset password
 * @author NhatHo
 */
 /* =======================================================================*/
@@ -75,9 +75,11 @@ const ResetPassword = (props) => {
         .post("http://localhost:5000/user/resetPassword", resetEmail) 
         .then(res => {
             if (res.data.success) {
+                console.log("true");
                 setIsOpenTrue(true);
                 setIsOpenFalse(false);
                 setMessage(res.data.message);
+                console.log(res.data.message);
             } else {
                 setIsOpenFalse(true);
                 setIsOpenTrue(false);
@@ -134,11 +136,35 @@ const ResetPassword = (props) => {
             justifyContent: "center",
           }}
         >
-          <Link to="/register" style={{ textDecoration: "none" }}>
-            <Button variant="contained" color="primary" size="small">
-              Register
-            </Button>
-          </Link>
+          {message == "Email does not exist!" ? (
+            <Link to="/register" style={{ textDecoration: "none" }}>
+              <Button variant="contained" color="primary" size="small">
+                Register
+              </Button>
+            </Link>
+          ):(
+            null
+          )}
+          
+        </div>
+      </Modal>
+
+      <Modal
+        isOpen={modalIsOpenTrue}
+        onAfterOpen={afterOpenModalTrue}
+        onRequestClose={closeModalTrue}
+        ariaHideApp={false}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <h2 ref={(_subtitle) => (subtitle = _subtitle)}>{message}</h2>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
         </div>
       </Modal>
     </div>
