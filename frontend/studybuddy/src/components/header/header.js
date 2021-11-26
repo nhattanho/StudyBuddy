@@ -1,8 +1,9 @@
 import React from "react";
+import { useEffect } from "react";
 
 /* Import Redux */
 import { useDispatch, useSelector } from "react-redux";
-import { storeCheckLogin } from "../../redux/redux";
+import { storeCheckLogin, storeInformation } from "../../redux/redux";
 /* Material UI */
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -15,6 +16,8 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Typography from "@material-ui/core/Typography";
 
+import { TertiaryButton } from "../../components/button/button";
+
 /* logo image */
 import logo from '../../logo/happy.png'
 const useStyles = makeStyles((theme) => ({
@@ -25,10 +28,12 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    backgroundColor: "#0EA2D8"
   },
   large: {
     width: theme.spacing(7),
     height: theme.spacing(7),
+    border: "3px solid #FFCB77"
   },
 }));
 
@@ -37,11 +42,10 @@ export default function Header() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
-  /* Use Redux */
-    const checkLogin = useSelector((state) => state.checkLogin);
+    /* Use Redux */
+    let checkLogin = useSelector((state) => state.checkLogin);
+    let userinformation = useSelector((state) => state);
     const dispatch = useDispatch();
-
-
     const setLogout = () => {
         dispatch(storeCheckLogin(false));
     };
@@ -69,56 +73,68 @@ export default function Header() {
                             </IconButton>
                         </Link>
 
-                        <Link to="/Pending" style={{ textDecoration: "none" }}>
-                            <Button variant="contained" color="primary">
-                                Pending
-                            </Button>
+                        <Link to="/home" style={{ textDecoration: "none" }}>
+                            <TertiaryButton text="Profile" />
                         </Link>
 
-                        <Link to="/findBuddy" style={{ textDecoration: "none" }}>
-                            <Button variant="contained" color="primary">
-                                FindBuddy
-                            </Button>
+                        <Link to="/search" style={{ textDecoration: "none" }}>
+                            <TertiaryButton text="Find a Buddy" />
                         </Link>
 
-                        <Link to="/" style={{ textDecoration: "none" }}>
-                            <IconButton
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleMenu}
-                                color="inherit"
-                            >
-                                <Typography variant="h6" color="primary">
-                                "Nhat Ho"
-                                </Typography>
-                            </IconButton>
+                        <Link to="/buddies" style={{ textDecoration: "none" }}>
+                            <TertiaryButton text="Buddy Requests" />
                         </Link>
+
+                        <IconButton
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleMenu}
+                            color="inherit"
+                        >
+                            <Avatar
+                                alt='Profile Pic'
+                                src={userinformation.profileURL}
+                                className={classes.large}
+                            />
+                        </IconButton>
 
                         <Menu
                         id="menu-appbar"
                         anchorEl={anchorEl}
                         anchorOrigin={{
-                            vertical: "top",
-                            horizontal: "right",
+                            vertical: "bottom",
+                            horizontal: "center",
                         }}
+                        getContentAnchorEl={null}
                         keepMounted
                         transformOrigin={{
                             vertical: "top",
-                            horizontal: "right",
+                            horizontal: "center",
                         }}
                         open={open}
                         onClose={handleClose}
                         >
-                        <MenuItem>
-                            <Button
-                            size="small"
-                            color="primary"
-                            onClick={setLogout}
-                            style={{ marginRight: 30 }}
-                            >
-                            Logout
-                            </Button>
+                        <MenuItem onClick={handleClose}>
+                            <Link to="/home" style={{ textDecoration: "none" }}>
+                                <Button
+                                    size="small"
+                                    color="primary"
+                                >
+                                    View Profile
+                                </Button>
+                            </Link>
+                        </MenuItem>
+                        <MenuItem onClick={handleClose}>
+                            <Link to="/" style={{ textDecoration: "none" }}>
+                                <Button
+                                size="small"
+                                color="primary"
+                                onClick={setLogout}
+                                >
+                                Logout
+                                </Button>
+                            </Link>
                         </MenuItem>
                         </Menu>
                     </Toolbar>
@@ -136,19 +152,7 @@ export default function Header() {
                             </IconButton>
                         </Link>
                         <Link to="/register" style={{ textDecoration: "none" }}>
-                            <Button variant="contained" color="primary">
-                                Register
-                            </Button>
-                        </Link>
-                        <Link to="/home" style={{ textDecoration: "none" }}>
-                            <Button variant="contained" color="primary">
-                                Home
-                            </Button>
-                        </Link>
-                        <Link to="/sendingRequest" style={{ textDecoration: "none" }}>
-                            <Button variant="contained" color="primary">
-                                Sending Request
-                            </Button>
+                            <TertiaryButton text="Register" />
                         </Link>
                     </Toolbar>
                 </AppBar>

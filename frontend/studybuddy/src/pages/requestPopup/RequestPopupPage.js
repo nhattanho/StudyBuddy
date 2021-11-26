@@ -11,14 +11,17 @@ const RequestPopupPage = (props) => {
     const handleClose = () => {
         setOpen(false);
     };
+    //the actual profile page will need to get these from redux
+    let user = "61882ca2ecd1b1934636eb21"; //walter
+    let recipient = "61882ca2ecd1b1934636eb28"; //skyler,
 
     return(
         <div>
-            <Button onClick={handleClickOpen}>
-                Open request dialog
+            <Button Button variant="contained" color="primary" onClick={handleClickOpen}>
+                Request!
             </Button>
 
-            <RequestPopup onClose={handleClose} open={open} />
+            <RequestPopup onClose={handleClose} open={open} user={user} recipient={recipient} callback={props.callback} />
         </div>
     )
 };

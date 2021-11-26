@@ -21,6 +21,7 @@ import { storeCheckLogin, storeEmail, storeInformation } from "../../redux/redux
 import {Button} from "@material-ui/core";
 import {customStyles, InputField, useStyles} from "./style";
 
+
 /* Import Facebook login */
 import FacebookLogin from "react-facebook-login";
 import { Card, Image } from "react-bootstrap";
@@ -28,6 +29,8 @@ import { Card, Image } from "react-bootstrap";
 
 /* Import Google login */
 //import { GoogleLogin } from "react-google-login";
+
+import { PrimaryButton } from "../../components/button/button";
 
 /* Main here */
 const Signin = (props) => {
@@ -46,7 +49,6 @@ const Signin = (props) => {
   const [picture, setPicture] = React.useState("");
 
   /*Will store information of current user after discussing about the userModel table*/
-  const [information, setInformation] = React.useState("");
   const [errors, setErrors] = React.useState({});
   const history = useHistory();
   /****************************************************************/
@@ -124,6 +126,7 @@ const Signin = (props) => {
   * @return {object} - user's information which was sent back from backend side
   */
   const onSubmit = (props) => {
+    /*console.log(password);*/
     const loginObject = {
       email: email,
       password: password,
@@ -132,7 +135,7 @@ const Signin = (props) => {
     console.log(result);
     setErrors(result);
     if(!result.pass) return;
-
+    /*console.log("email " + email);*/
     axios
       .get("http://localhost:5000/user/login", {
         params: {
@@ -147,20 +150,24 @@ const Signin = (props) => {
             setIsOpenFalse(true);
             setMessage(res.data.message);
           } else {
-            dispatch(storeEmail(email));
-            dispatch(storeCheckLogin(true));
             axios
               .get(`http://localhost:5000/user/${email}/information`)
               .then((res) => {
                 if (res.data.success) {
                   setIsOpenFalse(false);
                   setMessage(res.data.message);
-                  setInformation(res.data.user);
+                  if(res.data.user.hasOwnProperty('birthday') && res.data.user.birthday != null){
+                    res.data.user.birthday = res.data.user.birthday.split("T")[0];
+                    console.log(res.data.user.birthday);
+                  }
                   dispatch(storeInformation(res.data.user));
+                  dispatch(storeEmail(email));
+                  dispatch(storeCheckLogin(true));
                   props.push('/home');
                 } else {
                   setIsOpenFalse(true);
                   setMessage(res.data.message);
+                  props.push('/');
                 }
               })
               .catch((err) => {
@@ -176,6 +183,7 @@ const Signin = (props) => {
   /****************************************************************/
   return (
     <div className={classes.mainform}>
+      <div className={classes.login}> Login </div>
       <form className={classes.form}>
         <InputField
           className={classes.input}
@@ -191,6 +199,7 @@ const Signin = (props) => {
           onChange={(e) => setEmail(e.target.value)}
           error={!!errors.email}
           helperText={errors.email ? errors.email : ""}
+          defaultValue={email}
         />
         <InputField
           className={classes.input}
@@ -207,11 +216,10 @@ const Signin = (props) => {
           onChange={(e) => setPass(e.target.value)}
           error={!!errors.password}
           helperText={errors.password ? errors.password : ""}
+          defaultValue={password}
         />
         <div className={classes.button}>
-          <Button variant="contained" color="primary" onClick={() => onSubmit(history)}>
-            Submit
-          </Button>
+          <PrimaryButton text="Submit" onClick={() => onSubmit(history)} />
         </div>
         <div className={classes.button}>
           <Card>
@@ -248,6 +256,12 @@ const Signin = (props) => {
         </Link>
       </div>
 
+      <div className={classes.newaccount}>
+        <Link to="/resetpassword" variant="body2">
+          {"Forgot Password? Reset"}
+        </Link>
+      </div>
+
       <Modal
         isOpen={modalIsOpenFalse}
         onAfterOpen={afterOpenModal}
@@ -269,7 +283,7 @@ const Signin = (props) => {
               Register
             </Button>
           </Link>
-          <Link style={{ textDecoration: "none" }}>
+          <Link to="/" style={{ textDecoration: "none" }}>
             <Button
               variant="contained"
               color="primary"

@@ -39,19 +39,25 @@ export const InputField = withStyles({
 })(TextField);
 
 export const useStyles = makeStyles((theme) => ({
-    infor: {
+    mainform: {
         display: "flex",
         flexDirection: "column",
+        textAlign: "center",
+        marginLeft: "50px",
+        marginRight: "50px",
+        alignItems: "center",
+        marginTop: "20px",
+        border: "3px solid #535348"
+
     },
-    login: {
-        backgroundColor: "#FFCB77",
-        fontSize: 35,
-        padding: ".5em 0",
-        borderRadius: "10px"
+    reset: {
+        backgroundColor: "greenyellow",
+        fontSize: 35
     },
     form: {
         display: "flex",
-        flexDirection: "column"
+        flexDirection: "column",
+        width: "260px"
     },
     button: {
         marginTop: "10px",

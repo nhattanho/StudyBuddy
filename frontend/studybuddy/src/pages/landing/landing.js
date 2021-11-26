@@ -11,7 +11,8 @@ import { Button } from "@material-ui/core";
 /* Adding components */
 import Image from "./images/ucla.jpeg";
 import Signin from "../../components/signin/signin.js";
-import { storeCheckLogin } from "../../redux/redux";
+import { storeCheckLogin, storeInformation } from "../../redux/redux";
+import { PrimaryButton } from "../../components/button/button";
 
 /* Adding Material UI styles */
 var styles = {
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   signin: {
     position: "relative",
     width: "25%",
-    margin: "10% 5px 0px 5px",
+    margin: "10% 30px 0px 30px",
     [theme.breakpoints.down("sm")]: {
       margin: "10% 5px 0px 5px",
     },
@@ -48,16 +49,20 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-end",
-    backgroundColor: "#cfd5db6e",
-    padding: "10px",
+    width:"100%",
+    backgroundColor: "#FFFFFF96",
+    padding: "10px 0",
     margin: "0 auto",
-    color: "#052dcc",
-    borderRadius: "30px",
+    color: "#0EA2D8",
   },
+  signOutButton: {
+    marginTop: "9px"
+  }
 }));
 
 const Landing = (props) => {
   const checkLogin = useSelector((state) => state.checkLogin);
+  const name = useSelector((state) => state.name);
   const dispatch = useDispatch();
 
   const setLogout = () => {
@@ -70,28 +75,28 @@ const Landing = (props) => {
       <div className={classes.mainback}>
         <div className={classes.mainimage} style={styles}>
             <div className={classes.infor}>
-                <Typography variant="h3" >
+                <Typography variant="h2" >
                 <b>Study Buddy</b>
                 </Typography>
                 <Typography variant="h4">
-                    Let find your friend!
+                    Find a friend to study with!
                 </Typography>
             </div>
         </div>
         <div className={classes.signin}>
           {checkLogin ? (
-            <h> 
-              Hey Nhat Ho, do you want to sign out?
-              <div>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  style={{ marginTop: 9, marginLeft: 2 }} 
-                  onClick={setLogout}
-                  >Sign out
-                </Button>
-              </div>
-            </h>
+            <div>
+              <Typography variant="h6">
+                Hey {name}!
+              </Typography>
+              <Typography variant="h6">
+                Do you want to sign out?
+              </Typography>
+              <PrimaryButton
+                className={classes.signOutButton}
+                text={"Sign Out"}
+                onClick={setLogout} />
+            </div>
           ) : (
             <Signin />
           )}

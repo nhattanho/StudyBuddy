@@ -5,7 +5,6 @@
   align-items: center;
   padding-top: 50px;
   padding-bottom: 125px;
-  background-color: #89cff0;
 }
 
 .info {
@@ -25,9 +24,8 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  color: white;
+  color: #6157BB;
   font-size: 30px;
-  text-shadow: 2px 2px rgba(58, 61, 224, 1);
 }
 
 .name {
@@ -35,14 +33,12 @@
   width: 40%;
   margin: 0 auto;
   border-radius: 25px;
-  background: rgb(5,93,177);
-  background: radial-gradient(circle, rgba(31, 158, 242, 1) 96%, rgba(255,255,255,1) 98%);
-  background-color: blue;
+  background: radial-gradient(circle, #6157BB, 96%, rgba(255,255,255,1) 98%);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   color: white;
-  text-shadow: 1px 1px rgba(53, 55, 219, 1);
+  text-shadow: 1px 1px black;
 }
 
 .aboutMe {
@@ -51,63 +47,92 @@
   margin: 0 auto;
   border-radius: 25px;
   font-size: min(15px, 3vw);
-  background: rgb(5,93,177);
-  background: radial-gradient(circle, rgba(29, 242, 111, 1) 96%, rgba(255,255,255,1) 98%);
-  background-color: blue;
+  background: radial-gradient(circle, #928BD0, 96%, rgba(255,255,255,1) 98%);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   margin-top: 50px;
   color: white;
-  text-shadow: 1px 1px rgba(40, 158, 36, 1);
+  text-shadow: 1px 1px #6157BB;
+  white-space: break-spaces;
+  padding: 10px;
 }
 
 .major {
-  height: 75px;
+  height: 60px;
   width: 40%;
   margin: 0 auto;
   border-radius: 25px;
-  background: rgb(5,93,177);
-  background: radial-gradient(circle, rgba(234, 237, 28, 1) 96%, rgba(255,255,255,1) 98%);
-  background-color: blue;
+  background: radial-gradient(circle, #928BD0, 96%, rgba(255,255,255,1) 98%);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   color: white;
-  text-shadow: 1px 1px rgba(204, 171, 22, 1);
+  text-shadow: 1px 1px #6157BB;
+  padding: 10px;
 }
 
 .year {
-  height: 75px;
+  height: 60px;
   width: 30%;
   margin: 0 auto;
   border-radius: 25px;
-  background: rgb(5,93,177);
-  background: radial-gradient(circle, rgba(208, 26, 232, 1) 96%, rgba(255,255,255,1) 98%);
-  background-color: blue;
+  background: radial-gradient(circle, #928BD0, 96%, rgba(255,255,255,1) 98%);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   color: white;
-  text-shadow: 1px 1px rgba(157, 37, 194, 1);
+  text-shadow: 1px 1px #6157BB;
+  padding: 10px;
 }
 
 .classes {
-  height: 75px;
+  height: 60px;
   width: 30%;
   margin: 0 auto;
   border-radius: 25px;
-  background: rgb(5,93,177);
-  background: radial-gradient(circle, rgba(235, 49, 83, 1) 96%, rgba(255,255,255,1) 98%);
-  background-color: blue;
+  background: radial-gradient(circle, #928BD0, 96%, rgba(255,255,255,1) 98%);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   color: white;
-  text-shadow: 1px 1px rgba(163, 15, 42, 1);
+  text-shadow: 1px 1px #6157BB;
+  padding: 10px;
 }
 
 .request:hover { 
   color: white !important;
   background: #0073cf; 
+}
+
+.popup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: rgba(0,0,0, 0.5);
+}
+
+.popup_inner {
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  top: 25%;
+  bottom: 25%;
+  margin: auto;
+  background: #30C4EB;
+  border-radius: 25px;
+}
+
+.Create-new-goal {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  width: auto;
 }
