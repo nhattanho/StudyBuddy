@@ -108,9 +108,6 @@ export default function Buddies() {
 	let incomingRequests = useRef([]);
 	let fullUserInfo = useRef();
 
-	const email = require("../../components/email/email.js");
-	const zoom = require("../../components/zoom/zoom.js");
-
 	function getBuddies() {
 		setOutgoing([]);
 		setIncoming([]);
