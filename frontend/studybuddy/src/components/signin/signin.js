@@ -216,29 +216,17 @@ const Signin = (props) => {
         <div className={classes.button}>
           <Card>
             <Card.Header>
-              {!login &&
-                <FacebookLogin
+              <FacebookLogin
                   appId="428962065561834"
                   autoLoad={false}
                   fields="name,email,picture"
                   scope="public_profile,email"
                   callback={responseFacebook}
-                  icon="fa-facebook" />
-              }
-              {login &&
-                <Image src={picture} roundedCircle />
-              }
+                  cssClass="btnFacebook"
+                  icon="fa-facebook" 
+                  textButton = "&nbsp;&nbsp;Sign In with Facebook"                                                                
+              />
             </Card.Header>
-            {login &&
-              <Card.Body>
-                <Link to="/register" variant="body2">
-                  <Card.Title>Continue as {data.name}</Card.Title>
-                </Link>
-                <Card.Text>
-                  {data.email}
-                </Card.Text>
-              </Card.Body>
-            }
           </Card>
       </div>
       </form>
