@@ -100,6 +100,8 @@ const SendingRequest = (props) => {
           }
           if(res.data.user.hasOwnProperty('profileURL') && res.data.user.profileURL != null) {
             handlePic(res.data.user.profileURL);
+          } else {
+            handlePic('https://conferences.ucla.edu/wp-content/uploads/2021/01/logo4.png');
           }
           if(res.data.user.hasOwnProperty('about') && res.data.user.about != null) {
             handleAbout(res.data.user.about);
