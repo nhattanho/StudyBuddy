@@ -119,20 +119,26 @@ function RequestPopup(props) {
           receiver: props.receiver,
           dateslots: _dateslots,
       };
-
       axios 
       .post(`http://localhost:5000/buddyrequest/create`, body)
       .then((res) => {
           if (res.data.success) {
             console.log("success!")
-            props.callback(true, 'Request successfully submitted!')
+            if (props.callback) {
+              props.callback(true, 'Request successfully submitted!')
+            } else if (props.onSubmit) {
+              props.onSubmit(res.data.request);
+            }
+            
           } else {
             console.log(res.data); 
             console.log("fail :(");
           }
       })
       .catch(function (e) {
-          props.callback(false, `Request failed to submit: ${e}`)
+          if (props.callback) {
+            props.callback(false, `Request failed to submit: ${e}`)
+          }
           console.log(e); 
       });
 
