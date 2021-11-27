@@ -5,6 +5,10 @@
 */
 /* =======================================================================*/
 const express = require("express");
+/**
+ * Express router for major endpoints
+ * @namespace ClassRoutes
+ */
 const router = express.Router();
 const classModel = require("../model/classModel");
 
@@ -14,7 +18,7 @@ const classModel = require("../model/classModel");
  * @author Vishnu Devarakonda
  * @param {string} id. HTTP query param specifying the ID
  *  of the class to look for.
- * @returns {Object} {id: ..., name: ...} class object with id and name
+ * @returns {object} {id: ..., name: ...} class object with id and name
  */
 router.get("/name", (req, res) => {
     let classID = req.query.id
@@ -31,10 +35,15 @@ router.get("/name", (req, res) => {
 
 /**
  * Function provides a root endpoint to get the available classes
+ *
  * @author Vishnu Devarakonda
+ * @name GET/
+ * @function
+ * @memberof ClassRoutes
+ *
  * @param {int} skipC. HTTP query param specifying the page to get.
  *  (ex. 1,2,3..)
- * @returns {List[Object]} List of class objects.
+ * @returns {object[]} List of class objects.
  */
 router.get("/", (req, res) => {
     let skipC = req.query.skipC

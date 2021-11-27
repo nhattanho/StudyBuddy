@@ -5,6 +5,10 @@
 */
 /* =======================================================================*/
 const express = require("express");
+/**
+ * Express router for major endpoints
+ * @namespace MajorRoutes
+ */
 const router = express.Router();
 const majorModel = require("../model/majorModel");
 
@@ -14,7 +18,7 @@ const majorModel = require("../model/majorModel");
  * @author Vishnu Devarakonda
  * @param {string} id. HTTP query param specifying the ID
  *  of the major to look for.
- * @returns {Object} {id: ..., name: ...} major object with id and name
+ * @returns {object} {id: ..., name: ...} major object with id and name
  */
 router.get("/name", (req, res) => {
     let majorID = req.query.id
@@ -31,8 +35,13 @@ router.get("/name", (req, res) => {
 
 /**
  * Function provides a root endpoint to get the available classes
+ *
  * @author Vishnu Devarakonda
- * @returns {List[Object]} List of class objects.
+ * @name GET/
+ * @function
+ * @memberof MajorRoutes
+ *
+ * @returns {object[]} List of major objects.
  */
 router.get("/", (req, res) => {
     majorModel.find(

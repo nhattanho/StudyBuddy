@@ -1,14 +1,19 @@
-    const express = require("express");
+/* =======================================================================*/
+/**
+* @file This is REST API for search
+* @author Vishnu Devarakonda
+*/
+/* =======================================================================*/
+
+const express = require("express");
+/**
+ * Express router for search endpoints
+ * @namespace SearchRoutes
+ */
 const router = express.Router();
 const usersModel = require("../model/usersModel");
 
 
-/**
- * Function returns a filter for searching users
- * @author Vishnu Devarakonda
- * @param {object} queries. contains filters to apply on the search
- * @returns {object} filter. Filter structured to conform to model.find param.
- */
 function getUsersFilter(queries) {
     let filter = {};
     for(let qParam in queries){
@@ -17,6 +22,18 @@ function getUsersFilter(queries) {
     return filter
 }
 
+/**
+ * Function provides an endpoint to apply to search for users based on query filters
+ *
+ * @author Vishnu Devarakonda
+ * @name GET/users
+ * @function
+ * @memberof SearchRoutes
+ *
+ * @param {object[]} queries. contains filters to apply on the search
+ *
+ * @returns {object} List of user objects
+ */
 router.get("/users", (req, res) => {
     let queries = req.query;
     const filter = getUsersFilter(queries);
