@@ -86,7 +86,7 @@ router.post("/register", (req, res) => {
                 console.log(result);
                 res.send({
                   success: true,
-                  message: "User successfully added",
+                  message: "Congrat, You register successfully. Go to Login page!",
                 });
               })
               .catch((err) => {
@@ -113,33 +113,61 @@ router.post("/register", (req, res) => {
  */
 router.post("/resetPassword", (req, res) => {
   const {email} = req.body;
-  User.findOne({
-    where: { email: email }
-  })
+  const token = crypto.randomBytes(20).toString('hex');
+  console.log("test token " + token);
+  User.findOneAndUpdate({ email: email }, 
+    {
+      resetPasswordToken: token,
+      resetPasswordExpires: Date.now() + 360000, //expire in 1 hour
+    }, 
+    {
+      new: true,
+    })
   .exec()
-  .then((user) => {
-    if(user === null){
-      console.log('email not in DB');
-      res.send({ success: false, message: "Email does not exist!" });
-    } 
-    else {
-      const token = crypto.randomBytes(20).toString('hex');
-      console.log("test token " + token);
-      user.update({
-        resetPasswordToken: token,
-        resetPasswordExpires: Date.now() + 360000, //expire in 1 hour
-      });
+  .then((data) => {
+    if(data === null){
+      res.send({ success: false, message: "Email does not exist!"});
+    }else {
+      console.log("user after update", data);
+
       const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user: `${process.env.EMAIL_ADDRESS}`,//will update later for env
+          user: `${process.env.EMAIL_ADDRESS}`,
           pass: `${process.env.EMAIL_PASSWORD}`,
         },
       });
+      const mailOptions = {
+        from: "studybuddycs130@gmail.com",
+        to: `${email}`,
+        subject: 'Link to reset your password',
+        text:
+          'You are receiving this email because you have requested the reset of password for your acount.\n\n '
+          + 'Please click on the following link, or paste this into your browser to complete the process within one hour of receving it:\n\n'
+          + `http://localhost:3000/reset/${token}\n\n`
+          + 'If you did not request it, please ignore this email and your password will remain unchanged.\n',
+      };
+  
+      console.log('sending email');
+      transporter.sendMail(mailOptions, (err, response) => {
+        if(err) {
+          console.error('There is an error: ', err);
+          res.send({ success: false, message: "Could not send email since " + err + ". Please try again!" });
+        }else {
+          console.log("here is the res: ", response);
+          res.send({ success: true, message: "Reset Password link was sent. Please check your email!" });
+          res.status(200).json('recovery email sent');
+        }
+      });
     }
+  })
+  .catch((err) => {
+      res.send({
+        success: false,
+        error: "Update token fail caused by" + err,
+      });
   });
 });
-
 
 /*======================================GET method for normal login===================================*/
 async function checkPass(user, password) {
@@ -302,6 +330,62 @@ router.get("/:id", async (req, res) => {
         message: `User does not exist for ${id}`,
       });
     }
+  });
+});
+
+/*======================================GET method for checking token expire===================================*/
+/*http://localhost:5000/user/${token}/checkTokenPass*/
+router.get("/:token/checkTokenPass", async (req, res) => {
+  const { token } = req.params;
+  console.log("The token is " + token);
+  /* Check if portfolio exist*/
+  User.findOne({resetPasswordToken: token, resetPasswordExpires:{$gt: Date.now(),} }, async (err, user) => {
+    console.log("user", user);
+    if (user) {
+      console.log("email in checkTokenpass", user.email);
+      res.send({ success: true, message: "password reset link ok!", email: user.email });
+    } else {
+      res.send({
+        success: false,
+        message: "Password reset link is invalid or has expired",
+      });
+    }
+  });
+});
+
+/*======================================PUT method to update password===================================*/
+/*http://localhost:5000/user/email/update*/
+router.put("/updatePassword", (req, res) => {
+  let email = req.body.email;
+  bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+    if (err) {
+      res.send({ success: false, message: err });
+    } else {
+        console.log("hash is: ", hash);
+        User.findOneAndUpdate({ email: email }, 
+          {
+            password: hash,
+            confirm_password: hash,
+          }, 
+          {
+            new: true,
+          })
+        .exec()
+        .then((data) => {
+          console.log("Updated password", data);
+          res.send({
+            success: true,
+            message: "Password Update Successfully!",
+          });
+        })
+        .catch((err) => {
+          console.log("update fail in backend log");
+          res.send({
+            success: false,
+            message: `Update failed, error is ${err}`,
+          });
+        });
+      }
   });
 });
 
