@@ -10,7 +10,7 @@ classes = classes.reduce((o, key) => ({...o,[key.id] : key}), {})
 
 let walter = {
     _id: IDs.users.walter,
-    name: "walter white",
+    name: "Walter White",
     about: "I'm the one who knocks!",
     birthday: new Date("09","07","1958").getTime(),
     username: "Hiesenberg",
@@ -27,7 +27,7 @@ let walter = {
 
 let jesse = {
     _id: IDs.users.jesse,
-    name: "jesse pinkman",
+    name: "Jesse Pinkman",
     about: "When I'm not sciencing, I'm cooking : )",
     birthday: new Date("09", "24", "1984").getTime(),
     username: "YeahScience!",
@@ -44,7 +44,7 @@ let jesse = {
 
 let gus = {
     _id: IDs.users.gus,
-    name: "gus fring",
+    name: "Gus Fring",
     about: "I don't really need a study partner, I'm just looking for chemists for my start up!",
     birthday: new Date("04", "26", "1958").getTime(),
     username: "LosPollosHermano",
@@ -62,7 +62,7 @@ let gus = {
 
 let hank = {
     _id: IDs.users.hank,
-    name: "hank schrader",
+    name: "Hank Schrader",
     about: "If we do study together, never call then rocks. THEY MINERALS!",
     birthday: new Date("03", "13", "1966").getTime(),
     username: "RoboCop",
@@ -79,7 +79,7 @@ let hank = {
 
 let mike = {
     _id: IDs.users.mike,
-    name: "mike ehramantraut",
+    name: "Mike Ehramantraut",
     birthday: new Date("07","21", "1944").getTime(),
     username: "HitMan",
     checkLogin: "yes",
@@ -96,7 +96,7 @@ let mike = {
 
 let todd = {
     _id: IDs.users.todd,
-    name: "todd alquist",
+    name: "Todd Alquist",
     birthday: new Date("09", "24", "1984").getTime(),
     username: "TriggerHappy",
     checkLogin: "no",
@@ -112,7 +112,7 @@ let todd = {
 
 let saul = {
     _id: IDs.users.saul,
-    name: "saul goodman",
+    name: "Saul Goodman",
     about: "Don't drink and drive, but if you do call Saul",
     birthday: new Date("11", "12", "1960").getTime(),
     username: "BetterCallSaul",
@@ -129,7 +129,7 @@ let saul = {
 
 let skyler = {
     _id: IDs.users.skyler,
-    name: "skyler white",
+    name: "Skyler White",
     birthday: new Date("08", "11", "1970").getTime(),
     username: "SWhite",
     checkLogin: "no",
