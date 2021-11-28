@@ -55,7 +55,7 @@ router.get("/name", (req, res) => {
  * @author Vishnu Devarakonda
  * @swagger
  *
- * /majors:
+ * /majors/:
  *   get:
  *     summary: Retrieves all available majors
  *     tags: [Majors]

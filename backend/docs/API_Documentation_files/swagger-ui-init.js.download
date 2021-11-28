@@ -246,7 +246,7 @@ window.onload = function() {
           }
         }
       },
-      "/classes": {
+      "/classes/": {
         "get": {
           "summary": "Retrieves a page of classes",
           "tags": [
@@ -320,7 +320,7 @@ window.onload = function() {
           }
         }
       },
-      "/majors": {
+      "/majors/": {
         "get": {
           "summary": "Retrieves all available majors",
           "tags": [
@@ -735,11 +735,11 @@ window.onload = function() {
       },
       "/user/:token/checkTokenPass": {
         "get": {
-          "summary": "Retrieves user info based on ID",
+          "summary": "Checks reset password token",
           "tags": [
             "User"
           ],
-          "description": "Retrieves all of the user's information using object ID as the lookup",
+          "description": "Checks that reset password token is valid and unexpired",
           "parameters": [
             {
               "in": "path",
@@ -835,7 +835,7 @@ window.onload = function() {
           }
         }
       },
-      "/email/update": {
+      "/user/email/update": {
         "put": {
           "summary": "Updates user's information",
           "tags": [
@@ -847,7 +847,8 @@ window.onload = function() {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/User",
+                  "description": "The updated user information"
                 }
               }
             }
@@ -878,7 +879,7 @@ window.onload = function() {
           }
         }
       },
-      "/delete/:email": {
+      "/user/delete/:email": {
         "delete": {
           "summary": "Deletes the user's account",
           "tags": [

@@ -55,7 +55,7 @@ router.get("/name", (req, res) => {
  * @author Vishnu Devarakonda
  * @swagger
  *
- * /classes:
+ * /classes/:
  *   get:
  *     summary: Retrieves a page of classes
  *     tags: [Classes]

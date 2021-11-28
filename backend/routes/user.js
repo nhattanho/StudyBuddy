@@ -658,15 +658,15 @@ router.get("/:id", async (req, res) => {
 
 /*======================================GET method for checking token expire===================================*/
 /**
- * Endpoint for retrieving user info from ID
+ * Endpoint for checking reset password token
  * @author Nhat Ho
  * @swagger
  *
  * /user/:token/checkTokenPass:
  *   get:
- *     summary: Retrieves user info based on ID
+ *     summary: Checks reset password token
  *     tags: [User]
- *     description: Retrieves all of the user's information using object ID as the lookup
+ *     description: Checks that reset password token is valid and unexpired
  *     parameters:
  *       - in: path
  *         name: token
@@ -794,7 +794,7 @@ router.put("/updatePassword", (req, res) => {
  * @author Nhat Ho
  * @swagger
  *
- * /email/update:
+ * /user/email/update:
  *   put:
  *     summary: Updates user's information
  *     tags: [User]
@@ -805,6 +805,7 @@ router.put("/updatePassword", (req, res) => {
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/User'
+ *             description: The updated user information
  *     responses:
  *       200:
  *         description: Success indicator and succes/error message
@@ -851,7 +852,7 @@ router.put("/email/update", (req, res) => {
  * @author Nhat Ho
  * @swagger
  *
- * /delete/:email:
+ * /user/delete/:email:
  *   delete:
  *     summary: Deletes the user's account
  *     tags: [User]
