@@ -4,11 +4,28 @@
 * @author Vishnu Devarakonda
 */
 /* =======================================================================*/
-const express = require("express");
+
 /**
- * Express router for major endpoints
- * @namespace MajorRoutes
+ * @swagger
+ * components:
+ *   schemas:
+ *     Major:
+ *       type: object
+ *       required:
+ *         - id
+ *         - name
+ *       properties:
+ *         id:
+ *           type: integer
+ *           description: The major identifier
+ *           example: 1
+ *         name:
+ *           type: string
+ *           description: The full name of the major
+ *           example: Chemistry
  */
+
+const express = require("express");
 const router = express.Router();
 const majorModel = require("../model/majorModel");
 
@@ -33,15 +50,25 @@ router.get("/name", (req, res) => {
 })
 
 
-/**
- * Function provides a root endpoint to get the available classes
- *
+ /**
+ * Endpoint for getting available majors
  * @author Vishnu Devarakonda
- * @name GET/
- * @function
- * @memberof MajorRoutes
+ * @swagger
  *
- * @returns {object[]} List of major objects.
+ * /majors:
+ *   get:
+ *     summary: Retrieves all available majors
+ *     tags: [Majors]
+ *     description: Retrieves all majors that are available in the system
+ *     responses:
+ *       200:
+ *         description: Array of all available Major objects
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Major'
  */
 router.get("/", (req, res) => {
     majorModel.find(
