@@ -14,9 +14,9 @@ import {customStyles, InputField, useStyles} from "./styles.js";
 /* =======================================================================*/
 const Register = () => {
     const classes = useStyles();
-    const [firstName, setFirstName] = React.useState("");
+    let [firstName, setFirstName] = React.useState("");
     const [zoomid, setZoomId] = React.useState("");
-    const [lastName, setLastName] = React.useState("");
+    let [lastName, setLastName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -40,12 +40,24 @@ const Register = () => {
         setIsOpenFalse(false);
     };
     /* =======================================================================*/
+
+    /**
+    * Capitalize the first letter of string
+    * @param {String} - firstName/lastName
+    * @return {String} - result which has the first letter was capitalized
+    */
+    const capitalize = (s) => {
+        return s[0].toUpperCase() + s.slice(1);
+    }
+
     /**
     * Creates a new buddy user
-    * @param {object} registerObject - user's information getting from input
+    * @param {object} - registerObject - user's information getting from input
     * @return {object} - result which was sent back from backend side
     */
     const onSubmit = () => {
+        firstName = capitalize(firstName);
+        lastName = capitalize(lastName);
         const registerObject = {
             name: firstName + " " + lastName,
             firstName: firstName,
