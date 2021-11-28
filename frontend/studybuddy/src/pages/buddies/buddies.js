@@ -101,7 +101,6 @@ export default function Buddies() {
     	.get(`http://localhost:5000/buddyrequest/${userinformation.id}/sent`)
       .then((resp) => {
       	const buddyrequests = resp.data.buddyrequests
-      	let outgoingBuddies = []
       	for (let i=0; i<buddyrequests.length; i++) {
       		if (buddyrequests[i].status == 'Pending') {
 	      		axios
@@ -172,7 +171,7 @@ export default function Buddies() {
     setBuddies(removeById(buddyId, buddies));
 	}
 
-	const handleAcceptRequest = (buddy, request, handleClose) => {
+	const handleAcceptRequest = (buddy, request, handleClose, selectedTime) => {
 		axios
 			.post(`http://localhost:5000/buddyrequest/accept`, { id: request._id })
 			.then((resp) => {
@@ -192,10 +191,9 @@ export default function Buddies() {
 			      		fullUserInfo.current = updated
 			      		setMatched(fullUserInfo.current.pastbuddies);
 						console.log(buddy);
-						console.log(request.dateslots[0]); 
 						let zoominfo = {
 							userid: buddy.zoomid,
-							starttime: request.dateslots[0]
+							starttime: request.dateslots[selectedTime]
 						};
 						axios
 						.post(`http://localhost:5000/zoom/create`, zoominfo)
@@ -477,6 +475,7 @@ const RequestDetails = (props) => {
 	
 	const userinformation = useSelector((state) => state);
 	const [showChangeRequest, setShowChangeRequest] = useState(false);
+	const [selectedTime, setSelectedTime] = useState(0);
 
 	const changeRequest =
 		<RequestPopup
@@ -490,9 +489,9 @@ const RequestDetails = (props) => {
 	return (
 		<Dialog onClose={props.handleClose} open={props.show} maxWidth="md" fullWidth>
 			<div className={classes.requestDetails}>
-				<RequestedTimes dates={props.requestInfo.dateslots}></RequestedTimes>
+				<RequestedTimes dates={props.requestInfo.dateslots} handleSelect={(i) => setSelectedTime(i)}></RequestedTimes>
 				<div className={classes.options}>
-					<PrimaryButton className={classes.optionButton} text="Accept" onClick={() => props.handleAccept(props.buddyInfo, props.requestInfo, props.handleClose)} />
+					<PrimaryButton className={classes.optionButton} text="Accept" onClick={() => props.handleAccept(props.buddyInfo, props.requestInfo, props.handleClose, selectedTime)} />
 					<SecondaryButton className={classes.optionButton} text="Reject" onClick={() => props.handleReject(props.buddyInfo, props.requestInfo, props.handleClose)} />
 					<DefaultButton className={classes.optionButton} text="Propose New" onClick={() => {setShowChangeRequest(true)}}/>
 				</div>
@@ -508,7 +507,7 @@ const RequestDetails = (props) => {
  * @prop {[]Date} times The proposed study times
  */
 const RequestedTimes = (props) => {
-	const [selectedItem, setSelectedItem] = useState(-1);
+	const [selectedItem, setSelectedItem] = useState(0);
 
 	let dateListItems = [];
 	let start, end, formattedStart, formattedEnd;
@@ -519,7 +518,7 @@ const RequestedTimes = (props) => {
 		formattedStart = start.toLocaleDateString("en-US", options) + " " + start.toLocaleTimeString('en-US');
 		formattedEnd = end.toLocaleDateString("en-US", options) + " " + end.toLocaleTimeString('en-US');
 		dateListItems.push(
-			<ListItem button selected={selectedItem == i} onClick={() => setSelectedItem(i)} key={i}>
+			<ListItem button selected={selectedItem == i} onClick={() => {setSelectedItem(i); props.handleSelect(i)}} key={i}>
 				<Typography variant="h6">{formattedStart} - {formattedEnd}</Typography>
 			</ListItem>
 		)
