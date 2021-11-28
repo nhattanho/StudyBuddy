@@ -1,0 +1,1256 @@
+
+window.onload = function() {
+  // Build a system
+  var url = window.location.search.match(/url=([^&]+)/);
+  if (url && url.length > 1) {
+    url = decodeURIComponent(url[1]);
+  } else {
+    url = window.location.origin;
+  }
+  var options = {
+  "swaggerDoc": {
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Express API for Study Buddy",
+      "version": "0.1.0"
+    },
+    "paths": {
+      "/buddyrequest/create": {
+        "post": {
+          "summary": "Creates a new buddy request",
+          "tags": [
+            "BuddyRequest"
+          ],
+          "description": "Performs operations associated with creating a new buddy request",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BuddyRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success indicator and error message if request failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "description": "Whether or not the request was successful",
+                        "example": false
+                      },
+                      "error": {
+                        "type": "string",
+                        "description": "Error message returned by the operation if it failed",
+                        "example": "Error message"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/buddyrequest/delete": {
+        "delete": {
+          "summary": "Deletes a buddy request",
+          "tags": [
+            "BuddyRequest"
+          ],
+          "description": "Performs operations associated with deleting a buddy request",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "The MongoDB object ID of the request in the database"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success indicator and error message if request failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "description": "Whether or not the request was successful",
+                        "example": false
+                      },
+                      "error": {
+                        "type": "string",
+                        "description": "Error message returned by the operation if it failed",
+                        "example": "Error message"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/buddyrequest/accept": {
+        "post": {
+          "summary": "Accepts a buddy request",
+          "tags": [
+            "BuddyRequest"
+          ],
+          "description": "Performs operations associated with accepting a buddy request",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "The MongoDB object ID of the request in the database"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success indicator and error message if request failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "description": "Whether or not the request was successful",
+                        "example": false
+                      },
+                      "error": {
+                        "type": "string",
+                        "description": "Error message returned by the operation if it failed",
+                        "example": "Error message"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/buddyrequest/:id/sent": {
+        "get": {
+          "summary": "Retrieves buddy requests sent by user",
+          "tags": [
+            "BuddyRequest"
+          ],
+          "description": "Retrieves all buddy requests sent by a user with the given ID",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "description": "The MongoDB object ID of the user",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "All requests sent by user and whether the API request was successful",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "buddyrequests": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/BuddyRequest"
+                        },
+                        "description": "Array of Buddy Request objects containing all requests sent by user"
+                      },
+                      "success": {
+                        "type": "boolean",
+                        "description": "Whether or not the request was successful"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/buddyrequest/:id/received": {
+        "get": {
+          "summary": "Retrieves buddy requests received by user",
+          "tags": [
+            "BuddyRequest"
+          ],
+          "description": "Retrieves all buddy requests received by a user with the given ID",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "description": "The MongoDB object ID of the user",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "All requests received by user and whether the API request was successful",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "buddyrequests": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/BuddyRequest"
+                        },
+                        "description": "Array of Buddy Request objects containing all requests received by user"
+                      },
+                      "success": {
+                        "type": "boolean",
+                        "description": "Whether or not the request was successful"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/classes": {
+        "get": {
+          "summary": "Retrieves a page of classes",
+          "tags": [
+            "Classes"
+          ],
+          "description": "Retrieves a subset of classes based on the page parameter. Each page contains 5 classes.",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "skipC": {
+                      "type": "integer",
+                      "description": "The page of class results to retrieve",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Array of Class objects from the specified page of results",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Class"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/email/create": {
+        "post": {
+          "summary": "Creates and sends a new zoom link email",
+          "tags": [
+            "Email"
+          ],
+          "description": "Creates and sends an email containing the study session zoom link to both participants",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Message content of the email, contains the zoom link"
+                    },
+                    "subject": {
+                      "type": "string",
+                      "description": "Subject line of the email"
+                    },
+                    "recipient": {
+                      "type": "string",
+                      "description": "Email of the user to send to"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/majors": {
+        "get": {
+          "summary": "Retrieves all available majors",
+          "tags": [
+            "Majors"
+          ],
+          "description": "Retrieves all majors that are available in the system",
+          "responses": {
+            "200": {
+              "description": "Array of all available Major objects",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Major"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/search/users": {
+        "get": {
+          "summary": "Searches for users matching the filters",
+          "tags": [
+            "Search"
+          ],
+          "description": "Retrieves all users that match the provided filter queries",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "year": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "Freshman",
+                          "Sophomore",
+                          "Junior",
+                          "Senior",
+                          "Graduate",
+                          "Ph.D"
+                        ]
+                      },
+                      "description": "Array of years to search for"
+                    },
+                    "classes": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Class"
+                      }
+                    },
+                    "major": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Major"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Array of all matching User objects",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/User"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/create": {
+        "post": {
+          "summary": "Registers a new user account",
+          "tags": [
+            "User"
+          ],
+          "description": "Creates a new user account for the registering user",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "description": "The email associated with the user's account",
+                      "example": "YeahScience@gmail.com"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "The user's full name",
+                      "example": "Jesse Pinkman"
+                    },
+                    "username": {
+                      "type": "string",
+                      "description": "User's account username",
+                      "example": "YeahScience!"
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "User's account password",
+                      "example": "$2a$10$hDehc2VFpnHp9PAVJwQel.Z3lf2.QPC6JadeEWS.9wipuOxWj/doq"
+                    },
+                    "confirm_password": {
+                      "type": "string",
+                      "description": "User's password confirmation",
+                      "example": "$2a$10$hDehc2VFpnHp9PAVJwQel.Z3lf2.QPC6JadeEWS.9wipuOxWj/doq"
+                    },
+                    "checkLogin": {
+                      "type": "boolean",
+                      "description": "Whether or not to check if user is logged in"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success indicator and success/error message",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "description": "Whether or not the request was successful",
+                        "example": true
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Success message if request was completed successfully, otherwise error message",
+                        "example": "Success!"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/resetPassword": {
+        "post": {
+          "summary": "Resets the user's password",
+          "tags": [
+            "User"
+          ],
+          "description": "Performs reset password operation for the user",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "description": "The email associated with the user's account",
+                      "example": "YeahScience@gmail.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success indicator and success/error message",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "description": "Whether or not the request was successful",
+                        "example": true
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Success message if request was completed successfully, otherwise error message",
+                        "example": "Success!"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/login": {
+        "get": {
+          "summary": "Logs the user in",
+          "tags": [
+            "User"
+          ],
+          "description": "Logs the user into the Study Buddy system",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "description": "The email associated with the user's account",
+                      "example": "YeahScience@gmail.com"
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "User's account password",
+                      "example": "$2a$10$hDehc2VFpnHp9PAVJwQel.Z3lf2.QPC6JadeEWS.9wipuOxWj/doq"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "User ID along with success indicator and success/error message",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "desciption": "User's MongoDB object ID, if login was successful",
+                        "example": "61882ca2ecd1b1934636eb22"
+                      },
+                      "success": {
+                        "type": "boolean",
+                        "description": "Whether or not the request was successful",
+                        "example": true
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Success message if request was completed successfully, otherwise error message",
+                        "example": "Success!"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/facebookLogin": {
+        "get": {
+          "summary": "Logs the user in via Facebook",
+          "tags": [
+            "User"
+          ],
+          "description": "Logs the user into the Study Buddy system using Facebook login",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "description": "The email associated with the user's account",
+                      "example": "YeahScience@gmail.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success indicator and success/error message",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "description": "Whether or not the request was successful",
+                        "example": true
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Success message if request was completed successfully, otherwise error message",
+                        "example": "Success!"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/:email/information": {
+        "get": {
+          "summary": "Retrieves user info based on email",
+          "tags": [
+            "User"
+          ],
+          "description": "Retrieves all of the user's information using email as the lookup",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "email",
+              "required": true,
+              "description": "The email associated with the user to look up",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User information along with success indicator and message",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "user": {
+                        "$ref": "#/components/schemas/User",
+                        "description": "The user associated with the provided email"
+                      },
+                      "success": {
+                        "type": "boolean",
+                        "description": "Whether or not the request was successful",
+                        "example": true
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Success message if request was completed successfully, otherwise error message",
+                        "example": "Success!"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/:id": {
+        "get": {
+          "summary": "Retrieves user info based on ID",
+          "tags": [
+            "User"
+          ],
+          "description": "Retrieves all of the user's information using object ID as the lookup",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "description": "The MongoDB object ID of the user to look up",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User information along with success indicator and message",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "user": {
+                        "$ref": "#/components/schemas/User",
+                        "description": "The user associated with the provided object ID"
+                      },
+                      "success": {
+                        "type": "boolean",
+                        "description": "Whether or not the request was successful",
+                        "example": true
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Success message if request was completed successfully, otherwise error message",
+                        "example": "Success!"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/:token/checkTokenPass": {
+        "get": {
+          "summary": "Retrieves user info based on ID",
+          "tags": [
+            "User"
+          ],
+          "description": "Retrieves all of the user's information using object ID as the lookup",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "token",
+              "required": true,
+              "description": "Token for resetting account password",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User email along with success indicator and message",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "email": {
+                        "type": "string",
+                        "description": "The email linked to the reset password token"
+                      },
+                      "success": {
+                        "type": "boolean",
+                        "description": "Whether or not the request was successful",
+                        "example": true
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Success message if request was completed successfully, otherwise error message",
+                        "example": "Success!"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/updatePassword": {
+        "put": {
+          "summary": "Updates user's password",
+          "tags": [
+            "User"
+          ],
+          "description": "Updates the user's account password to the new password",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "description": "The email associated with the user's account",
+                      "example": "YeahScience@gmail.com"
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "The new password for the user's account",
+                      "example": "$2a$10$hDehc2VFpnHp9PAVJwQel.Z3lf2.QPC6JadeEWS.9wipuOxWj/doq"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success indicator and succes/error message",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "description": "Whether or not the request was successful",
+                        "example": true
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Success message if request was completed successfully, otherwise error message",
+                        "example": "Success!"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/email/update": {
+        "put": {
+          "summary": "Updates user's information",
+          "tags": [
+            "User"
+          ],
+          "description": "Updates the user's profile/account information",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success indicator and succes/error message",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "description": "Whether or not the request was successful",
+                        "example": true
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Success message if request was completed successfully, otherwise error message",
+                        "example": "Success!"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/delete/:email": {
+        "delete": {
+          "summary": "Deletes the user's account",
+          "tags": [
+            "User"
+          ],
+          "description": "Deletes the user's account associated with the given email from the system",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "description": "The email of the account to delete",
+                      "example": "YeahScience@gmail.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success indicator and succes/error message",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "description": "Whether or not the request was successful",
+                        "example": true
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Success message if request was completed successfully, otherwise error message",
+                        "example": "Success!"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/zoom/create": {
+        "post": {
+          "summary": "Creates a new zoom link",
+          "tags": [
+            "Zoom"
+          ],
+          "description": "Creates a new zoom link for a study session",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "userid": {
+                      "type": "string",
+                      "description": "The zoom ID of the user",
+                      "example": "@YeahScience!"
+                    },
+                    "starttime": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "The start time of the study session"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success indicator and error message if request failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "type": "object",
+                        "properties": {
+                          "join_url": {
+                            "type": "string",
+                            "description": "The url to join the created zoom room"
+                          }
+                        }
+                      },
+                      "success": {
+                        "type": "boolean",
+                        "description": "Whether or not the request was successful",
+                        "example": false
+                      },
+                      "error": {
+                        "type": "string",
+                        "description": "Error message returned by the operation if it failed",
+                        "example": "Error message"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "BuddyRequest": {
+          "type": "object",
+          "required": [
+            "sender",
+            "receiver",
+            "dateslots"
+          ],
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "The object ID of the request, auto-generated by MongoDB.",
+              "readOnly": true
+            },
+            "sender": {
+              "type": "string",
+              "description": "The MongoDB object ID of the user sending the request.",
+              "example": "61882ca2ecd1b1934636eb21"
+            },
+            "receiver": {
+              "type": "string",
+              "description": "The MongoDB object ID of the user receiving the request.",
+              "example": "61882ca2ecd1b1934636eb22"
+            },
+            "status": {
+              "type": "string",
+              "description": "The current status of the request",
+              "enum": [
+                "Pending",
+                "Accepted",
+                "Cancelled"
+              ],
+              "example": "Pending",
+              "readOnly": true
+            },
+            "dateslots": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "minItems": 2,
+              "description": "Array of Dates representing the start and end times of proposed study session timeslots. Even indexed elements represent start times while the neighborind odd indexed element to the right represents the corresponding end time.",
+              "example": [
+                "2021-11-25T01:25:57.000+00:00",
+                "2021-11-25T03:25:57.000+00:00"
+              ]
+            }
+          }
+        },
+        "Class": {
+          "type": "object",
+          "required": [
+            "id",
+            "name"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The course identifier",
+              "example": "CS130"
+            },
+            "name": {
+              "type": "string",
+              "description": "The full name of the class",
+              "example": "Software Engineering"
+            }
+          }
+        },
+        "Major": {
+          "type": "object",
+          "required": [
+            "id",
+            "name"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "The major identifier",
+              "example": 1
+            },
+            "name": {
+              "type": "string",
+              "description": "The full name of the major",
+              "example": "Chemistry"
+            }
+          }
+        },
+        "User": {
+          "type": "object",
+          "required": [
+            "email",
+            "name",
+            "username",
+            "checkLogin"
+          ],
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "The object ID of the user, auto-generated by MongoDB.",
+              "readOnly": true,
+              "example": "61882ca2ecd1b1934636eb22"
+            },
+            "email": {
+              "type": "string",
+              "description": "The email associated with the user's account",
+              "example": "YeahScience@gmail.com"
+            },
+            "name": {
+              "type": "string",
+              "description": "The user's full name",
+              "example": "Jesse Pinkman"
+            },
+            "username": {
+              "type": "string",
+              "description": "User's account username",
+              "example": "YeahScience!"
+            },
+            "checkLogin": {
+              "type": "boolean",
+              "description": "Whether or not to check if user is logged in"
+            },
+            "password": {
+              "type": "string",
+              "description": "User's account password",
+              "example": "$2a$10$hDehc2VFpnHp9PAVJwQel.Z3lf2.QPC6JadeEWS.9wipuOxWj/doq"
+            },
+            "confirm_password": {
+              "type": "string",
+              "description": "User's password confirmation",
+              "example": "$2a$10$hDehc2VFpnHp9PAVJwQel.Z3lf2.QPC6JadeEWS.9wipuOxWj/doq"
+            },
+            "about": {
+              "type": "string",
+              "description": "User's about me description",
+              "example": "About me"
+            },
+            "birthday": {
+              "type": "string",
+              "format": "date",
+              "description": "User's birthday"
+            },
+            "major": {
+              "$ref": "#/components/schemas/Major",
+              "description": "User's major",
+              "example": "Chemistry"
+            },
+            "year": {
+              "type": "string",
+              "enum": [
+                "Freshman",
+                "Sophomore",
+                "Junior",
+                "Senior",
+                "Graduate",
+                "Ph.D"
+              ],
+              "description": "User's year in university",
+              "example": "Freshman"
+            },
+            "classes": {
+              "type": "array",
+              "items": {
+                "$ref": "#components/schemas/Class"
+              },
+              "description": "Array of classes the user is enrolled in"
+            },
+            "profileURL": {
+              "type": "string",
+              "description": "URL linking to the user's profile picture",
+              "example": "https://static.wikia.nocookie.net/breakingbad/images/0/0c/JesseS5B.jpg"
+            },
+            "zoomid": {
+              "type": "string",
+              "description": "User's zoom ID",
+              "example": "@YeahScience!"
+            },
+            "pastbuddies": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PastBuddy"
+              },
+              "description": "Array of buddies that the user has previously matched with"
+            },
+            "buddyrequests": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/BuddyRequest"
+              },
+              "description": "Array of requests that the buddy has sent/received"
+            },
+            "resetPasswordToken": {
+              "type": "string",
+              "description": "Token for resetting account password"
+            },
+            "resetPasswordExpires": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Date when the reset password token will expire"
+            }
+          }
+        },
+        "PastBuddy": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "The object ID of the buddy user, auto-generated by MongoDB.",
+              "readOnly": true
+            },
+            "name": {
+              "type": "string",
+              "description": "The buddy user's full name",
+              "example": "Jesse Pinkman"
+            },
+            "profileURL": {
+              "type": "string",
+              "description": "URL linking to the buddy user's profile picture"
+            }
+          }
+        }
+      }
+    },
+    "tags": []
+  },
+  "customOptions": {}
+};
+  url = options.swaggerUrl || url
+  var urls = options.swaggerUrls
+  var customOptions = options.customOptions
+  var spec1 = options.swaggerDoc
+  var swaggerOptions = {
+    spec: spec1,
+    url: url,
+    urls: urls,
+    dom_id: '#swagger-ui',
+    deepLinking: true,
+    presets: [
+      SwaggerUIBundle.presets.apis,
+      SwaggerUIStandalonePreset
+    ],
+    plugins: [
+      SwaggerUIBundle.plugins.DownloadUrl
+    ],
+    layout: "StandaloneLayout"
+  }
+  for (var attrname in customOptions) {
+    swaggerOptions[attrname] = customOptions[attrname];
+  }
+  var ui = SwaggerUIBundle(swaggerOptions)
+
+  if (customOptions.oauth) {
+    ui.initOAuth(customOptions.oauth)
+  }
+
+  if (customOptions.authAction) {
+    ui.authActions.authorize(customOptions.authAction)
+  }
+
+  window.ui = ui
+}
