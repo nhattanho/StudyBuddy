@@ -49,6 +49,7 @@ export default function Search() {
     const DEFAULT_DISPLAY_COUNT = 5;
     /* Use Redux for filters    */
     const searchState = useSelector((state) => state).searchState;
+    const userID = useSelector((state) => state).id;
     const dispatch = useDispatch();
     const filters = searchState.filters;
     let page = searchState.page;
@@ -129,6 +130,7 @@ export default function Search() {
     }
 
     function requestSearch(){
+        filters["_id"] = userID
         const destination = `${SEARCH_ENDPOINT}/users`;
         if (filters.year.length == 0 &&
             filters.classes.length == 0 &&
