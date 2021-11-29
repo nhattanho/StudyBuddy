@@ -39,8 +39,7 @@ export default function UserResult(props){
         <a href={userPageURL} className={classes.aStyles}>
             <Card className={classes.cardStyle}>
                 <CardContent className={classes.cardContentStyle}>
-            // <Typography className={classes.nameText}>{userName[0]+" " + userName[1]}</Typography>
-	    <Typography className={classes.nameText>{userName}</Typography>
+                    <Typography className={classes.nameText}>{userName}</Typography>
                     <Typography className={classes.fieldStyle}>{"Major: " + userParams.major}</Typography>
                     {userParams.classes.map((item, id) => <Typography key={id}>{item}</Typography>)}
                 </CardContent>
