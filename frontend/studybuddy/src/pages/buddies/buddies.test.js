@@ -96,8 +96,8 @@ const OUTGOING_REQUESTS = [
 let container = null;
 beforeEach(() => {
 	axios.get = jest.fn((destination) => {
-		const outgoingRequestsEndpoint = process.env.REACT_APP_REQUESTS_ENDPOINT + "/" + CURRENT_USER._id + "/sent";
-		const incomingRequestsEndpoint = process.env.REACT_APP_REQUESTS_ENDPOINT + "/" + CURRENT_USER._id + "/received";
+		const outgoingRequestsEndpoint = "http://localhost:5000/buddyrequest/" + CURRENT_USER._id + "/sent";
+		const incomingRequestsEndpoint = "http://localhost:5000/buddyrequest/" + CURRENT_USER._id + "/received";
     if (destination == outgoingRequestsEndpoint) {
       return Promise.resolve({data: {buddyrequests: OUTGOING_REQUESTS}})
     } else if (destination == incomingRequestsEndpoint) {
@@ -105,7 +105,7 @@ beforeEach(() => {
     }
 
     for (let i=0; i<USERS.length; i++) {
-    	let userInfoEndpoint = process.env.REACT_APP_USER_ENDPOINT + "/" + USERS[i]._id;
+    	let userInfoEndpoint = "http://localhost:5000/user/" + USERS[i]._id;
 			if (destination == userInfoEndpoint) {
 				return Promise.resolve({data: {user: USERS[i]}})
 			}
@@ -113,6 +113,11 @@ beforeEach(() => {
   })
 
   axios.post = jest.fn((destination, par) => {
+  		if (destination == "http://localhost:5000/zoom/create") {
+  			return Promise.resolve({data: {data: {join_url: "join.url"}}})
+  		} else if (destination == "http://localhost:5000/email/create") {
+  			return Promise.resolve();
+  		}
 		return Promise.resolve({data: {success: true}});
 	});
 
@@ -293,5 +298,5 @@ describe("Tests button actions", () => {
 		expect(matchedCol.length == 2);
 		expect(outgoingCol.length == 3);
 		expect(outgoingCol).toContainElement(within(outgoingCol).getByText('Saul Goodman'));
-	})	
+	})
 });
