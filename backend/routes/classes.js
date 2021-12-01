@@ -4,6 +4,27 @@
 * @author Vishnu Devarakonda
 */
 /* =======================================================================*/
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Class:
+ *       type: object
+ *       required:
+ *         - id
+ *         - name
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: The course identifier
+ *           example: CS130
+ *         name:
+ *           type: string
+ *           description: The full name of the class
+ *           example: Software Engineering
+ */
+
 const express = require("express");
 const router = express.Router();
 const classModel = require("../model/classModel");
@@ -14,7 +35,7 @@ const classModel = require("../model/classModel");
  * @author Vishnu Devarakonda
  * @param {string} id. HTTP query param specifying the ID
  *  of the class to look for.
- * @returns {Object} {id: ..., name: ...} class object with id and name
+ * @returns {object} {id: ..., name: ...} class object with id and name
  */
 router.get("/name", (req, res) => {
     let classID = req.query.id
@@ -29,12 +50,36 @@ router.get("/name", (req, res) => {
 })
 
 
-/**
- * Function provides a root endpoint to get the available classes
+ /**
+ * Endpoint for getting available classes
  * @author Vishnu Devarakonda
- * @param {int} skipC. HTTP query param specifying the page to get.
- *  (ex. 1,2,3..)
- * @returns {List[Object]} List of class objects.
+ * @swagger
+ *
+ * /classes/:
+ *   get:
+ *     summary: Retrieves a page of classes
+ *     tags: [Classes]
+ *     description: Retrieves a subset of classes based on the page parameter. Each page contains 5 classes.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               skipC:
+ *                 type: integer
+ *                 description: The page of class results to retrieve
+ *                 example: 1
+ *     responses:
+ *       200:
+ *         description: Array of Class objects from the specified page of results
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Class'
  */
 router.get("/", (req, res) => {
     let skipC = req.query.skipC
