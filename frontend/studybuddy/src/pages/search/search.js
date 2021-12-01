@@ -35,6 +35,13 @@ const useStyles = makeStyles((theme) => ({
     },
     filterSection: {
         paddingBottom: '10%'
+    },
+    titleStyle: {
+        textAlign: 'left',
+        color: '#0EA2D8'
+    },
+    checkedStyle: {
+        color: 'rgb(255, 203, 119)'
     }
 }));
 
@@ -49,6 +56,7 @@ export default function Search() {
     const DEFAULT_DISPLAY_COUNT = 5;
     /* Use Redux for filters    */
     const searchState = useSelector((state) => state).searchState;
+    const userID = useSelector((state) => state).id;
     const dispatch = useDispatch();
     const filters = searchState.filters;
     let page = searchState.page;
@@ -57,6 +65,7 @@ export default function Search() {
     let [majors, addMajors] = useState([]);
     let [nClasses, addClasses] = useState([]);
     let [userResults, addUserResults] = useState([]);
+    const classes = useStyles();
 
     const years = [
         "Freshman",
@@ -129,6 +138,7 @@ export default function Search() {
     }
 
     function requestSearch(){
+        filters["_id"] = userID
         const destination = `${SEARCH_ENDPOINT}/users`;
         if (filters.year.length == 0 &&
             filters.classes.length == 0 &&
@@ -152,7 +162,14 @@ export default function Search() {
                             id="year"
                             key={id}
                             value={item}
-                            control={<Checkbox />}
+                            control={<Checkbox
+                                sx={{
+                                    color: "grey",
+                                    '&.Mui-checked': {
+                                        color: "rgb(255, 203, 119)",
+                                        }
+                                    }}
+                                    />}
                             label={item}
                             onChange={onChangeYearControlLabel}/>
                     );
@@ -170,7 +187,14 @@ export default function Search() {
                         id="major"
                         key={id}
                         value={item.name}
-                        control={<Checkbox />}
+                        control={<Checkbox
+                            sx={{
+                                color: "grey",
+                                '&.Mui-checked': {
+                                    color: "rgb(255, 203, 119)",
+                                    }
+                                }}
+                                />}
                         label={item.name}
                         onChange={(event) => {onChangeMajorControlLabel(event, item.name)}} />
                     );
@@ -192,7 +216,14 @@ export default function Search() {
                             id="classes"
                             key={id}
                             value={item.id}
-                            control={<Checkbox />}
+                            control={<Checkbox
+                                sx={{
+                                    color: "grey",
+                                    '&.Mui-checked': {
+                                        color: "rgb(255, 203, 119)",
+                                        }
+                                    }}
+                                    />}
                             label={item.id}
                             onChange={(event) => {onChangeClassesControlLabel(event, item.id)}} />
                     );
@@ -213,22 +244,21 @@ export default function Search() {
         changeClassesDisplayCount(classesDisplayCount + DEFAULT_DISPLAY_COUNT);
     }
 
-    const classes = useStyles();
     return (
         <div id="searchPage" className={classes.pageStyle}>
             <div id="filterBar" className={classes.filterBarStyle}>
                 <List style={{display: "flex", flexDirection: "column", height: '100%'}}>
                     <div className={classes.filterSection}>
-                        <Typography variant="h6">Year</Typography>
+                        <Typography variant="h4" classes={{h4: classes.titleStyle}}>Year</Typography>
                         {yearsComponent()}
                     </div>
                     <div className={classes.filterSection}>
-                        <Typography variant="h6">Majors</Typography>
+                        <Typography variant="h4" classes={{h4: classes.titleStyle}}>Majors</Typography>
                         {majorsComponent()}
                         <Button id="moreMajorsButton" variant="text" size="small" onClick={onMoreMajorsClick}>More</Button>
                     </div>
                     <div className={classes.filterSection} style={{"paddingBottom": 0}}>
-                        <Typography variant="h6">Classes</Typography>
+                        <Typography variant="h4" classes={{h4: classes.titleStyle}}>Classes</Typography>
                         <FormGroup>
                             {classesComponent()}
                         </FormGroup>

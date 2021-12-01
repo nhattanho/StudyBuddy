@@ -229,6 +229,7 @@ function getUsersFilter(queries) {
 router.get("/users", (req, res) => {
     let queries = req.query;
     const filter = getUsersFilter(queries);
+    filter["_id"] = {$ne: req.query._id};
     usersModel.find(
         filter,
         {

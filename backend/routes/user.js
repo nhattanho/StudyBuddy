@@ -370,7 +370,7 @@ router.post("/resetPassword", (req, res) => {
         text:
           'You are receiving this email because you have requested the reset of password for your acount.\n\n '
           + 'Please click on the following link, or paste this into your browser to complete the process within one hour of receving it:\n\n'
-          + `http://localhost:3000/reset/${token}\n\n`
+          + `https://localhost:3000/reset/${token}\n\n`
           + 'If you did not request it, please ignore this email and your password will remain unchanged.\n',
       };
   

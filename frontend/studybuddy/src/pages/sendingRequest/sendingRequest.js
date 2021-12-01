@@ -30,6 +30,7 @@ const SendingRequest = (props) => {
 
   const [info, setInfo] = React.useState(false);
   const [name, setName] = React.useState('');
+  const [pic, setPic] = React.useState('');
   const [about, setAbout] = React.useState('');
   const [major, setMajor] = React.useState('');
   const [year, setYear] = React.useState('');
@@ -41,6 +42,10 @@ const SendingRequest = (props) => {
 
   const handleName = (name) => {
     setName(name);
+  };
+
+  const handlePic = (pic) => {
+    setPic(pic);
   };
    
   const handleAbout = (about) => {
@@ -93,6 +98,11 @@ const SendingRequest = (props) => {
           if(res.data.user.hasOwnProperty('name') && res.data.user.name != null) {
             handleName(res.data.user.name);
           }
+          if(res.data.user.hasOwnProperty('profileURL') && res.data.user.profileURL != null) {
+            handlePic(res.data.user.profileURL);
+          } else {
+            handlePic('https://conferences.ucla.edu/wp-content/uploads/2021/01/logo4.png');
+          }
           if(res.data.user.hasOwnProperty('about') && res.data.user.about != null) {
             handleAbout(res.data.user.about);
           }
@@ -123,7 +133,7 @@ const SendingRequest = (props) => {
         <h1 className='name'>
         	{name}
         </h1>
-        <img src={Placeholder} alt='Profile Pic' 
+        <img src={pic} alt='Profile Pic'
             style={{ height : '250px', width : '250px', borderRadius : '25px', marginTop: '50px' }} />
         <div className='info'>
           <div style={{ position: 'absolute', marginRight: '60%', marginTop: '115px', display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', color : '#6157BB', fontSize : '30px'}}>
